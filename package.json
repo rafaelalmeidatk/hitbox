@@ -1,0 +1,27 @@
+{
+  "name": "animation-editor",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "./",
+  "dependencies": {
+    "electron": "^1.7.9",
+    "file-system": "^2.2.2",
+    "foreman": "^2.0.0",
+    "immutable": "^3.8.2",
+    "konva": "^1.7.6",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-konva": "^1.6.4",
+    "react-scripts": "1.0.17"
+  },
+  "main": "src/electron-starter.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "electron-dev": "ELECTRON_START_URL=http://localhost:6000 electron .",
+    "dev": "PORT=3000 nf start"
+  }
+}
