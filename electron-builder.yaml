@@ -1,0 +1,29 @@
+appId: com.rafaelalmeidatk.animation_editor
+productName: "Animation Editor"
+copyright: "Copyright © 2017 Rafael Almeida"
+
+asar: true
+
+directories:
+  output: dist
+  buildResources: assets
+
+files:
+  - build/**/*
+
+extraMetadata:
+  main: build/electron.js
+
+# Windows configuration
+win:
+  target:
+    - "zip"
+    - "nsis"
+
+# Config for the windows installer
+nsis:
+  oneClick: true
+  perMachine: true
+
+extends: react-cra
+electronVersion: 1.8.3

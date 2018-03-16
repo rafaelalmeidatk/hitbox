@@ -1,10 +1,12 @@
 {
   "name": "animation-editor",
   "version": "0.1.0",
-  "private": true,
+  "author": "Rafael Almeida",
+  "license": "MIT",
+  "main": "public/electron.js",
   "homepage": "./",
   "dependencies": {
-    "electron": "^1.7.9",
+    "electron-is-dev": "^0.3.0",
     "file-system": "^2.2.2",
     "foreman": "^2.0.0",
     "immutable": "^3.8.2",
@@ -14,14 +16,20 @@
     "react-konva": "^1.6.4",
     "react-scripts": "1.0.17"
   },
-  "main": "src/electron-starter.js",
+  "devDependencies": {
+    "concurrently": "^3.5.1",
+    "electron": "^1.8.3",
+    "electron-builder": "^20.5.1",
+    "wait-on": "^2.1.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "electron": "electron .",
-    "electron-dev": "ELECTRON_START_URL=http://localhost:6000 electron .",
-    "dev": "PORT=3000 nf start"
+    "preelectron-pack": "yarn build",
+    "electron-pack": "electron-builder",
+    "dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\""
   }
 }
