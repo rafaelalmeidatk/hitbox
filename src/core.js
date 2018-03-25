@@ -1,5 +1,7 @@
 import {List, Map, fromJS} from 'immutable';
 
+export const INITIAL_STATE = Map();
+
 export function setFilename(state, filename) {
   return state.set('filename', filename);
 }
@@ -8,10 +10,10 @@ export function createAnimationsList(state) {
   return state.set('animations', List());
 }
 
-export function newAnimation(state, animationName) {
+export function newAnimation(state) {
   return state.update('animations', List(),
     animations => animations.push(Map({
-        name: animationName,
+        name: 'New Animation',
         frames: List.of(),
         delay: 0,
         repeat: false,
