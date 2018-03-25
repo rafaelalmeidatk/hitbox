@@ -11,6 +11,9 @@ import {
   setFrameSourceRect,
   setFrameOffset,
   newCollider,
+  setColliderType,
+  setColliderRect,
+  setColliderName,
 } from '../core';
 
 describe('application logic', () => {
@@ -384,11 +387,291 @@ describe('application logic', () => {
               height: 32,
             },
             colliders: [{
+              name: 'New Collider',
               type: 'NONE',
+              rect: {
+                x: 0,
+                y: 0,
+                width: 32,
+                height: 32, 
+              }
+            }],
+            offset: {
+              x: 0,
+              y: 0,
+            },
+          }],
+          delay: 0,
+          repeat: false,
+        }]
+      }));
+    });
+  });
+
+  describe('setColliderName', () => {
+    it('changes the collider name', () => {
+      const state = fromJS({
+        animations: [{
+          name: 'Hey!',
+          frames: [{
+            sourceRect: {
               x: 0,
               y: 0,
               width: 32,
               height: 32,
+            },
+            colliders: [{
+              name: 'New Collider',
+              type: 'NONE',
+              rect: {
+                x: 0,
+                y: 0,
+                width: 32,
+                height: 32, 
+              }
+            }],
+            offset: {
+              x: 0,
+              y: 0,
+            },
+          }],
+          delay: 0,
+          repeat: false,
+        }]
+      });
+      const animationIndex = 0;
+      const frameIndex = 0;
+      const colliderIndex = 0;
+      const colliderName = 'New Collider Name';
+      const nextState = setColliderName(state, animationIndex, frameIndex, colliderIndex, colliderName);
+      expect(nextState).toEqual(fromJS({
+        animations: [{
+          name: 'Hey!',
+          frames: [{
+            sourceRect: {
+              x: 0,
+              y: 0,
+              width: 32,
+              height: 32,
+            },
+            colliders: [{
+              name: 'New Collider Name',
+              type: 'NONE',
+              rect: {
+                x: 0,
+                y: 0,
+                width: 32,
+                height: 32, 
+              }
+            }],
+            offset: {
+              x: 0,
+              y: 0,
+            },
+          }],
+          delay: 0,
+          repeat: false,
+        }]
+      }));
+    });
+  });
+
+  describe('setColliderType', () => {
+    it('changes the collider type', () => {
+      const state = fromJS({
+        animations: [{
+          name: 'Hey!',
+          frames: [{
+            sourceRect: {
+              x: 0,
+              y: 0,
+              width: 32,
+              height: 32,
+            },
+            colliders: [{
+              name: 'New Collider',
+              type: 'NONE',
+              rect: {
+                x: 0,
+                y: 0,
+                width: 32,
+                height: 32, 
+              }
+            }],
+            offset: {
+              x: 0,
+              y: 0,
+            },
+          }],
+          delay: 0,
+          repeat: false,
+        }]
+      });
+      const animationIndex = 0;
+      const frameIndex = 0;
+      const colliderIndex = 0;
+      const colliderType = 'HITBOX';
+      const nextState = setColliderType(state, animationIndex, frameIndex, colliderIndex, colliderType);
+      expect(nextState).toEqual(fromJS({
+        animations: [{
+          name: 'Hey!',
+          frames: [{
+            sourceRect: {
+              x: 0,
+              y: 0,
+              width: 32,
+              height: 32,
+            },
+            colliders: [{
+              name: 'New Collider',
+              type: 'HITBOX',
+              rect: {
+                x: 0,
+                y: 0,
+                width: 32,
+                height: 32, 
+              }
+            }],
+            offset: {
+              x: 0,
+              y: 0,
+            },
+          }],
+          delay: 0,
+          repeat: false,
+        }]
+      }));
+    });
+  });
+
+  describe('setColliderType', () => {
+    it('changes the collider type', () => {
+      const state = fromJS({
+        animations: [{
+          name: 'Hey!',
+          frames: [{
+            sourceRect: {
+              x: 0,
+              y: 0,
+              width: 32,
+              height: 32,
+            },
+            colliders: [{
+              name: 'New Collider',
+              type: 'NONE',
+              rect: {
+                x: 0,
+                y: 0,
+                width: 32,
+                height: 32, 
+              }
+            }],
+            offset: {
+              x: 0,
+              y: 0,
+            },
+          }],
+          delay: 0,
+          repeat: false,
+        }]
+      });
+      const animationIndex = 0;
+      const frameIndex = 0;
+      const colliderIndex = 0;
+      const colliderType = 'HITBOX';
+      const nextState = setColliderType(state, animationIndex, frameIndex, colliderIndex, colliderType);
+      expect(nextState).toEqual(fromJS({
+        animations: [{
+          name: 'Hey!',
+          frames: [{
+            sourceRect: {
+              x: 0,
+              y: 0,
+              width: 32,
+              height: 32,
+            },
+            colliders: [{
+              name: 'New Collider',
+              type: 'HITBOX',
+              rect: {
+                x: 0,
+                y: 0,
+                width: 32,
+                height: 32, 
+              }
+            }],
+            offset: {
+              x: 0,
+              y: 0,
+            },
+          }],
+          delay: 0,
+          repeat: false,
+        }]
+      }));
+    });
+  });
+
+  describe('setColliderRect', () => {
+    it('changes the collider rect', () => {
+      const state = fromJS({
+        animations: [{
+          name: 'Hey!',
+          frames: [{
+            sourceRect: {
+              x: 0,
+              y: 0,
+              width: 32,
+              height: 32,
+            },
+            colliders: [{
+              name: 'New Collider',
+              type: 'NONE',
+              rect: {
+                x: 0,
+                y: 0,
+                width: 32,
+                height: 32, 
+              }
+            }],
+            offset: {
+              x: 0,
+              y: 0,
+            },
+          }],
+          delay: 0,
+          repeat: false,
+        }]
+      });
+      const animationIndex = 0;
+      const frameIndex = 0;
+      const colliderIndex = 0;
+      const colliderRect = {
+        x: 32,
+        y: 32,
+        width: 64,
+        height: 64,
+      };
+      const nextState = setColliderRect(state, animationIndex, frameIndex, colliderIndex, colliderRect);
+      expect(nextState).toEqual(fromJS({
+        animations: [{
+          name: 'Hey!',
+          frames: [{
+            sourceRect: {
+              x: 0,
+              y: 0,
+              width: 32,
+              height: 32,
+            },
+            colliders: [{
+              name: 'New Collider',
+              type: 'NONE',
+              rect: {
+                x: 32,
+                y: 32,
+                width: 64,
+                height: 64, 
+              }
             }],
             offset: {
               x: 0,

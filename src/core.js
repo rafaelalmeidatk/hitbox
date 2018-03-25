@@ -74,11 +74,35 @@ export function newCollider(state, animationIndex, frameIndex) {
   return state.updateIn(
     ['animations', animationIndex, 'frames', frameIndex, 'colliders'], List(),
     colliders => colliders.push(Map({
+      name: 'New Collider',
       type: 'NONE',
-      x: 0,
-      y: 0,
-      width: 32,
-      height: 32,
+      rect: Map({
+        x: 0,
+        y: 0,
+        width: 32,
+        height: 32, 
+      })
     }))
+  );
+}
+
+export function setColliderName(state, animationIndex, frameIndex, colliderIndex, colliderName) {
+  return state.setIn(
+    ['animations', animationIndex, 'frames', frameIndex, 'colliders', colliderIndex, 'name'],
+    colliderName
+  );
+}
+
+export function setColliderType(state, animationIndex, frameIndex, colliderIndex, colliderType) {
+  return state.setIn(
+    ['animations', animationIndex, 'frames', frameIndex, 'colliders', colliderIndex, 'type'],
+    colliderType
+  );
+}
+
+export function setColliderRect(state, animationIndex, frameIndex, colliderIndex, colliderRect) {
+  return state.setIn(
+    ['animations', animationIndex, 'frames', frameIndex, 'colliders', colliderIndex, 'rect'],
+    fromJS(colliderRect)
   );
 }
