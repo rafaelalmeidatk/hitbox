@@ -1,11 +1,11 @@
-import {List, Map, fromJS} from 'immutable';
+import { fromJS } from 'immutable';
 
 import reducer, {
   newCollider,
   setColliderName,
   setColliderType,
   setColliderRect,
-} from '../ducks/colliders';
+} from '../ducks';
 
 describe('colliders reducer', () => {
   it('handles NEW_COLLIDER', () => {

@@ -1,10 +1,10 @@
-import {List, Map, fromJS} from 'immutable';
+import { fromJS } from 'immutable';
 
 import reducer, {
   newFrame,
   setFrameSourceRect,
   setFrameOffset,
-} from '../ducks/frames';
+} from '../ducks';
 
 describe('frames reducer', () => {
   it('handles NEW_FRAME', () => {

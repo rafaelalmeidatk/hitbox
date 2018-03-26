@@ -1,4 +1,4 @@
-import {List, Map, fromJS} from 'immutable';
+import { fromJS } from 'immutable';
 
 import reducer, {
   createAnimationList,
@@ -6,11 +6,11 @@ import reducer, {
   setAnimationName,
   setAnimationDelay,
   setAnimationRepeat,
-} from '../ducks/animations';
+} from '../ducks';
 
 describe('animations reducer', () => {
   it('handles CREATE_ANIMATION_LIST', () => {
-    const state = Map();
+    const state = fromJS({});
     const action = createAnimationList();
     const nextState = reducer(state, action);
     expect(nextState).toEqual(fromJS({
@@ -19,7 +19,7 @@ describe('animations reducer', () => {
   });
 
   it('handles NEW_ANIMATION', () => {
-    const state = Map();
+    const state = fromJS({});
     const action = newAnimation();
     const nextState = reducer(state, action);
     expect(nextState).toEqual(fromJS({

@@ -42,11 +42,10 @@ describe('application logic', () => {
   describe('newAnimation', () => {
     it('it adds a new animation with default name', () => {
       const state = Map();
-      const animationName = "New Animation";
-      const nextState = newAnimation(state, animationName);
+      const nextState = newAnimation(state);
       expect(nextState).toEqual(Map({
         animations: List.of(Map({
-          name: animationName,
+          name: 'New Animation',
           frames: List.of(),
           delay: 0,
           repeat: false,
@@ -63,8 +62,7 @@ describe('application logic', () => {
           repeat: false,
         }]
       });
-      const animationName = "New Animation";
-      const nextState = newAnimation(state, animationName);
+      const nextState = newAnimation(state);
       expect(nextState).toEqual(fromJS({
         animations: [{
           name: 'Hey!',
@@ -72,7 +70,7 @@ describe('application logic', () => {
           delay: 0,
           repeat: false,
         }, {
-          name: animationName,
+          name: 'New Animation',
           frames: [],
           delay: 0,
           repeat: false,

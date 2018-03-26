@@ -14,7 +14,8 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-konva": "^1.6.4",
-    "react-scripts": "1.0.17"
+    "react-scripts": "1.0.17",
+    "redux": "^3.7.2"
   },
   "devDependencies": {
     "concurrently": "^3.5.1",
