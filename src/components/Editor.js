@@ -41,9 +41,11 @@ export default class Editor extends React.Component {
     const stage = this.stage.getStage();
     const layer = this.mainLayer;
     const scaleBy = 2;
+    if (!stage.getPointerPosition()) return;
 
     e.preventDefault();
     var oldScale = layer.scaleX();
+
 
     var mousePointTo = {
         x: stage.getPointerPosition().x / oldScale - layer.x() / oldScale,

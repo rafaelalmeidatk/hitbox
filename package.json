@@ -15,12 +15,15 @@
     "react-dom": "^16.2.0",
     "react-konva": "^1.6.4",
     "react-scripts": "1.0.17",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "reset-css": "^3.0.0"
   },
   "devDependencies": {
     "concurrently": "^3.5.1",
     "electron": "^1.8.3",
     "electron-builder": "^20.5.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "wait-on": "^2.1.0"
   },
   "scripts": {

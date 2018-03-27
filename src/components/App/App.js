@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import Editor from './Editor';
-import Animations from './Animations';
+import Editor from '../Editor';
+import Animations from '../Animations/Animations';
+import 'reset-css';
+import './styles.css';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   handleImageChange = (data) => {
     this.editor.changeImage(data);
   }
@@ -20,7 +18,6 @@ class App extends Component {
     const isTest = process.env.NODE_ENV === 'test';
     return (
       <div className="App">
-        {!isTest && <Editor ref={node => this.editor = node} />}
         <Animations 
           ref={node => {
             this.animations = node;
@@ -28,6 +25,7 @@ class App extends Component {
           onAddAnimationClick={this.handleAddAnimation}
           onImageChange={this.handleImageChange}
         />
+        {!isTest && <Editor ref={node => this.editor = node} />}
       </div>
     );
   }

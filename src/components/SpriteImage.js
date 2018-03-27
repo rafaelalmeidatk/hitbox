@@ -1,5 +1,5 @@
 import React from 'react';
-import { Group, Image } from 'react-konva';
+import { Image } from 'react-konva';
 
 export default class SpriteImage extends React.Component {
   state = {
