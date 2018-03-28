@@ -19,7 +19,7 @@ export default class Editor extends React.Component {
     window.removeEventListener('wheel', this.handleWheel);
   }
 
-  createFrame() {
+  createFrame = () => {
     var rect = new Konva.Rect({
       x: 50,
       y: 50,
@@ -33,8 +33,15 @@ export default class Editor extends React.Component {
     this.stage.getStage().batchDraw();
   }
 
-  changeImage(data) {
+  changeImage = (data) => {
     this.sprite.changeImage(data);
+  }
+
+  handleImageLoaded = (imageData) => {
+    const layer = this.mainLayer;
+    const x = (layer.width() - imageData.width) / 2;
+    const y = (layer.height() - imageData.height) / 2;
+    layer.position({ x, y });
   }
 
   handleWheel = (e) => {
@@ -45,7 +52,6 @@ export default class Editor extends React.Component {
 
     e.preventDefault();
     var oldScale = layer.scaleX();
-
 
     var mousePointTo = {
         x: stage.getPointerPosition().x / oldScale - layer.x() / oldScale,
@@ -69,13 +75,16 @@ export default class Editor extends React.Component {
           ref={node => this.stage = node}
           width={window.innerWidth}
           height={window.innerHeight}>
-          <GridLayer width={window.innerWidth} height={window.innerWidth} size={30} />
+          <GridLayer width={window.innerWidth} height={window.innerWidth} size={28} />
 
           <Layer 
             ref={node => this.mainLayer = node}
             onWheel={this.onWheel} 
             draggable={true}>
-            <SpriteImage ref={node => this.sprite = node} />
+            <SpriteImage
+              ref={node => this.sprite = node}
+              onImageLoaded={this.handleImageLoaded}
+              />
             <Group ref={node => this.boxesGroup = node} />
           </Layer>
         </Stage>

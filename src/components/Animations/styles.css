@@ -3,4 +3,25 @@
   width: 250px;
   background-color: lightsteelblue;
   z-index: 99;
+  padding: 10px 15px;
+  margin: 5px;
+}
+
+.column h1 {
+  font-weight: bold;
+  font-size:1.7em;
+}
+
+.column ul {
+  margin-top:10px;
+}
+
+.column ul li {
+  padding: 5px;
+  margin:3px 0;
+}
+
+.column ul li:hover {
+  background-color:gray;
+  cursor:pointer;
 }

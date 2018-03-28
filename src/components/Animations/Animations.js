@@ -7,16 +7,16 @@ export default class Animations extends React.Component {
   get animations() {
     return this.props.animations || [];
   }
-  
+
   render() {
     return (
       <div>
         <div className="column">
           <h1>Animations</h1>
           <ul>
-            {this.animations.map(animation =>
+            {this.animations.map((animation, index) =>
               <li key={animation.get('_id')}>
-                {animation.get('name')}
+                {++index}. {animation.get('name')}
               </li>
             )}
           </ul>
