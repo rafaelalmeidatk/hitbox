@@ -10,6 +10,7 @@ describe('frames reducer', () => {
   it('handles NEW_FRAME', () => {
     const state = fromJS({
       animations: [{
+        _id: 0,
         name: 'Hey!',
         frames: [],
         delay: 0,
@@ -21,8 +22,10 @@ describe('frames reducer', () => {
     const nextState = reducer(state, action);
     expect(nextState).toEqual(fromJS({
       animations: [{
+        _id: 0,
         name: 'Hey!',
         frames: [{
+          _id: 0,
           sourceRect: {
             x: 0,
             y: 0,
@@ -44,8 +47,10 @@ describe('frames reducer', () => {
   it('handles SET_FRAME_SOURCERECT', () => {
     const state = fromJS({
       animations: [{
+        _id: 0,
         name: 'Hey!',
         frames: [{
+          _id: 0,
           sourceRect: {
             x: 0,
             y: 0,
@@ -74,8 +79,10 @@ describe('frames reducer', () => {
     const nextState = reducer(state, action);
     expect(nextState).toEqual(fromJS({
       animations: [{
+        _id: 0,
         name: 'Hey!',
         frames: [{
+          _id: 0,
           sourceRect: {
             x: 96,
             y: 96,
@@ -97,8 +104,10 @@ describe('frames reducer', () => {
   it('handles SET_FRAME_OFFSET', () => {
     const state = fromJS({
       animations: [{
+        _id: 0,
         name: 'Hey!',
         frames: [{
+          _id: 0,
           sourceRect: {
             x: 0,
             y: 0,
@@ -125,8 +134,10 @@ describe('frames reducer', () => {
     const nextState = reducer(state, action);
     expect(nextState).toEqual(fromJS({
       animations: [{
+        _id: 0,
         name: 'Hey!',
         frames: [{
+          _id: 0,
           sourceRect: {
             x: 0,
             y: 0,

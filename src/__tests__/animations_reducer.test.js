@@ -24,6 +24,7 @@ describe('animations reducer', () => {
     const nextState = reducer(state, action);
     expect(nextState).toEqual(fromJS({
       animations: [{
+        _id: 0,
         name: 'New Animation',
         frames: [],
         delay: 0,
@@ -35,6 +36,7 @@ describe('animations reducer', () => {
   it('handles SET_ANIMATION_NAME', () => {
     const state = fromJS({
       animations: [{
+        _id: 0,
         name: 'New Animation',
         frames: [],
         delay: 0,
@@ -47,6 +49,7 @@ describe('animations reducer', () => {
     const nextState = reducer(state, action);
     expect(nextState).toEqual(fromJS({
       animations: [{
+        _id: 0,
         name: 'New Name',
         frames: [],
         delay: 0,
@@ -58,6 +61,7 @@ describe('animations reducer', () => {
   it('handles SET_ANIMATION_DELAY', () => {
     const state = fromJS({
       animations: [{
+        _id: 0,
         name: 'New Animation',
         frames: [],
         delay: 0,
@@ -70,6 +74,7 @@ describe('animations reducer', () => {
     const nextState = reducer(state, action);
     expect(nextState).toEqual(fromJS({
       animations: [{
+        _id: 0,
         name: 'New Animation',
         frames: [],
         delay: 500,
@@ -81,6 +86,7 @@ describe('animations reducer', () => {
   it('handles SET_ANIMATION_REPEAT', () => {
     const state = fromJS({
       animations: [{
+        _id: 0,
         name: 'New Animation',
         frames: [],
         delay: 0,
@@ -93,6 +99,7 @@ describe('animations reducer', () => {
     const nextState = reducer(state, action);
     expect(nextState).toEqual(fromJS({
       animations: [{
+        _id: 0,
         name: 'New Animation',
         frames: [],
         delay: 0,

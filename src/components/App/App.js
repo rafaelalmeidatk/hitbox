@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Editor from '../Editor';
-import Animations from '../Animations/Animations';
+import {AnimationsContainer} from '../Animations/Animations';
 import 'reset-css';
 import './styles.css';
 
@@ -18,7 +18,7 @@ class App extends Component {
     const isTest = process.env.NODE_ENV === 'test';
     return (
       <div className="App">
-        <Animations 
+        <AnimationsContainer
           ref={node => {
             this.animations = node;
           }}

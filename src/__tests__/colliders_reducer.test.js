@@ -11,6 +11,7 @@ describe('colliders reducer', () => {
   it('handles NEW_COLLIDER', () => {
     const state = fromJS({
       animations: [{
+        _id: 0,
         name: 'Hey!',
         frames: [{
           sourceRect: {
@@ -35,6 +36,7 @@ describe('colliders reducer', () => {
     const nextState = reducer(state, action);
     expect(nextState).toEqual(fromJS({
       animations: [{
+        _id: 0,
         name: 'Hey!',
         frames: [{
           sourceRect: {
@@ -44,6 +46,7 @@ describe('colliders reducer', () => {
             height: 32,
           },
           colliders: [{
+            _id: 0,
             name: 'New Collider',
             type: 'NONE',
             rect: {
@@ -67,6 +70,7 @@ describe('colliders reducer', () => {
   it('handles SET_COLLIDER_NAME', () => {
     const state = fromJS({
       animations: [{
+        _id: 0,
         name: 'Hey!',
         frames: [{
           sourceRect: {
@@ -76,6 +80,7 @@ describe('colliders reducer', () => {
             height: 32,
           },
           colliders: [{
+            _id: 0,
             name: 'New Collider',
             type: 'NONE',
             rect: {
@@ -102,6 +107,7 @@ describe('colliders reducer', () => {
     const nextState = reducer(state, action);
     expect(nextState).toEqual(fromJS({
       animations: [{
+        _id: 0,
         name: 'Hey!',
         frames: [{
           sourceRect: {
@@ -111,6 +117,7 @@ describe('colliders reducer', () => {
             height: 32,
           },
           colliders: [{
+            _id: 0,
             name: 'New Collider Name',
             type: 'NONE',
             rect: {
@@ -134,6 +141,7 @@ describe('colliders reducer', () => {
   it('handles SET_COLLIDER_TYPE', () => {
     const state = fromJS({
       animations: [{
+        _id: 0,
         name: 'Hey!',
         frames: [{
           sourceRect: {
@@ -143,6 +151,7 @@ describe('colliders reducer', () => {
             height: 32,
           },
           colliders: [{
+            _id: 0,
             name: 'New Collider',
             type: 'NONE',
             rect: {
@@ -169,6 +178,7 @@ describe('colliders reducer', () => {
     const nextState = reducer(state, action);
     expect(nextState).toEqual(fromJS({
       animations: [{
+        _id: 0,
         name: 'Hey!',
         frames: [{
           sourceRect: {
@@ -178,6 +188,7 @@ describe('colliders reducer', () => {
             height: 32,
           },
           colliders: [{
+            _id: 0,
             name: 'New Collider',
             type: 'HITBOX',
             rect: {
@@ -201,6 +212,7 @@ describe('colliders reducer', () => {
   it('handles SET_COLLIDER_RECT', () => {
     const state = fromJS({
       animations: [{
+        _id: 0,
         name: 'Hey!',
         frames: [{
           sourceRect: {
@@ -210,6 +222,7 @@ describe('colliders reducer', () => {
             height: 32,
           },
           colliders: [{
+            _id: 0,
             name: 'New Collider',
             type: 'NONE',
             rect: {
@@ -241,6 +254,7 @@ describe('colliders reducer', () => {
     const nextState = reducer(state, action);
     expect(nextState).toEqual(fromJS({
       animations: [{
+        _id: 0,
         name: 'Hey!',
         frames: [{
           sourceRect: {
@@ -250,6 +264,7 @@ describe('colliders reducer', () => {
             height: 32,
           },
           colliders: [{
+            _id: 0,
             name: 'New Collider',
             type: 'NONE',
             rect: {

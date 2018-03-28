@@ -45,6 +45,7 @@ describe('application logic', () => {
       const nextState = newAnimation(state);
       expect(nextState).toEqual(Map({
         animations: List.of(Map({
+          _id: 0,
           name: 'New Animation',
           frames: List.of(),
           delay: 0,
@@ -56,6 +57,7 @@ describe('application logic', () => {
     it('it preservers the other animations', () => {
       const state = fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [],
           delay: 0,
@@ -65,11 +67,13 @@ describe('application logic', () => {
       const nextState = newAnimation(state);
       expect(nextState).toEqual(fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [],
           delay: 0,
           repeat: false,
         }, {
+          _id: 0,
           name: 'New Animation',
           frames: [],
           delay: 0,
@@ -83,6 +87,7 @@ describe('application logic', () => {
     it('it changes the animation name', () => {
       const state = fromJS({
         animations: [{
+          _id: 0,
           name: 'New Animation',
           frames: [],
           delay: 0,
@@ -94,6 +99,7 @@ describe('application logic', () => {
       const nextState = setAnimationName(state, animationIndex, newAnimationName);
       expect(nextState).toEqual(fromJS({
         animations: [{
+          _id: 0,
           name: 'New Name',
           frames: [],
           delay: 0,
@@ -107,6 +113,7 @@ describe('application logic', () => {
     it('it changes the animation delay', () => {
       const state = fromJS({
         animations: [{
+          _id: 0,
           name: 'New Animation',
           frames: [],
           delay: 0,
@@ -118,6 +125,7 @@ describe('application logic', () => {
       const nextState = setAnimationDelay(state, animationIndex, newAnimationDelay);
       expect(nextState).toEqual(fromJS({
         animations: [{
+          _id: 0,
           name: 'New Animation',
           frames: [],
           delay: 500,
@@ -131,6 +139,7 @@ describe('application logic', () => {
     it('it changes the animation repeat', () => {
       const state = fromJS({
         animations: [{
+          _id: 0,
           name: 'New Animation',
           frames: [],
           delay: 0,
@@ -142,6 +151,7 @@ describe('application logic', () => {
       const nextState = setAnimationRepeat(state, animationIndex, newAnimationRepeat);
       expect(nextState).toEqual(fromJS({
         animations: [{
+          _id: 0,
           name: 'New Animation',
           frames: [],
           delay: 0,
@@ -155,6 +165,7 @@ describe('application logic', () => {
     it('it should add a new frame', () => {
       const state = fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [],
           delay: 0,
@@ -165,8 +176,10 @@ describe('application logic', () => {
       const nextState = newFrame(state, animationIndex);
       expect(nextState).toEqual(fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [{
+            _id: 0,
             sourceRect: {
               x: 0,
               y: 0,
@@ -188,8 +201,10 @@ describe('application logic', () => {
     it('it preservers the old frames', () => {
       const state = fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [{
+            _id: 0,
             sourceRect: {
               x: 32,
               y: 32,
@@ -210,8 +225,10 @@ describe('application logic', () => {
       const nextState = newFrame(state, animationIndex);
       expect(nextState).toEqual(fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [{
+            _id: 0,
             sourceRect: {
               x: 32,
               y: 32,
@@ -224,6 +241,7 @@ describe('application logic', () => {
               y: 0,
             },
           }, {
+            _id: 0,
             sourceRect: {
               x: 0,
               y: 0,
@@ -247,8 +265,10 @@ describe('application logic', () => {
     it('it changes the source rectangle', () => {
       const state = fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [{
+            _id: 0,
             sourceRect: {
               x: 0,
               y: 0,
@@ -276,8 +296,10 @@ describe('application logic', () => {
       const nextState = setFrameSourceRect(state, animationIndex, frameIndex, frameSourceRect);
       expect(nextState).toEqual(fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [{
+            _id: 0,
             sourceRect: {
               x: 96,
               y: 96,
@@ -301,8 +323,10 @@ describe('application logic', () => {
     it('it changes the offset', () => {
       const state = fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [{
+            _id: 0,
             sourceRect: {
               x: 0,
               y: 0,
@@ -328,8 +352,10 @@ describe('application logic', () => {
       const nextState = setFrameOffset(state, animationIndex, frameIndex, frameOffset);
       expect(nextState).toEqual(fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [{
+            _id: 0,
             sourceRect: {
               x: 0,
               y: 0,
@@ -353,8 +379,10 @@ describe('application logic', () => {
     it('it adds a new collider with default name and type', () => {
       const state = fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [{
+            _id: 0,
             sourceRect: {
               x: 0,
               y: 0,
@@ -376,8 +404,10 @@ describe('application logic', () => {
       const nextState = newCollider(state, animationIndex, frameIndex);
       expect(nextState).toEqual(fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [{
+            _id: 0,
             sourceRect: {
               x: 0,
               y: 0,
@@ -385,6 +415,7 @@ describe('application logic', () => {
               height: 32,
             },
             colliders: [{
+              _id: 0,
               name: 'New Collider',
               type: 'NONE',
               rect: {
@@ -410,8 +441,10 @@ describe('application logic', () => {
     it('changes the collider name', () => {
       const state = fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [{
+            _id: 0,
             sourceRect: {
               x: 0,
               y: 0,
@@ -419,6 +452,7 @@ describe('application logic', () => {
               height: 32,
             },
             colliders: [{
+              _id: 0,
               name: 'New Collider',
               type: 'NONE',
               rect: {
@@ -444,8 +478,10 @@ describe('application logic', () => {
       const nextState = setColliderName(state, animationIndex, frameIndex, colliderIndex, colliderName);
       expect(nextState).toEqual(fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [{
+            _id: 0,
             sourceRect: {
               x: 0,
               y: 0,
@@ -453,6 +489,7 @@ describe('application logic', () => {
               height: 32,
             },
             colliders: [{
+              _id: 0,
               name: 'New Collider Name',
               type: 'NONE',
               rect: {
@@ -478,8 +515,10 @@ describe('application logic', () => {
     it('changes the collider type', () => {
       const state = fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [{
+            _id: 0,
             sourceRect: {
               x: 0,
               y: 0,
@@ -487,6 +526,7 @@ describe('application logic', () => {
               height: 32,
             },
             colliders: [{
+              _id: 0,
               name: 'New Collider',
               type: 'NONE',
               rect: {
@@ -512,8 +552,10 @@ describe('application logic', () => {
       const nextState = setColliderType(state, animationIndex, frameIndex, colliderIndex, colliderType);
       expect(nextState).toEqual(fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [{
+            _id: 0,
             sourceRect: {
               x: 0,
               y: 0,
@@ -521,6 +563,7 @@ describe('application logic', () => {
               height: 32,
             },
             colliders: [{
+              _id: 0,
               name: 'New Collider',
               type: 'HITBOX',
               rect: {
@@ -546,8 +589,10 @@ describe('application logic', () => {
     it('changes the collider type', () => {
       const state = fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [{
+            _id: 0,
             sourceRect: {
               x: 0,
               y: 0,
@@ -555,6 +600,7 @@ describe('application logic', () => {
               height: 32,
             },
             colliders: [{
+              _id: 0,
               name: 'New Collider',
               type: 'NONE',
               rect: {
@@ -580,8 +626,10 @@ describe('application logic', () => {
       const nextState = setColliderType(state, animationIndex, frameIndex, colliderIndex, colliderType);
       expect(nextState).toEqual(fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [{
+            _id: 0,
             sourceRect: {
               x: 0,
               y: 0,
@@ -589,6 +637,7 @@ describe('application logic', () => {
               height: 32,
             },
             colliders: [{
+              _id: 0,
               name: 'New Collider',
               type: 'HITBOX',
               rect: {
@@ -614,8 +663,10 @@ describe('application logic', () => {
     it('changes the collider rect', () => {
       const state = fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [{
+            _id: 0,
             sourceRect: {
               x: 0,
               y: 0,
@@ -623,6 +674,7 @@ describe('application logic', () => {
               height: 32,
             },
             colliders: [{
+              _id: 0,
               name: 'New Collider',
               type: 'NONE',
               rect: {
@@ -653,8 +705,10 @@ describe('application logic', () => {
       const nextState = setColliderRect(state, animationIndex, frameIndex, colliderIndex, colliderRect);
       expect(nextState).toEqual(fromJS({
         animations: [{
+          _id: 0,
           name: 'Hey!',
           frames: [{
+            _id: 0,
             sourceRect: {
               x: 0,
               y: 0,
@@ -662,6 +716,7 @@ describe('application logic', () => {
               height: 32,
             },
             colliders: [{
+              _id: 0,
               name: 'New Collider',
               type: 'NONE',
               rect: {

@@ -14,9 +14,11 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-konva": "^1.6.4",
+    "react-redux": "^5.0.7",
     "react-scripts": "1.0.17",
     "redux": "^3.7.2",
-    "reset-css": "^3.0.0"
+    "reset-css": "^3.0.0",
+    "shortid": "^2.2.8"
   },
   "devDependencies": {
     "concurrently": "^3.5.1",

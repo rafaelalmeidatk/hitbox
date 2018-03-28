@@ -1,5 +1,13 @@
 import {List, Map, fromJS} from 'immutable';
 
+let shortid = require('shortid');
+if (process.env.NODE_ENV === 'test') {
+  // Mock shortid if in tests
+  shortid = {
+    generate: () => 0,
+  };
+}
+
 export const INITIAL_STATE = Map();
 
 export function setFilename(state, filename) {
@@ -13,6 +21,7 @@ export function createAnimationsList(state) {
 export function newAnimation(state) {
   return state.update('animations', List(),
     animations => animations.push(Map({
+        _id: shortid.generate(),
         name: 'New Animation',
         frames: List.of(),
         delay: 0,
@@ -43,6 +52,7 @@ export function newFrame(state, animationIndex) {
   return state.updateIn(
     ['animations', animationIndex, 'frames'], List(),
     frames => frames.push(Map({
+      _id: shortid.generate(),
       sourceRect: Map({
         x: 0,
         y: 0,
@@ -76,6 +86,7 @@ export function newCollider(state, animationIndex, frameIndex) {
   return state.updateIn(
     ['animations', animationIndex, 'frames', frameIndex, 'colliders'], List(),
     colliders => colliders.push(Map({
+      _id: shortid.generate(),
       name: 'New Collider',
       type: 'NONE',
       rect: Map({
