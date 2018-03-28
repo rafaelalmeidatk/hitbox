@@ -3,26 +3,28 @@ import {connect} from 'react-redux';
 import ImageUploadButton from '../ImageUploadButton';
 import './styles.css';
 
-export default class Animations extends React.Component {
+export class Animations extends React.Component {
   get animations() {
     return this.props.animations || [];
   }
 
   render() {
     return (
-      <div>
-        <div className="column">
-          <h1>Animations</h1>
-          <ul>
-            {this.animations.map((animation, index) =>
-              <li key={animation.get('_id')}>
-                {++index}. {animation.get('name')}
-              </li>
-            )}
-          </ul>
-          <button onClick={this.props.onAddAnimationClick}>Add animation</button>
-          <ImageUploadButton onChange={this.props.onImageChange} />
-        </div>
+      <div className="left-window">
+        <h1>Animations</h1>
+        <ul>
+          {
+            !this.animations.length &&
+            <div>No animations yet!</div>
+          }
+          {this.animations.map((animation, index) =>
+            <li key={animation.get('_id')}>
+              {++index}. {animation.get('name')}
+            </li>
+          )}
+        </ul>
+        <button onClick={this.props.onAddAnimationClick}>Add animation</button>
+        <ImageUploadButton onChange={this.props.onImageChange} />
       </div>
     );
   }
@@ -34,4 +36,4 @@ function mapStateToProps(state) {
   };
 }
 
-export const AnimationsContainer = connect(mapStateToProps)(Animations);
+export default connect(mapStateToProps)(Animations);

@@ -8,6 +8,7 @@ import registerServiceWorker from './registerServiceWorker';
 import {
   createAnimationList,
   newAnimation,
+  newFrame,
 } from './ducks';
 
 const store = createStore();
@@ -15,6 +16,11 @@ store.dispatch(createAnimationList());
 store.dispatch(newAnimation());
 store.dispatch(newAnimation());
 store.dispatch(newAnimation());
+store.dispatch(newFrame(0));
+store.dispatch(newFrame(0));
+store.dispatch(newFrame(0));
+store.dispatch(newFrame(1));
+store.dispatch(newFrame(1));
 
 ReactDOM.render(
   <Provider store={store}>

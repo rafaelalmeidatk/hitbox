@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Editor from '../Editor';
-import {AnimationsContainer} from '../Animations/Animations';
+import Animations from '../Animations/Animations';
+import Frames from '../Frames';
 import 'reset-css';
 import './styles.css';
 
@@ -18,13 +19,13 @@ class App extends Component {
     const isTest = process.env.NODE_ENV === 'test';
     return (
       <div className="App">
-        <AnimationsContainer
-          ref={node => {
-            this.animations = node;
-          }}
-          onAddAnimationClick={this.handleAddAnimation}
-          onImageChange={this.handleImageChange}
-        />
+        <div className="left-windows">
+          <Animations
+            onAddAnimationClick={this.handleAddAnimation}
+            onImageChange={this.handleImageChange}
+          />
+          <Frames />
+        </div>
         {!isTest && <Editor ref={node => this.editor = node} />}
       </div>
     );

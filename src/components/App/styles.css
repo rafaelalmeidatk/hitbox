@@ -8,3 +8,37 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.left-windows {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.left-window {
+  width: 250px;
+  background-color: lightsteelblue;
+  z-index: 99;
+  padding: 10px 15px;
+  margin: 5px;
+}
+
+.left-window h1 {
+  font-weight: bold;
+  font-size:1.7em;
+}
+
+.left-window ul {
+  margin-top:10px;
+}
+
+.left-window ul li {
+  padding: 5px;
+  margin:3px 0;
+}
+
+.left-window ul li:hover {
+  background-color:gray;
+  cursor:pointer;
+}

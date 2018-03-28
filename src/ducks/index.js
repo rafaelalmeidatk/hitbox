@@ -109,6 +109,18 @@ export function setAnimationRepeat(animationIndex, repeat) {
   return { type: SET_ANIMATION_REPEAT, animationIndex, repeat };
 }
 
+export function newFrame(animationIndex) {
+  return { type: NEW_FRAME, animationIndex };
+}
+
+export function setFrameSourceRect(animationIndex, frameIndex, sourceRect) {
+  return { type: SET_FRAME_SOURCERECT, animationIndex, frameIndex, sourceRect };
+}
+
+export function setFrameOffset(animationIndex, frameIndex, offset) {
+  return { type: SET_FRAME_OFFSET, animationIndex, frameIndex, offset };
+}
+
 export function newCollider(animationIndex, frameIndex) {
   return { type: NEW_COLLIDER, animationIndex, frameIndex };
 }
@@ -123,16 +135,4 @@ export function setColliderType(animationIndex, frameIndex, colliderIndex, type)
 
 export function setColliderRect(animationIndex, frameIndex, colliderIndex, rect) {
   return { type: SET_COLLIDER_RECT, animationIndex, frameIndex, colliderIndex, rect };
-}
-
-export function newFrame(animationIndex) {
-  return { type: NEW_FRAME, animationIndex };
-}
-
-export function setFrameSourceRect(animationIndex, frameIndex, sourceRect) {
-  return { type: SET_FRAME_SOURCERECT, animationIndex, frameIndex, sourceRect };
-}
-
-export function setFrameOffset(animationIndex, frameIndex, offset) {
-  return { type: SET_FRAME_OFFSET, animationIndex, frameIndex, offset };
 }
