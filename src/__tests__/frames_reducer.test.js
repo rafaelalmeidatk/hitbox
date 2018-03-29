@@ -4,7 +4,7 @@ import reducer, {
   newFrame,
   setFrameSourceRect,
   setFrameOffset,
-} from '../ducks';
+} from '../ducks/animation';
 
 describe('frames reducer', () => {
   it('handles NEW_FRAME', () => {

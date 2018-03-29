@@ -5,7 +5,7 @@ import reducer, {
   setColliderName,
   setColliderType,
   setColliderRect,
-} from '../ducks';
+} from '../ducks/animation';
 
 describe('colliders reducer', () => {
   it('handles NEW_COLLIDER', () => {

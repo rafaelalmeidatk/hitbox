@@ -9,7 +9,7 @@ import {
   createAnimationList,
   newAnimation,
   newFrame,
-} from './ducks';
+} from './ducks/animation';
 
 const store = createStore();
 store.dispatch(createAnimationList());

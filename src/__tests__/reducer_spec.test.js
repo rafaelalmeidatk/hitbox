@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 
-import reducer, { setFilename } from '../ducks';
+import reducer, { setFilename } from '../ducks/animation';
 
 describe('reducer', () => {
   it('has an initial state', () => {

@@ -6,7 +6,7 @@ import reducer, {
   setAnimationName,
   setAnimationDelay,
   setAnimationRepeat,
-} from '../ducks';
+} from '../ducks/animation';
 
 describe('animations reducer', () => {
   it('handles CREATE_ANIMATION_LIST', () => {

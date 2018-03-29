@@ -6,6 +6,7 @@
   "main": "public/electron.js",
   "homepage": "./",
   "dependencies": {
+    "classnames": "^2.2.5",
     "electron-is-dev": "^0.3.0",
     "file-system": "^2.2.2",
     "foreman": "^2.0.0",

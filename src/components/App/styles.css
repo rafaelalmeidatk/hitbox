@@ -38,6 +38,10 @@ body {
   margin:3px 0;
 }
 
+.left-window ul li.selected {
+  background-color:#7e9dc5;
+}
+
 .left-window ul li:hover {
   background-color:gray;
   cursor:pointer;

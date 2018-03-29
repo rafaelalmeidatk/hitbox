@@ -2,6 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import ImageUploadButton from '../ImageUploadButton';
 import './styles.css';
+import {setSelectedAnimationIndex} from '../../ducks/selection';
+import classNames from 'classnames';
 
 export class Animations extends React.Component {
   get animations() {
@@ -9,6 +11,7 @@ export class Animations extends React.Component {
   }
 
   render() {
+    const { selectedAnimationIndex, setSelectedAnimationIndex } = this.props;
     return (
       <div className="left-window">
         <h1>Animations</h1>
@@ -18,8 +21,12 @@ export class Animations extends React.Component {
             <div>No animations yet!</div>
           }
           {this.animations.map((animation, index) =>
-            <li key={animation.get('_id')}>
-              {++index}. {animation.get('name')}
+            <li
+              key={animation.get('_id')}
+              className={classNames({ 'selected': selectedAnimationIndex === index })}
+              onClick={() => setSelectedAnimationIndex(index)}
+              >
+              {index + 1}. {animation.get('name')}
             </li>
           )}
         </ul>
@@ -32,8 +39,13 @@ export class Animations extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    animations: state.get('animations'),
+    animations: state['animation'].get('animations'),
+    selectedAnimationIndex: state['selection'].get('selectedAnimationIndex'),
   };
 }
 
-export default connect(mapStateToProps)(Animations);
+const mapDispatchToProps = {
+  setSelectedAnimationIndex,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Animations);
