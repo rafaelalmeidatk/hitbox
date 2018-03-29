@@ -22,7 +22,7 @@ class App extends Component {
         <div className="left-windows">
           <AnimationsWindow 
             onImageChange={this.handleImageChange}
-            />
+          />
           <Frames />
         </div>
         {!isTest && <Editor ref={node => this.editor = node} />}

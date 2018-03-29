@@ -1,9 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Image } from 'react-konva';
 
 export default class SpriteImage extends React.Component {
+  static propTypes = {
+    onImageLoaded: PropTypes.func.isRequired,
+  }
+
   state = {
-    image: null
+    image: null,
   }
 
   componentDidMount() {
@@ -23,12 +28,10 @@ export default class SpriteImage extends React.Component {
         width: image.width,
         height: image.height,
       });
-    }
+    };
   }
 
   render() {
-    return (
-      <Image ref="spriteImage" image={this.state.image} />
-    );
+    return <Image image={this.state.image} />;
   }
 }

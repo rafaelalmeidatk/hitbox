@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 let electron = null;
 let fs = null;
@@ -9,6 +10,10 @@ if (window && window.process && window.process.type) {
 }
 
 export default class ImageUploadButton extends React.Component {
+  static propTypes = {
+    onChange: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
@@ -24,13 +29,12 @@ export default class ImageUploadButton extends React.Component {
 
   render() {
     return (
-      <input id="upload" ref="upload" type="file" accept="image/*"
-        onChange={(event)=> { 
-          this.handleChange(event.target.files[0].path) 
-        }}
-        onClick={(event)=> { 
-          event.target.value = null
-        }}
+      <input
+        id="upload"
+        type="file"
+        accept="image/*"
+        onChange={(event) => this.handleChange(event.target.files[0].path)}
+        onClick={(event) => event.target.value = null}
       />
     );
   }

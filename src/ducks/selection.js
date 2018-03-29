@@ -13,7 +13,6 @@ const SET_SELECTED_ITEM_ID = 'animation-editor/selection/SET_SELECTED_ITEM_ID';
 export default function reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case SET_SELECTED_ANIMATION_INDEX:
-    console.log('here!!', action.index);
       return state.set('selectedAnimationIndex', action.index);
 
     case SET_SELECTED_FRAME_INDEX:

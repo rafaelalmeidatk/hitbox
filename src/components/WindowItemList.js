@@ -13,7 +13,7 @@ const WindowItemList = ({ items, selectedIndex, onItemClick }) => (
         key={item.get('_id')}
         className={classNames({ 'selected': selectedIndex === index })}
         onClick={() => onItemClick(index)}
-        >
+      >
         {index + 1}. {item.get('name')}
       </li>
     )}

@@ -21,11 +21,11 @@ export function createAnimationsList(state) {
 export function newAnimation(state) {
   return state.update('animations', List(),
     animations => animations.push(Map({
-        _id: shortid.generate(),
-        name: 'New Animation',
-        frames: List.of(),
-        delay: 0,
-        repeat: false,
+      _id: shortid.generate(),
+      name: 'New Animation',
+      frames: List.of(),
+      delay: 0,
+      repeat: false,
     }))
   );
 }
@@ -93,8 +93,8 @@ export function newCollider(state, animationIndex, frameIndex) {
         x: 0,
         y: 0,
         width: 32,
-        height: 32, 
-      })
+        height: 32,
+      }),
     }))
   );
 }

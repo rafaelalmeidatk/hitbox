@@ -1,8 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './styles.css';
 
 export class Frames extends React.Component {
+  static propTypes = {
+    frames: PropTypes.array,
+  }
+
   get frames() {
     return this.props.frames || [];
   }
@@ -30,11 +35,11 @@ export class Frames extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    frames: []
+    frames: [],
   };
 }
 
 export default connect(
   mapStateToProps,
 // Implement map dispatch to props
-)(Frames)
+)(Frames);

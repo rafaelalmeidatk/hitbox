@@ -27,7 +27,7 @@ export default class Editor extends React.Component {
       draggable: true,
       width: 50,
       height: 50,
-      opacity:0.5
+      opacity: 0.5,
     });
     this.boxesGroup.add(rect);
     this.stage.getStage().batchDraw();
@@ -54,16 +54,16 @@ export default class Editor extends React.Component {
     var oldScale = layer.scaleX();
 
     var mousePointTo = {
-        x: stage.getPointerPosition().x / oldScale - layer.x() / oldScale,
-        y: stage.getPointerPosition().y / oldScale - layer.y() / oldScale,
+      x: stage.getPointerPosition().x / oldScale - layer.x() / oldScale,
+      y: stage.getPointerPosition().y / oldScale - layer.y() / oldScale,
     };
 
     var newScale = e.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
     layer.scale({ x: newScale, y: newScale });
 
     var newPos = {
-        x: -(mousePointTo.x - stage.getPointerPosition().x / newScale) * newScale,
-        y: -(mousePointTo.y - stage.getPointerPosition().y / newScale) * newScale
+      x: -(mousePointTo.x - stage.getPointerPosition().x / newScale) * newScale,
+      y: -(mousePointTo.y - stage.getPointerPosition().y / newScale) * newScale,
     };
     layer.position(newPos);
     stage.batchDraw();
@@ -71,23 +71,23 @@ export default class Editor extends React.Component {
 
   render() {
     return (
-        <Stage
-          ref={node => this.stage = node}
-          width={window.innerWidth}
-          height={window.innerHeight}>
-          <GridLayer width={window.innerWidth} height={window.innerWidth} size={28} />
+      <Stage
+        ref={node => this.stage = node}
+        width={window.innerWidth}
+        height={window.innerHeight}>
+        <GridLayer width={window.innerWidth} height={window.innerWidth} size={28} />
 
-          <Layer 
-            ref={node => this.mainLayer = node}
-            onWheel={this.onWheel} 
-            draggable={true}>
-            <SpriteImage
-              ref={node => this.sprite = node}
-              onImageLoaded={this.handleImageLoaded}
-              />
-            <Group ref={node => this.boxesGroup = node} />
-          </Layer>
-        </Stage>
+        <Layer 
+          ref={node => this.mainLayer = node}
+          onWheel={this.onWheel} 
+          draggable={true}>
+          <SpriteImage
+            ref={node => this.sprite = node}
+            onImageLoaded={this.handleImageLoaded}
+          />
+          <Group ref={node => this.boxesGroup = node} />
+        </Layer>
+      </Stage>
     );
   }
 }

@@ -9,6 +9,7 @@ const Window = ({ title, children, ...props }) =>
 
 Window.propTypes = {
   title: PropTypes.string,
+  children: PropTypes.node,
 };
 
 export default Window;

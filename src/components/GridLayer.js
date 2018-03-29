@@ -1,14 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Konva from 'konva';
 import { Layer} from 'react-konva';
 
 export default class GridLayer extends React.Component {
+  static propTypes = {
+    width: PropTypes.number,
+    height: PropTypes.number,
+    size: PropTypes.number,
+  };
+
   componentDidMount() {
     const { width, height, size } = this.props;
-    const {gridlayer} = this.refs;
 
     for (let i = 0; i < width / size; i++) {
-      gridlayer.add(new Konva.Line({
+      this.gridlayer.add(new Konva.Line({
         points: [Math.round(i * size) + 0.5, 0, Math.round(i * size) + 0.5, height],
         stroke: '#dadada',
         strokeWidth: 1,
@@ -16,7 +22,7 @@ export default class GridLayer extends React.Component {
     }
 
     for (let i = 0; i < height / size; i++) {
-      gridlayer.add(new Konva.Line({
+      this.gridlayer.add(new Konva.Line({
         points: [0, Math.round(i * size), width, Math.round(i * size)],
         stroke: '#dadada',
         strokeWidth: 1,
@@ -26,7 +32,7 @@ export default class GridLayer extends React.Component {
 
   render() {
     return (
-      <Layer ref="gridlayer" />
+      <Layer ref={(node) => this.gridlayer = node} />
     );
   }
 }
