@@ -12,6 +12,7 @@
     "foreman": "^2.0.0",
     "immutable": "^3.8.2",
     "konva": "^1.7.6",
+    "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-konva": "^1.6.4",
