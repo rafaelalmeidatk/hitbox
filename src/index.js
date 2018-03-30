@@ -9,7 +9,12 @@ import {
   createAnimationList,
   newAnimation,
   newFrame,
+  newCollider,
 } from './ducks/animation';
+import {
+  setSelectedAnimationIndex,
+  setSelectedFrameIndex,
+} from './ducks/selection';
 
 const store = createStore();
 store.dispatch(createAnimationList());
@@ -21,6 +26,9 @@ store.dispatch(newFrame(0));
 store.dispatch(newFrame(0));
 store.dispatch(newFrame(1));
 store.dispatch(newFrame(1));
+store.dispatch(newCollider(0, 0));
+store.dispatch(setSelectedAnimationIndex(0));
+store.dispatch(setSelectedFrameIndex(0, 0));
 
 ReactDOM.render(
   <Provider store={store}>

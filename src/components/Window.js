@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Window = ({ title, children, ...props }) =>
-  <div className="left-window" {...props}>
+  <div className="window" {...props}>
     <h1>{title}</h1>
     {children}
   </div>;

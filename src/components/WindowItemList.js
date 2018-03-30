@@ -5,7 +5,7 @@ import classNames from 'classnames';
 const WindowItemList = ({ items, itemName, selectedIndex, onItemClick }) => (
   <ul>
     {
-      items.length === 0 &&
+      (!items || items.length === 0 || items.size === 0) &&
       <div>No items yet!</div>
     }
     {items.map((item, index) =>

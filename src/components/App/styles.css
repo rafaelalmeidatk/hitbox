@@ -16,7 +16,15 @@ body {
   height: 100vh;
 }
 
-.left-window {
+.right-windows {
+  position: absolute;
+  display: flex;
+  right: 0;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.window {
   width: 250px;
   background-color: lightsteelblue;
   z-index: 99;
@@ -24,25 +32,26 @@ body {
   margin: 5px;
 }
 
-.left-window h1 {
+.window h1 {
   font-weight: bold;
+
   font-size:1.7em;
 }
 
-.left-window ul {
+.window ul {
   margin-top:10px;
 }
 
-.left-window ul li {
+.window ul li {
   padding: 5px;
   margin:3px 0;
 }
 
-.left-window ul li.selected {
+.window ul li.selected {
   background-color:#7e9dc5;
 }
 
-.left-window ul li:hover {
+.window ul li:hover {
   background-color:gray;
   cursor:pointer;
 }
