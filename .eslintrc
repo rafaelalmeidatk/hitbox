@@ -2,8 +2,11 @@
   "plugins": ["react"],
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "rules": {
+    "no-console": ["off"],
+    "no-unused-vars": ["warn"],
     "semi": ["warn"],
     "indent": ["error", 2, { "SwitchCase": 1 }],
+    "prefer-const": ["warn"],
     "comma-dangle": ["error", "always-multiline"],
     "react/prefer-stateless-function": ["error"],
   }
