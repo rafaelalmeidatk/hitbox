@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Editor from '../Editor';
-import Frames from '../Frames';
 import AnimationsWindow from '../AnimationsWindow';
+import FramesWindow from '../FramesWindow';
 import 'reset-css';
 import './styles.css';
 
@@ -23,7 +23,7 @@ class App extends Component {
           <AnimationsWindow 
             onImageChange={this.handleImageChange}
           />
-          <Frames />
+          <FramesWindow />
         </div>
         {!isTest && <Editor ref={node => this.editor = node} />}
       </div>

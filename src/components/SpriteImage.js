@@ -5,7 +5,7 @@ import { Image } from 'react-konva';
 export default class SpriteImage extends React.Component {
   static propTypes = {
     onImageLoaded: PropTypes.func.isRequired,
-  }
+  };
 
   state = {
     image: null,
