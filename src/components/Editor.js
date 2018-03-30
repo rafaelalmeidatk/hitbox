@@ -39,8 +39,8 @@ export default class Editor extends React.Component {
 
   handleImageLoaded = (imageData) => {
     const layer = this.mainLayer;
-    const x = (layer.width() - imageData.width) / 2;
-    const y = (layer.height() - imageData.height) / 2;
+    const x = Math.floor((layer.width() - imageData.width) / 2);
+    const y = Math.floor((layer.height() - imageData.height) / 2);
     layer.position({ x, y });
   }
 
