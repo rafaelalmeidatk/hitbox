@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {setSelectedFrameIndex} from '../ducks/selection';
+import {newFrame} from '../ducks/animation';
 
 import Window from './Window';
 import WindowItemList from './WindowItemList';
@@ -12,6 +13,7 @@ export class FramesWindow extends React.Component {
     selectedAnimationIndex: PropTypes.number,
     selectedFrameIndex: PropTypes.number,
     setSelectedFrameIndex: PropTypes.func,
+    newFrame: PropTypes.func,
   };
 
   get frames() {
@@ -23,10 +25,23 @@ export class FramesWindow extends React.Component {
     return [];
   }
 
+  createNewFrame = () => {
+    const {selectedAnimationIndex} = this.props;
+    if (selectedAnimationIndex >= 0) {
+      this.props.newFrame(selectedAnimationIndex);
+    }
+  }
+
   render() {
-    const { selectedFrameIndex, setSelectedFrameIndex } = this.props;
+    const {
+      selectedFrameIndex,
+      setSelectedFrameIndex,
+    } = this.props;
     return (
-      <Window title="Frames">
+      <Window
+        title="Frames"
+        titleButtonAction={this.createNewFrame}
+      >
         <WindowItemList
           items={this.frames}
           itemName={(index, name) => `Frame ${index}`}
@@ -48,6 +63,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   setSelectedFrameIndex,
+  newFrame,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FramesWindow);

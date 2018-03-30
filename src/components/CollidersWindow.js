@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {setSelectedFrameIndex} from '../ducks/selection';
+import {setSelectedColliderIndex} from '../ducks/selection';
+import {newCollider} from '../ducks/animation';
 
 import Window from './Window';
 import WindowItemList from './WindowItemList';
@@ -11,7 +12,9 @@ export class CollidersWindow extends React.Component {
     animations: PropTypes.object,
     selectedAnimationIndex: PropTypes.number,
     selectedFrameIndex: PropTypes.number,
-    setSelectedFrameIndex: PropTypes.func,
+    selectedColliderIndex: PropTypes.number,
+    setSelectedColliderIndex: PropTypes.func,
+    newCollider: PropTypes.func,
   };
 
   get colliders() {
@@ -27,14 +30,27 @@ export class CollidersWindow extends React.Component {
     return [];
   }
 
+  createNewCollider = () => {
+    const {selectedAnimationIndex, selectedFrameIndex} = this.props;
+    if (selectedAnimationIndex >= 0 && selectedFrameIndex >= 0) {
+      this.props.newCollider(selectedAnimationIndex, selectedFrameIndex);
+    }
+  }
+
   render() {
-    const { selectedFrameIndex, setSelectedFrameIndex } = this.props;
+    const { 
+      selectedColliderIndex,
+      setSelectedColliderIndex,
+    } = this.props;
     return (
-      <Window title="Colliders">
+      <Window
+        title="Colliders"
+        titleButtonAction={this.createNewCollider}
+      >
         <WindowItemList
           items={this.colliders}
-          selectedIndex={selectedFrameIndex}
-          onItemClick={setSelectedFrameIndex}
+          selectedIndex={selectedColliderIndex}
+          onItemClick={setSelectedColliderIndex}
         />
       </Window>
     );
@@ -51,7 +67,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  setSelectedFrameIndex,
+  setSelectedColliderIndex,
+  newCollider,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CollidersWindow);

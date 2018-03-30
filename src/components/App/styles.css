@@ -47,11 +47,27 @@ h1 {
   z-index: 99;
   padding: 10px 15px;
   margin: 5px;
+  max-height: 50vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.window .title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.window .icon {
+  display: flex;
+  align-items: center;
+}
+
+.window .icon, .window .icon svg, .window .icon path {
+  cursor:pointer;
 }
 
 .window h1 {
   font-weight: bold;
-
   font-size:1.7em;
 }
 
