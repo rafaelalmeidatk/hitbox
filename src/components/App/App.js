@@ -3,6 +3,7 @@ import Editor from '../Editor';
 import AnimationsWindow from '../AnimationsWindow';
 import FramesWindow from '../FramesWindow';
 import CollidersWindow from '../CollidersWindow';
+import InspectorWindow from '../InspectorWindow';
 import 'reset-css';
 import './styles.css';
 
@@ -28,6 +29,7 @@ class App extends Component {
         </div>
         <div className="right-windows">
           <CollidersWindow />
+          <InspectorWindow />
         </div>
         {!isTest && <Editor ref={node => this.editor = node} />}
       </div>

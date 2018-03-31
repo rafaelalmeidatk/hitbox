@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import ImageUploadButton from './ImageUploadButton';
-import {setSelectedAnimationIndex} from '../ducks/selection';
+import {setSelectedAnimationIndex, setSelectedItemId} from '../ducks/selection';
 import {newAnimation} from '../ducks/animation';
 
 import Window from './Window';
@@ -13,6 +13,7 @@ export class AnimationsWindow extends React.Component {
     animations: PropTypes.object,
     selectedAnimationIndex: PropTypes.number,
     setSelectedAnimationIndex: PropTypes.func,
+    setSelectedItemId: PropTypes.func,
     newAnimation: PropTypes.func,
 
     // Deprecated
@@ -23,10 +24,23 @@ export class AnimationsWindow extends React.Component {
     return this.props.animations || [];
   }
 
+  animationByIndex = (index) => {
+    const {animations} = this.props;
+    return animations.getIn([
+      index,
+    ]);
+  }
+
+  handleOnItemClick = (index) => {
+    const {setSelectedAnimationIndex, setSelectedItemId} = this.props;
+    var frame = this.animationByIndex(index);
+    setSelectedAnimationIndex(index);
+    setSelectedItemId(frame.get('_id'));
+  }
+
   render() {
     const {
       selectedAnimationIndex,
-      setSelectedAnimationIndex,
       newAnimation,
     } = this.props;
     return (
@@ -37,7 +51,7 @@ export class AnimationsWindow extends React.Component {
         <WindowItemList
           items={this.animations}
           selectedIndex={selectedAnimationIndex}
-          onItemClick={setSelectedAnimationIndex}
+          onItemClick={(index) => this.handleOnItemClick(index)}
         />
         <ImageUploadButton onChange={this.props.onImageChange} />
       </Window>
@@ -54,6 +68,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   setSelectedAnimationIndex,
+  setSelectedItemId,
   newAnimation,
 };
 

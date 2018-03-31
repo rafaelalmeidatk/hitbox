@@ -14,6 +14,7 @@ import {
 import {
   setSelectedAnimationIndex,
   setSelectedFrameIndex,
+  setSelectedItemId,
 } from './ducks/selection';
 
 const store = createStore();
@@ -29,6 +30,8 @@ store.dispatch(newFrame(1));
 store.dispatch(newCollider(0, 0));
 store.dispatch(setSelectedAnimationIndex(0));
 store.dispatch(setSelectedFrameIndex(0, 0));
+var id = store.getState()['animation'].get('animations').get(0).get('_id');
+store.dispatch(setSelectedItemId(id));
 
 ReactDOM.render(
   <Provider store={store}>

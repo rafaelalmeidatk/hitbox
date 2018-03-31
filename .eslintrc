@@ -8,6 +8,6 @@
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "prefer-const": ["warn"],
     "comma-dangle": ["error", "always-multiline"],
-    "react/prefer-stateless-function": ["error"],
+    "react/prefer-stateless-function": ["warn"],
   }
 }

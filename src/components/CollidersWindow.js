@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {setSelectedColliderIndex} from '../ducks/selection';
+import {setSelectedColliderIndex, setSelectedItemId} from '../ducks/selection';
 import {newCollider} from '../ducks/animation';
 
 import Window from './Window';
@@ -14,6 +14,7 @@ export class CollidersWindow extends React.Component {
     selectedFrameIndex: PropTypes.number,
     selectedColliderIndex: PropTypes.number,
     setSelectedColliderIndex: PropTypes.func,
+    setSelectedItemId: PropTypes.func,
     newCollider: PropTypes.func,
   };
 
@@ -30,6 +31,17 @@ export class CollidersWindow extends React.Component {
     return [];
   }
 
+  colliderByIndex = (index) => {
+    const {animations, selectedAnimationIndex, selectedFrameIndex} = this.props;
+    return animations.getIn([
+      selectedAnimationIndex,
+      'frames',
+      selectedFrameIndex,
+      'colliders',
+      index,
+    ]);
+  }
+
   createNewCollider = () => {
     const {selectedAnimationIndex, selectedFrameIndex} = this.props;
     if (selectedAnimationIndex >= 0 && selectedFrameIndex >= 0) {
@@ -37,10 +49,16 @@ export class CollidersWindow extends React.Component {
     }
   }
 
+  handleOnItemClick = (index) => {
+    const {setSelectedColliderIndex, setSelectedItemId} = this.props;
+    var collider = this.colliderByIndex(index);
+    setSelectedColliderIndex(index);
+    setSelectedItemId(collider.get('_id'));
+  }
+
   render() {
     const { 
       selectedColliderIndex,
-      setSelectedColliderIndex,
     } = this.props;
     return (
       <Window
@@ -50,7 +68,7 @@ export class CollidersWindow extends React.Component {
         <WindowItemList
           items={this.colliders}
           selectedIndex={selectedColliderIndex}
-          onItemClick={setSelectedColliderIndex}
+          onItemClick={(index) => this.handleOnItemClick(index)}
         />
       </Window>
     );
@@ -68,6 +86,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   setSelectedColliderIndex,
+  setSelectedItemId,
   newCollider,
 };
 
