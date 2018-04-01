@@ -1,4 +1,5 @@
 import { fromJS } from 'immutable';
+import animationModel from '../models/animation';
 
 import reducer, {
   createAnimationList,
@@ -14,7 +15,7 @@ describe('animations reducer', () => {
     const action = createAnimationList();
     const nextState = reducer(state, action);
     expect(nextState).toEqual(fromJS({
-      animations: []
+      animations: [],
     }));
   });
 
@@ -23,13 +24,7 @@ describe('animations reducer', () => {
     const action = newAnimation();
     const nextState = reducer(state, action);
     expect(nextState).toEqual(fromJS({
-      animations: [{
-        _id: 0,
-        name: 'New Animation',
-        frames: [],
-        delay: 0,
-        repeat: false,
-      }]
+      animations: [animationModel],
     }));
   });
 
@@ -55,7 +50,7 @@ describe('animations reducer', () => {
         delay: 0,
         repeat: false,
       }]
-      }));
+    }));
   });
 
   it('handles SET_ANIMATION_DELAY', () => {

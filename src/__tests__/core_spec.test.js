@@ -1,4 +1,7 @@
 import {List, Map, fromJS} from 'immutable';
+import animationModel from '../models/animation';
+import frameModel from '../models/frame';
+import colliderModel from '../models/collider';
 
 import {
   setFilename,
@@ -40,46 +43,20 @@ describe('application logic', () => {
   });
 
   describe('newAnimation', () => {
-    it('it adds a new animation with default name', () => {
+    it('it adds a new animation with the model', () => {
       const state = Map();
       const nextState = newAnimation(state);
-      expect(nextState).toEqual(Map({
-        animations: List.of(Map({
-          _id: 0,
-          name: 'New Animation',
-          frames: List.of(),
-          delay: 0,
-          repeat: false,
-        }))
+      expect(nextState).toEqual(fromJS({
+        animations: [animationModel],
       }));
     });
 
     it('it preservers the other animations', () => {
       const state = fromJS({
-        animations: [{
-          _id: 0,
-          name: 'Hey!',
-          frames: [],
-          delay: 0,
-          repeat: false,
-        }]
+        animations: [animationModel],
       });
       const nextState = newAnimation(state);
-      expect(nextState).toEqual(fromJS({
-        animations: [{
-          _id: 0,
-          name: 'Hey!',
-          frames: [],
-          delay: 0,
-          repeat: false,
-        }, {
-          _id: 0,
-          name: 'New Animation',
-          frames: [],
-          delay: 0,
-          repeat: false,
-        }]
-      }));
+      expect(nextState.get('animations').size).toEqual(2);
     });
   });
 
@@ -87,11 +64,7 @@ describe('application logic', () => {
     it('it changes the animation name', () => {
       const state = fromJS({
         animations: [{
-          _id: 0,
           name: 'New Animation',
-          frames: [],
-          delay: 0,
-          repeat: false,
         }]
       });
       const animationIndex = 0;
@@ -99,11 +72,7 @@ describe('application logic', () => {
       const nextState = setAnimationName(state, animationIndex, newAnimationName);
       expect(nextState).toEqual(fromJS({
         animations: [{
-          _id: 0,
           name: 'New Name',
-          frames: [],
-          delay: 0,
-          repeat: false,
         }]
       }));
     });
@@ -178,20 +147,7 @@ describe('application logic', () => {
         animations: [{
           _id: 0,
           name: 'Hey!',
-          frames: [{
-            _id: 0,
-            sourceRect: {
-              x: 0,
-              y: 0,
-              width: 32,
-              height: 32,
-            },
-            colliders: [],
-            offset: {
-              x: 0,
-              y: 0,
-            },
-          }],
+          frames: [frameModel],
           delay: 0,
           repeat: false,
         }]

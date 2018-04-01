@@ -4,18 +4,22 @@ import PropTypes from 'prop-types';
 export default class InspectorItemPropertyInput extends React.Component {
   static propTypes = {
     property: PropTypes.any,
+    onChange: PropTypes.func,
   };
 
   textInput = (value) => {
-    return <input type="text" value={value} />;
+    const {onChange} = this.props;
+    return <input type="text" value={value} onChange={onChange} />;
   }
 
   numberInput = (value) => {
-    return <input type="number" value={value} />;
+    const {onChange} = this.props;
+    return <input type="number" value={value} onChange={onChange} />;
   }
 
   booleanInput = (value) => {
-    return <input type="checkbox" checked={value} />;
+    const {onChange} = this.props;
+    return <input type="checkbox" checked={value} onChange={onChange} />;
   }
 
   inputForProperty = (property) => {
@@ -34,9 +38,6 @@ export default class InspectorItemPropertyInput extends React.Component {
 
   render() {
     const {property} = this.props;
-    const input = this.inputForProperty(property);
-    return (
-      <div>{input}</div>
-    );
+    return this.inputForProperty(property);
   }
 }

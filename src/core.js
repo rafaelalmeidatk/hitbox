@@ -1,12 +1,7 @@
 import {List, Map, fromJS} from 'immutable';
-
-let shortid = require('shortid');
-if (process.env.NODE_ENV === 'test') {
-  // Mock shortid if in tests
-  shortid = {
-    generate: () => 0,
-  };
-}
+import animationModel from './models/animation';
+import frameModel from './models/frame';
+import colliderModel from './models/collider';
 
 export const INITIAL_STATE = Map();
 
@@ -20,13 +15,7 @@ export function createAnimationsList(state) {
 
 export function newAnimation(state) {
   return state.update('animations', List(),
-    animations => animations.push(Map({
-      _id: shortid.generate(),
-      name: 'New Animation',
-      frames: List.of(),
-      delay: 0,
-      repeat: false,
-    }))
+    animations => animations.push(animationModel)
   );
 }
 
@@ -51,20 +40,7 @@ export function setAnimationRepeat(state, animationIndex, animationRepeat) {
 export function newFrame(state, animationIndex) {
   return state.updateIn(
     ['animations', animationIndex, 'frames'], List(),
-    frames => frames.push(Map({
-      _id: shortid.generate(),
-      sourceRect: Map({
-        x: 0,
-        y: 0,
-        width: 32,
-        height: 32,
-      }),
-      colliders: List(),
-      offset: Map({
-        x: 0,
-        y: 0,
-      }),
-    }))
+    frames => frames.push(frameModel)
   );
 }
 
@@ -85,17 +61,7 @@ export function setFrameOffset(state, animationIndex, frameIndex, offset) {
 export function newCollider(state, animationIndex, frameIndex) {
   return state.updateIn(
     ['animations', animationIndex, 'frames', frameIndex, 'colliders'], List(),
-    colliders => colliders.push(Map({
-      _id: shortid.generate(),
-      name: 'New Collider',
-      type: 'NONE',
-      rect: Map({
-        x: 0,
-        y: 0,
-        width: 32,
-        height: 32,
-      }),
-    }))
+    colliders => colliders.push(colliderModel)
   );
 }
 
