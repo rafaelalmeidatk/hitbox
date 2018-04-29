@@ -28,17 +28,24 @@ export class InspectorItemPropertiesList extends React.Component {
     return getInspectorEditableFields(inspectableObject);
   }
 
-  handleOnChange = (e, field) => {
+  handleOnChange = (e, currentValue, field) => {
     const {item, selectedAnimationIndex} = this.props;
-    const newValue = e.target.value;
+    // edge case for checkboxes
+    const inputValue = typeof currentValue === 'boolean' ? e.target.checked : e.target.value;
+    const newValue = this.sanitizeValue(currentValue, inputValue);
     const updater = getUpdater(item);
     const action = updater(selectedAnimationIndex, field, newValue);
     this.props.dispatch(action);
+  }
 
-    console.log(`animation: `, this.props.dispatch);
-
-
-    //console.log('updater', field);
+  sanitizeValue = (currentValue, newValue) => {
+    switch (typeof currentValue) {
+      case 'string':
+      case 'boolean':
+        return newValue;
+      case 'number':
+        return parseInt(newValue);
+    }
   }
 
   render() {
@@ -54,7 +61,7 @@ export class InspectorItemPropertiesList extends React.Component {
               <div className="property">
                 <InspectorItemPropertyInput 
                   property={item.get(field)}
-                  onChange={(e) => this.handleOnChange(e, field)}
+                  onChange={(e) => this.handleOnChange(e, item.get(field), field)}
                 />
               </div>
             </li>
