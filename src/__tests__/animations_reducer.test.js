@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import animationModel from '../models/animation';
+import createAnimationModel from '../models/animation';
 
 import reducer, {
   createAnimationList,
@@ -24,7 +24,7 @@ describe('animations reducer', () => {
     const action = newAnimation();
     const nextState = reducer(state, action);
     expect(nextState).toEqual(fromJS({
-      animations: [animationModel],
+      animations: [createAnimationModel()],
     }));
   });
 

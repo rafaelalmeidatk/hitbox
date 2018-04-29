@@ -25,7 +25,7 @@ function updaterField(animationId, field, value) {
   }
 }
 
-export default Map({
+export default () => Map({
   _id: shortid.generate(),
   _inspector: Map({
     editableFields: List.of('name', 'delay', 'repeat'),

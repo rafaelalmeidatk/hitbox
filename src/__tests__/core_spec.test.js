@@ -1,7 +1,7 @@
 import {List, Map, fromJS} from 'immutable';
-import animationModel from '../models/animation';
-import frameModel from '../models/frame';
-import colliderModel from '../models/collider';
+import createAnimationModel from '../models/animation';
+import createFrameModel from '../models/frame';
+import createColliderModel from '../models/collider';
 
 import {
   setFilename,
@@ -47,13 +47,13 @@ describe('application logic', () => {
       const state = Map();
       const nextState = newAnimation(state);
       expect(nextState).toEqual(fromJS({
-        animations: [animationModel],
+        animations: [createAnimationModel()],
       }));
     });
 
     it('it preservers the other animations', () => {
       const state = fromJS({
-        animations: [animationModel],
+        animations: [createAnimationModel()],
       });
       const nextState = newAnimation(state);
       expect(nextState.get('animations').size).toEqual(2);
@@ -147,7 +147,7 @@ describe('application logic', () => {
         animations: [{
           _id: 0,
           name: 'Hey!',
-          frames: [frameModel],
+          frames: [createFrameModel()],
           delay: 0,
           repeat: false,
         }]

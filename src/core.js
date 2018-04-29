@@ -1,7 +1,7 @@
 import {List, Map, fromJS} from 'immutable';
-import animationModel from './models/animation';
-import frameModel from './models/frame';
-import colliderModel from './models/collider';
+import createAnimationModel from './models/animation';
+import createFrameModel from './models/frame';
+import createColliderModel from './models/collider';
 
 export const INITIAL_STATE = Map();
 
@@ -15,7 +15,7 @@ export function createAnimationsList(state) {
 
 export function newAnimation(state) {
   return state.update('animations', List(),
-    animations => animations.push(animationModel)
+    animations => animations.push(createAnimationModel())
   );
 }
 
@@ -40,7 +40,7 @@ export function setAnimationRepeat(state, animationIndex, animationRepeat) {
 export function newFrame(state, animationIndex) {
   return state.updateIn(
     ['animations', animationIndex, 'frames'], List(),
-    frames => frames.push(frameModel)
+    frames => frames.push(createFrameModel())
   );
 }
 
@@ -61,7 +61,7 @@ export function setFrameOffset(state, animationIndex, frameIndex, offset) {
 export function newCollider(state, animationIndex, frameIndex) {
   return state.updateIn(
     ['animations', animationIndex, 'frames', frameIndex, 'colliders'], List(),
-    colliders => colliders.push(colliderModel)
+    colliders => colliders.push(createColliderModel())
   );
 }
 
