@@ -13,15 +13,16 @@ if (process.env.NODE_ENV === 'test') {
   };
 }
 
-function updaterField(animationId, field, value) {
-  console.log(`updater called with field ${field} and value ${value}`);
+function fieldUpdater(props, field, value) {
+  const { animationIndex } = props;
+  console.log('dsadsa', animationIndex, field, value);
   switch (field) {
     case 'name':
-      return setAnimationName(animationId, value);
+      return setAnimationName(animationIndex, value);
     case 'delay':
-      return setAnimationDelay(animationId, value);
+      return setAnimationDelay(animationIndex, value);
     case 'repeat':
-      return setAnimationRepeat(animationId, value);
+      return setAnimationRepeat(animationIndex, value);
   }
 }
 
@@ -29,7 +30,7 @@ export default () => Map({
   _id: shortid.generate(),
   _inspector: Map({
     editableFields: List.of('name', 'delay', 'repeat'),
-    updater: updaterField,
+    updater: fieldUpdater,
   }),
   name: 'New Animation',
   delay: 0,

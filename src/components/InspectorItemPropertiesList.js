@@ -16,6 +16,8 @@ export class InspectorItemPropertiesList extends React.Component {
     animations: PropTypes.object,
     selectedItemId: PropTypes.string,
     selectedAnimationIndex: PropTypes.number,
+    selectedFrameIndex: PropTypes.number,
+    selectedColliderIndex: PropTypes.number,
   };
 
   get inspectableObject() {
@@ -29,12 +31,17 @@ export class InspectorItemPropertiesList extends React.Component {
   }
 
   handleOnChange = (e, currentValue, field) => {
-    const {item, selectedAnimationIndex} = this.props;
+    const props = {
+      animationIndex: this.props.selectedAnimationIndex,
+      frameIndex: this.props.selectedFrameIndex,
+      colliderIndex: this.props.selectedColliderIndex,
+    };
+    const { item } = this.props;
     // edge case for checkboxes
     const inputValue = typeof currentValue === 'boolean' ? e.target.checked : e.target.value;
     const newValue = this.sanitizeValue(currentValue, inputValue);
     const updater = getUpdater(item);
-    const action = updater(selectedAnimationIndex, field, newValue);
+    const action = updater(props, field, newValue);
     this.props.dispatch(action);
   }
 
@@ -77,6 +84,8 @@ function mapStateToProps(state) {
     animations: state['animation'].get('animations'),
     selectedItemId: state['selection'].get('selectedItemId'),
     selectedAnimationIndex: state['selection'].get('selectedAnimationIndex'),
+    selectedFrameIndex: state['selection'].get('selectedFrameIndex'),
+    selectedColliderIndex: state['selection'].get('selectedColliderIndex'),
   };
 }
 
