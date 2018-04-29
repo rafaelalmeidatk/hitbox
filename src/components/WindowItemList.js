@@ -3,25 +3,27 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 const WindowItemList = ({ items, itemName, selectedIndex, onItemClick }) => (
-  <ul>
+  <div>
     {
       (!items || items.length === 0 || items.size === 0) &&
       <div>No items yet!</div>
     }
-    {items.map((item, index) =>
-      <li
-        key={item.get('_id')}
-        className={classNames({ 'selected': selectedIndex === index })}
-        onClick={() => onItemClick(index)}
-      >
-        {
-          itemName
-            ? itemName(index, item.get('name'))
-            : (`${index + 1}. ${item.get('name')}`)
-        }
-      </li>
-    )}
-  </ul>
+    <ul>
+      {items.map((item, index) =>
+        <li
+          key={item.get('_id')}
+          className={classNames({ 'selected': selectedIndex === index })}
+          onClick={() => onItemClick(index)}
+        >
+          {
+            itemName
+              ? itemName(index, item.get('name'))
+              : (`${index + 1}. ${item.get('name')}`)
+          }
+        </li>
+      )}
+    </ul>
+  </div>
 );
 
 WindowItemList.propTypes = {

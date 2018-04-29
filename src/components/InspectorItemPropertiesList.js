@@ -12,8 +12,10 @@ import './InspectorItemPropertiesList.style.css';
 export class InspectorItemPropertiesList extends React.Component {
   static propTypes = {
     item: PropTypes.object,
+    dispatch: PropTypes.func,
     animations: PropTypes.object,
     selectedItemId: PropTypes.string,
+    selectedAnimationIndex: PropTypes.number,
   };
 
   get inspectableObject() {
@@ -26,11 +28,17 @@ export class InspectorItemPropertiesList extends React.Component {
     return getInspectorEditableFields(inspectableObject);
   }
 
-  handleOnChange = (e) => {
-    const {item} = this.props;
+  handleOnChange = (e, field) => {
+    const {item, selectedAnimationIndex} = this.props;
+    const newValue = e.target.value;
     const updater = getUpdater(item);
-    //console.log('update', property);
-    console.log('on change', e, e.target.value);
+    const action = updater(selectedAnimationIndex, field, newValue);
+    this.props.dispatch(action);
+
+    console.log(`animation: `, this.props.dispatch);
+
+
+    //console.log('updater', field);
   }
 
   render() {
@@ -46,7 +54,7 @@ export class InspectorItemPropertiesList extends React.Component {
               <div className="property">
                 <InspectorItemPropertyInput 
                   property={item.get(field)}
-                  onChange={this.handleOnChange}
+                  onChange={(e) => this.handleOnChange(e, field)}
                 />
               </div>
             </li>
@@ -61,10 +69,8 @@ function mapStateToProps(state) {
   return {
     animations: state['animation'].get('animations'),
     selectedItemId: state['selection'].get('selectedItemId'),
+    selectedAnimationIndex: state['selection'].get('selectedAnimationIndex'),
   };
 }
 
-const mapDispatchToProps = {
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(InspectorItemPropertiesList);
+export default connect(mapStateToProps)(InspectorItemPropertiesList);

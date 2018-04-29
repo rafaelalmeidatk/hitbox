@@ -1,4 +1,9 @@
 import {List, Map, fromJS} from 'immutable';
+import reducer, {
+  setAnimationName,
+  setAnimationDelay,
+  setAnimationRepeat,
+} from '../ducks/animation';
 
 let shortid = require('shortid');
 if (process.env.NODE_ENV === 'test') {
@@ -8,8 +13,16 @@ if (process.env.NODE_ENV === 'test') {
   };
 }
 
-function updaterField(field, value) {
+function updaterField(animationId, field, value) {
   console.log(`updater called with field ${field} and value ${value}`);
+  switch (field) {
+    case 'name':
+      return setAnimationName(animationId, value);
+    case 'delay':
+      return setAnimationDelay(animationId, value);
+    case 'repeat':
+      return setAnimationRepeat(animationId, value);
+  }
 }
 
 export default Map({
