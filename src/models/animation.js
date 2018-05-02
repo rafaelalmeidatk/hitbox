@@ -15,7 +15,6 @@ if (process.env.NODE_ENV === 'test') {
 
 function fieldUpdater(props, field, value) {
   const { animationIndex } = props;
-  console.log('dsadsa', animationIndex, field, value);
   switch (field) {
     case 'name':
       return setAnimationName(animationIndex, value);

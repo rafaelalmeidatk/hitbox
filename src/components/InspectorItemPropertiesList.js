@@ -30,29 +30,25 @@ export class InspectorItemPropertiesList extends React.Component {
     return getInspectorEditableFields(inspectableObject);
   }
 
-  handleOnChange = (e, currentValue, field) => {
+  handleOnChange = (newValue, field, data) => {
+    const {
+      item,
+      selectedAnimationIndex,
+      selectedFrameIndex,
+      selectedColliderIndex,
+    } = this.props;
+    const property = item.get(field);
+
     const props = {
-      animationIndex: this.props.selectedAnimationIndex,
-      frameIndex: this.props.selectedFrameIndex,
-      colliderIndex: this.props.selectedColliderIndex,
+      animationIndex: selectedAnimationIndex,
+      frameIndex: selectedFrameIndex,
+      colliderIndex: selectedColliderIndex,
+      property,
+      data,
     };
-    const { item } = this.props;
-    // edge case for checkboxes
-    const inputValue = typeof currentValue === 'boolean' ? e.target.checked : e.target.value;
-    const newValue = this.sanitizeValue(currentValue, inputValue);
     const updater = getUpdater(item);
     const action = updater(props, field, newValue);
     this.props.dispatch(action);
-  }
-
-  sanitizeValue = (currentValue, newValue) => {
-    switch (typeof currentValue) {
-      case 'string':
-      case 'boolean':
-        return newValue;
-      case 'number':
-        return parseInt(newValue);
-    }
   }
 
   render() {
@@ -68,7 +64,9 @@ export class InspectorItemPropertiesList extends React.Component {
               <div className="property">
                 <InspectorItemPropertyInput 
                   property={item.get(field)}
-                  onChange={(e) => this.handleOnChange(e, item.get(field), field)}
+                  onChange={(value, data) => {
+                    this.handleOnChange(value, field, data)
+                  }}
                 />
               </div>
             </li>
