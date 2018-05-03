@@ -14,19 +14,15 @@ if (process.env.NODE_ENV === 'test') {
 
 function fieldUpdater(props, field, value) {
   const { animationIndex, frameIndex, property, data: { innerField } } = props;
-  console.log('got the props with data', props);
-  const sourceRect = Map({
-    x: property.get('x'),
-    y: property.get('y'),
-    width: property.get('width'),
-    height: property.get('height'),
-    [innerField]: value,
-  });
   switch (field) {
-    case 'sourceRect':
+    case 'sourceRect': {
+      const sourceRect = property.set(innerField, value);
       return setFrameSourceRect(animationIndex, frameIndex, sourceRect);
-    case 'offset':
-      return setFrameOffset(/* ... */);
+    }
+    case 'offset': {
+      const offset = property.set(innerField, value);
+      return setFrameOffset(animationIndex, frameIndex, offset);
+    }
   }
 }
 
