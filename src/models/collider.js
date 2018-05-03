@@ -14,14 +14,16 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 function fieldUpdater(props, field, value) {
-  const { animationIndex, frameIndex, colliderIndex } = props;
+  const { animationIndex, frameIndex, colliderIndex, property, data: { innerField } } = props;
   switch (field) {
     case 'name':
       return setColliderName(animationIndex, frameIndex, colliderIndex, value);
     case 'type':
       return setColliderType(animationIndex, frameIndex, colliderIndex, value);
-    case 'rect':
-      return setColliderRect(/* ... */);
+    case 'rect': {
+      const rect = property.set(innerField, value);
+      return setColliderRect(animationIndex, frameIndex, colliderIndex, rect);
+    }
   }
 }
 
