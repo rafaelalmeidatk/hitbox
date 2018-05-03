@@ -35,7 +35,7 @@ export function getInspectableObjectById(animations, id) {
 
 export function getInspectorEditableFields(inspectableObject) {
   var inspector = inspectableObject.get('_inspector');
-  return inspector.get('editableFields');
+  return inspector.get('editableFields').toJS();
 }
 
 export function getUpdater(inspectableObject) {

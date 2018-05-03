@@ -58,14 +58,14 @@ export class InspectorItemPropertiesList extends React.Component {
     return (
       <ul className="properties-list">
         {
-          this.getInspectorFields.map((field) => (
-            <li key={field} className="property-entry">
-              <div className="label">{field}</div>
+          this.getInspectorFields.map((entry) => (
+            <li key={entry.field} className="property-entry">
+              <div className="label">{entry.displayName}</div>
               <div className="property">
                 <InspectorItemPropertyInput 
-                  property={item.get(field)}
+                  property={item.get(entry.field)}
                   onChange={(value, data) => {
-                    this.handleOnChange(value, field, data)
+                    this.handleOnChange(value, entry.field, data)
                   }}
                 />
               </div>

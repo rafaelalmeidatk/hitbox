@@ -28,7 +28,20 @@ function fieldUpdater(props, field, value) {
 export default () => Map({
   _id: shortid.generate(),
   _inspector: Map({
-    editableFields: List.of('name', 'delay', 'repeat'),
+    editableFields: List.of(
+      Map({
+        field: 'name',
+        displayName: 'Name',
+      }),
+      Map({
+        field: 'delay',
+        displayName: 'Delay',
+      }),
+      Map({
+        field: 'repeat',
+        displayName: 'Repeat',
+      }),
+    ),
     updater: fieldUpdater,
   }),
   name: 'New Animation',

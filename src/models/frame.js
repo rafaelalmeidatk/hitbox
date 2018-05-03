@@ -29,7 +29,16 @@ function fieldUpdater(props, field, value) {
 export default () => Map({
   _id: shortid.generate(),
   _inspector: Map({
-    editableFields: List.of('sourceRect', 'offset'),
+    editableFields: List.of(
+      Map({
+        field: 'sourceRect',
+        displayName: 'Rectangle',
+      }),
+      Map({
+        field: 'offset',
+        displayName: 'Offset',
+      }),
+    ),
     updater: fieldUpdater,
   }),
   sourceRect: Map({

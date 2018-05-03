@@ -30,7 +30,20 @@ function fieldUpdater(props, field, value) {
 export default () => Map({
   _id: shortid.generate(),
   _inspector: Map({
-    editableFields: List.of('name', 'type', 'rect'),
+    editableFields: List.of(
+      Map({
+        field: 'name',
+        displayName: 'Name',
+      }),
+      Map({
+        field: 'type',
+        displayName: 'Type',
+      }),
+      Map({
+        field: 'rect',
+        displayName: 'Rectangle',
+      }),
+    ),
     updater: fieldUpdater,
   }),
   name: 'New Collider',
