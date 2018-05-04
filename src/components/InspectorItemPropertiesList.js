@@ -53,8 +53,6 @@ export class InspectorItemPropertiesList extends React.Component {
 
   render() {
     const {item} = this.props;
-    const inspectableObject = this.inspectableObject;
-
     return (
       <ul className="properties-list">
         {
@@ -64,9 +62,9 @@ export class InspectorItemPropertiesList extends React.Component {
               <div className="property">
                 <InspectorItemPropertyInput 
                   property={item.get(entry.field)}
-                  onChange={(value, data) => {
+                  onChange={(value, data) => 
                     this.handleOnChange(value, entry.field, data)
-                  }}
+                  }
                 />
               </div>
             </li>

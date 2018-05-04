@@ -41,19 +41,20 @@ export default class InspectorItemPropertyInput extends React.Component {
   }
 
   objectInput = (object) => {
-    const {onChange} = this.props;
     const [...keys] = object.keys();
-
     return (
-      <div>
-        <ul>
-          {
-            keys.map(key => (
-              <li key={key}>{this.inputForInnerProperty(object.get(key), key)}</li>
-            ))
-          }
-        </ul>
-      </div>
+      <ul className="innerObject">
+        {
+          keys.map(key => (
+            <li key={key}>
+              <div className="label">{key}</div>
+              <div className="property">
+                {this.inputForInnerProperty(object.get(key), key)}
+              </div>
+            </li>
+          ))
+        }
+      </ul>
     );
   }
 

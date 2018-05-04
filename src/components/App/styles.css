@@ -88,3 +88,17 @@ h1 {
   background-color:gray;
   cursor:pointer;
 }
+
+.innerObject li {
+  display: flex;
+  align-items: center;
+}
+
+.innerObject li .label {
+  margin-right: 8px;
+  text-transform: capitalize;
+}
+
+.property input[type="text"], .property input[type="number"] {
+  width: 100%;
+}

@@ -45,7 +45,6 @@ export function getUpdater(inspectableObject) {
 
 export function extractFieldsByType(inspectableObject) {
   const type = inspectableObject.get('type');
-  const object = inspectableObject.get('object');
   const fields = [];
   switch (type) {
     case ANIMATION_TYPE:
