@@ -1,10 +1,16 @@
 import React from 'react';
-import { Stage, Layer, Group } from 'react-konva';
+import PropTypes from 'prop-types';
+import { Stage, Layer, Group, Rect } from 'react-konva';
 import SpriteImage from './SpriteImage';
 import Konva from 'konva';
 import GridLayer from './GridLayer';
+import FramesGroup from './FramesGroup';
 
 export default class Editor extends React.Component {
+  static propTypes = {
+    animations: PropTypes.object,
+  };
+
   componentDidMount() {
     // Remove AA
     const context = this.mainLayer.getContext()._context;
@@ -70,7 +76,7 @@ export default class Editor extends React.Component {
   }
 
   render() {
-    return (
+    return (  
       <Stage
         ref={node => this.stage = node}
         width={window.innerWidth}
@@ -85,6 +91,9 @@ export default class Editor extends React.Component {
             ref={node => this.sprite = node}
             onImageLoaded={this.handleImageLoaded}
           />
+
+          <FramesGroup />
+
           <Group ref={node => this.boxesGroup = node} />
         </Layer>
       </Stage>

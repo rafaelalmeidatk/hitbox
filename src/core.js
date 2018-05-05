@@ -13,6 +13,11 @@ export function createAnimationsList(state) {
   return state.set('animations', List());
 }
 
+export function getFrames(animations, animationIndex) {
+  const anim = animations.get(animationIndex);
+  return anim.get('frames').toJS();
+}
+
 export function newAnimation(state) {
   return state.update('animations', List(),
     animations => animations.push(createAnimationModel())
