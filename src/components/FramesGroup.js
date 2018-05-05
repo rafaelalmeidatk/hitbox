@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Konva from 'konva';
 
 import { getFrames } from '../core';
+import colors from '../colors';
 
 class FramesGroup extends React.Component {
   static propTypes = {
@@ -25,7 +26,7 @@ class FramesGroup extends React.Component {
               y={frame.sourceRect.y}
               width={frame.sourceRect.width}
               height={frame.sourceRect.height}
-              fill='red'
+              fill={colors.frameRect}
             />
           ))
         }

@@ -10,6 +10,7 @@ import {
   newAnimation,
   newFrame,
   newCollider,
+  setFrameSourceRect,
 } from './ducks/animation';
 import {
   setSelectedAnimationIndex,
@@ -25,6 +26,9 @@ store.dispatch(newAnimation());
 store.dispatch(newFrame(0));
 store.dispatch(newFrame(0));
 store.dispatch(newFrame(0));
+store.dispatch(setFrameSourceRect(0, 0, { x: 0, y: 0, width: 32, height: 32 }));
+store.dispatch(setFrameSourceRect(0, 1, { x: 64, y: 0, width: 32, height: 32 }));
+store.dispatch(setFrameSourceRect(0, 2, { x: 0, y: 64, width: 64, height: 64 }));
 store.dispatch(newFrame(1));
 store.dispatch(newFrame(1));
 store.dispatch(newCollider(0, 0));
