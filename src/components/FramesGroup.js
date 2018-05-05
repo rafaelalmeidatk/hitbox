@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Stage, Layer, Group, Rect } from 'react-konva';
+import { Group, Rect } from 'react-konva';
 import { connect } from 'react-redux';
-import Konva from 'konva';
 
+import { setSelectedFrameIndex, setSelectedItemId } from '../ducks/selection';
 import { getFrames } from '../core';
 import colors from '../colors';
 
@@ -11,7 +11,12 @@ class FramesGroup extends React.Component {
   static propTypes = {
     animations: PropTypes.object,
     selectedAnimationIndex: PropTypes.number,
+    setSelectedItemId: PropTypes.func,
   };
+
+  handleFrameClick = (frameId) => {
+    this.props.setSelectedItemId(frameId);
+  }
 
   render() {
     const { animations, selectedAnimationIndex } = this.props;
@@ -27,6 +32,8 @@ class FramesGroup extends React.Component {
               width={frame.sourceRect.width}
               height={frame.sourceRect.height}
               fill={colors.frameRect}
+              draggable={true}
+              onClick={() => this.handleFrameClick(frame._id)}
             />
           ))
         }
@@ -42,4 +49,9 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(FramesGroup);
+const mapDispatchToProps = {
+  setSelectedFrameIndex,
+  setSelectedItemId,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FramesGroup);
