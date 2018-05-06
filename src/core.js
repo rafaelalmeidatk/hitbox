@@ -18,6 +18,10 @@ export function getFrames(animations, animationIndex) {
   return anim.get('frames').toJS();
 }
 
+export function getColliders(animations, animationIndex, frameIndex) {
+  return animations.getIn([animationIndex, 'frames', frameIndex, 'colliders']).toJS();
+}
+
 export function newAnimation(state) {
   return state.update('animations', List(),
     animations => animations.push(createAnimationModel())
