@@ -4,6 +4,7 @@ import { Group, Rect } from 'react-konva';
 import { connect } from 'react-redux';
 
 import { setSelectedFrameIndex, setSelectedItemId } from '../ducks/selection';
+import { setFrameSourceRect } from '../ducks/animation';
 import { getFrames } from '../core';
 import colors from '../colors';
 
@@ -12,10 +13,26 @@ class FramesGroup extends React.Component {
     animations: PropTypes.object,
     selectedAnimationIndex: PropTypes.number,
     setSelectedItemId: PropTypes.func,
+    setSelectedFrameIndex: PropTypes.func,
+    setFrameSourceRect: PropTypes.func,
   };
 
-  handleFrameClick = (frameId) => {
+  handleFrameClick = (frameId, frameIndex) => {
     this.props.setSelectedItemId(frameId);
+    this.props.setSelectedFrameIndex(frameIndex);
+  }
+
+  handleFrameDrag = (frameIndex, args) => {
+    if (!args.target) return;
+    const { selectedAnimationIndex } = this.props;
+    const { attrs: { x, y, width, height } } = args.target;
+
+    this.props.setFrameSourceRect(selectedAnimationIndex, frameIndex, {
+      x,
+      y,
+      width,
+      height,
+    });
   }
 
   render() {
@@ -24,7 +41,7 @@ class FramesGroup extends React.Component {
     return (
       <Group ref={node => this.framesGroup = node}>
         {
-          frames.map((frame) => (
+          frames.map((frame, index) => (
             <Rect
               key={frame._id}
               x={frame.sourceRect.x}
@@ -33,7 +50,10 @@ class FramesGroup extends React.Component {
               height={frame.sourceRect.height}
               fill={colors.frameRect}
               draggable={true}
-              onClick={() => this.handleFrameClick(frame._id)}
+              onClick={() => this.handleFrameClick(frame._id, index)}
+              onDragStart={(args) => this.handleFrameDrag(index, args)}
+              onDragMove={(args) => this.handleFrameDrag(index, args)}
+              onDragEnd={(args) => this.handleFrameDrag(index, args)}
             />
           ))
         }
@@ -52,6 +72,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   setSelectedFrameIndex,
   setSelectedItemId,
+  setFrameSourceRect,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FramesGroup);
