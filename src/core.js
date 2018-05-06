@@ -19,7 +19,8 @@ export function getFrames(animations, animationIndex) {
 }
 
 export function getColliders(animations, animationIndex, frameIndex) {
-  return animations.getIn([animationIndex, 'frames', frameIndex, 'colliders']).toJS();
+  const colliders = animations.getIn([animationIndex, 'frames', frameIndex, 'colliders']);
+  return colliders ? colliders.toJS() : [];
 }
 
 export function newAnimation(state) {
