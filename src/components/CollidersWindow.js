@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {setSelectedColliderIndex, setSelectedItemId} from '../ducks/selection';
 import {newCollider} from '../ducks/animation';
+import {showColliders, hideColliders} from '../ducks/ui';
 
 import Window from './Window';
 import WindowItemList from './WindowItemList';
+import WindowToolsRow from './WindowToolsRow';
 
 export class CollidersWindow extends React.Component {
   static propTypes = {
@@ -16,6 +18,9 @@ export class CollidersWindow extends React.Component {
     setSelectedColliderIndex: PropTypes.func,
     setSelectedItemId: PropTypes.func,
     newCollider: PropTypes.func,
+    collidersVisible: PropTypes.bool,
+    showColliders: PropTypes.func,
+    hideColliders: PropTypes.func,
   };
 
   get colliders() {
@@ -59,12 +64,20 @@ export class CollidersWindow extends React.Component {
   render() {
     const { 
       selectedColliderIndex,
+      collidersVisible,
+      showColliders,
+      hideColliders,
     } = this.props;
     return (
       <Window
         title="Colliders"
         titleButtonAction={this.createNewCollider}
       >
+        <WindowToolsRow
+          visibility={true}
+          visibilityValue={collidersVisible}
+          onClick={() => collidersVisible ?  hideColliders() : showColliders()}
+        />
         <WindowItemList
           items={this.colliders}
           selectedIndex={selectedColliderIndex}
@@ -81,6 +94,7 @@ function mapStateToProps(state) {
     selectedAnimationIndex: state['selection'].get('selectedAnimationIndex'),
     selectedFrameIndex: state['selection'].get('selectedFrameIndex'),
     selectedColliderIndex: state['selection'].get('selectedColliderIndex'),
+    collidersVisible: state['ui'].get('collidersVisible'),
   };
 }
 
@@ -88,6 +102,8 @@ const mapDispatchToProps = {
   setSelectedColliderIndex,
   setSelectedItemId,
   newCollider,
+  showColliders,
+  hideColliders,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CollidersWindow);

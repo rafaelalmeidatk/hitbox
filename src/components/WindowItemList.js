@@ -8,7 +8,7 @@ const WindowItemList = ({ items, itemName, selectedIndex, onItemClick }) => (
       (!items || items.length === 0 || items.size === 0) &&
       <div>No items yet!</div>
     }
-    <ul>
+    <ul className="window-item-list">
       {items.map((item, index) =>
         <li
           key={item.get('_id')}

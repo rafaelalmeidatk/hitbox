@@ -15,6 +15,7 @@ class FramesGroup extends React.Component {
     setSelectedItemId: PropTypes.func,
     setSelectedFrameIndex: PropTypes.func,
     setFrameSourceRect: PropTypes.func,
+    framesVisible: PropTypes.bool,
   };
 
   handleFrameClick = (frameId, frameIndex) => {
@@ -36,11 +37,12 @@ class FramesGroup extends React.Component {
   }
 
   render() {
-    const { animations, selectedAnimationIndex } = this.props;
+    const { framesVisible, animations, selectedAnimationIndex } = this.props;
     var frames = getFrames(animations, selectedAnimationIndex);
     return (
       <Group ref={node => this.framesGroup = node}>
         {
+          framesVisible &&
           frames.map((frame, index) => (
             <Rect
               key={frame._id}
@@ -66,6 +68,7 @@ function mapStateToProps(state) {
   return {
     animations: state['animation'].get('animations'),
     selectedAnimationIndex: state['selection'].get('selectedAnimationIndex'),
+    framesVisible: state['ui'].get('framesVisible'),
   };
 }
 

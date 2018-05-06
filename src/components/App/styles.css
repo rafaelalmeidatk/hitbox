@@ -71,20 +71,24 @@ h1 {
   font-size:1.7em;
 }
 
-.window ul {
+/*
+ * Window Item List
+ */
+
+.window-item-list {
   margin-top:10px;
 }
 
-.window ul li {
+.window-item-list li {
   padding: 5px;
   margin:3px 0;
 }
 
-.window ul li.selected {
+.window-item-list li.selected {
   background-color:#7e9dc5;
 }
 
-.window ul li:hover {
+.window-item-list li:hover {
   background-color:gray;
   cursor:pointer;
 }
@@ -101,4 +105,25 @@ h1 {
 
 .property input[type="text"], .property input[type="number"] {
   width: 100%;
+}
+
+/*
+ * Window Tools Row
+ */
+
+.window-tools-row {
+  margin: 10px 0 5px 5px;
+}
+
+.window-tools-row li {
+}
+
+.window-tools-icon {
+  display: inline-block;
+  padding: 5px;
+}
+
+.window-tools-icon:hover {
+  cursor:pointer;
+  background-color:gray;
 }

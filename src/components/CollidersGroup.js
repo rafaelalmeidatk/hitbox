@@ -18,6 +18,8 @@ class CollidersGroup extends React.Component {
     setSelectedItemId: PropTypes.func,
     setSelectedColliderIndex: PropTypes.func,
     setColliderRect: PropTypes.func,
+
+    collidersVisible: PropTypes.bool,
   };
 
   constructor(props) {
@@ -77,11 +79,12 @@ class CollidersGroup extends React.Component {
   }
 
   render() {
-    const { animations, selectedAnimationIndex, selectedFrameIndex } = this.props;
+    const { collidersVisible, animations, selectedAnimationIndex, selectedFrameIndex } = this.props;
     var colliders = getColliders(animations, selectedAnimationIndex, selectedFrameIndex);
     return (
       <Group ref={node => this.collidersGroup = node}>
         {
+          collidersVisible &&
           colliders.map((collider, index) => (
             <Rect
               key={collider._id}
@@ -108,6 +111,7 @@ function mapStateToProps(state) {
     animations: state['animation'].get('animations'),
     selectedAnimationIndex: state['selection'].get('selectedAnimationIndex'),
     selectedFrameIndex: state['selection'].get('selectedFrameIndex'),
+    collidersVisible: state['ui'].get('collidersVisible'),
   };
 }
 

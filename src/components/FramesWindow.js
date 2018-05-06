@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {setSelectedFrameIndex, setSelectedItemId} from '../ducks/selection';
 import {newFrame} from '../ducks/animation';
+import {showFrames, hideFrames} from '../ducks/ui';
 
 import Window from './Window';
 import WindowItemList from './WindowItemList';
+import WindowToolsRow from './WindowToolsRow';
 
 export class FramesWindow extends React.Component {
   static propTypes = {
@@ -15,6 +17,9 @@ export class FramesWindow extends React.Component {
     setSelectedFrameIndex: PropTypes.func,
     setSelectedItemId: PropTypes.func,
     newFrame: PropTypes.func,
+    framesVisible: PropTypes.bool,
+    showFrames: PropTypes.func,
+    hideFrames: PropTypes.func,
   };
 
   get frames() {
@@ -52,12 +57,20 @@ export class FramesWindow extends React.Component {
   render() {
     const {
       selectedFrameIndex,
+      framesVisible,
+      showFrames,
+      hideFrames,
     } = this.props;
     return (
       <Window
         title="Frames"
         titleButtonAction={this.createNewFrame}
       >
+        <WindowToolsRow
+          visibility={true}
+          visibilityValue={framesVisible}
+          onClick={() => framesVisible ?  hideFrames() : showFrames()}
+        />
         <WindowItemList
           items={this.frames}
           itemName={(index, name) => `Frame ${index}`}
@@ -74,6 +87,7 @@ function mapStateToProps(state) {
     animations: state['animation'].get('animations'),
     selectedAnimationIndex: state['selection'].get('selectedAnimationIndex'),
     selectedFrameIndex: state['selection'].get('selectedFrameIndex'),
+    framesVisible: state['ui'].get('framesVisible'),
   };
 }
 
@@ -81,6 +95,8 @@ const mapDispatchToProps = {
   setSelectedFrameIndex,
   setSelectedItemId,
   newFrame,
+  showFrames,
+  hideFrames,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FramesWindow);
