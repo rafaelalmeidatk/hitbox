@@ -46,8 +46,7 @@ class CollidersGroup extends React.Component {
     const { selectedAnimationIndex, selectedFrameIndex } = this.props;
     const { attrs: { x, y, width, height } } = args.target;
 
-    console.log('l', this.props.scale);
-
+    // TODO: we need a better way to handle the scale
     const newX = x - this.state.dragAbsoluteX;// * this.props.scale;
     const newY = y - this.state.dragAbsoluteY;// * this.props.scale;
 
