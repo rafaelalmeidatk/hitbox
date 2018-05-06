@@ -11,6 +11,7 @@ import colors from '../colors';
 class CollidersGroup extends React.Component {
   static propTypes = {
     animations: PropTypes.object,
+    scale: PropTypes.number,
     selectedAnimationIndex: PropTypes.number,
     selectedFrameIndex: PropTypes.number,
 
@@ -19,22 +20,61 @@ class CollidersGroup extends React.Component {
     setColliderRect: PropTypes.func,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      dragAbsoluteX: null,
+      dragAbsoluteY: null,
+    };
+  }
+
   handleColliderClick = (colliderId, colliderIndex) => {
     this.props.setSelectedItemId(colliderId);
     this.props.setSelectedColliderIndex(colliderIndex);
   }
 
-  handleColliderDrag = (colliderIndex, args) => {
+  handleColliderMouseDown = (args) => {
+    const { attrs: { x, y } } = args.target;
+    this.setState({
+      dragAbsoluteX: x,
+      dragAbsoluteY: y,
+    });
+  }
+
+  handleColliderDrag = (colliderIndex, colliderRect, args) => {
     if (!args.target) return;
     const { selectedAnimationIndex, selectedFrameIndex } = this.props;
     const { attrs: { x, y, width, height } } = args.target;
 
+    console.log('l', this.props.scale);
+
+    const newX = x - this.state.dragAbsoluteX;// * this.props.scale;
+    const newY = y - this.state.dragAbsoluteY;// * this.props.scale;
+
+    this.setState({
+      dragAbsoluteX: x,
+      dragAbsoluteY: y,
+    });
     this.props.setColliderRect(selectedAnimationIndex, selectedFrameIndex, colliderIndex, {
-      x: Math.floor(x),
-      y: Math.floor(y),
+      x: colliderRect.x + Math.floor(newX),
+      y: colliderRect.y + Math.floor(newY),
       width: Math.floor(width),
       height: Math.floor(height),
     });
+  }
+
+  calculateColliderX = (colliderRect) => {
+    const { selectedAnimationIndex, selectedFrameIndex } = this.props;
+    const frame = this.props.animations.getIn([selectedAnimationIndex, 'frames', selectedFrameIndex]);
+    const sourceRect = frame.get('sourceRect');
+    return sourceRect.get('x') + (sourceRect.get('width') - colliderRect.width) / 2 + colliderRect.x;
+  }
+
+  calculateColliderY = (colliderRect) => {
+    const { selectedAnimationIndex, selectedFrameIndex } = this.props;
+    const frame = this.props.animations.getIn([selectedAnimationIndex, 'frames', selectedFrameIndex]);
+    const sourceRect = frame.get('sourceRect');
+    return sourceRect.get('y') + (sourceRect.get('height') - colliderRect.height) / 2 + colliderRect.y;
   }
 
   render() {
@@ -46,16 +86,16 @@ class CollidersGroup extends React.Component {
           colliders.map((collider, index) => (
             <Rect
               key={collider._id}
-              x={collider.rect.x}
-              y={collider.rect.y}
+              x={this.calculateColliderX(collider.rect)}
+              y={this.calculateColliderY(collider.rect)}
               width={collider.rect.width}
               height={collider.rect.height}
               fill={colors.colliderRect}
               draggable={true}
+              dragDistance={0}
               onClick={() => this.handleColliderClick(collider._id, index)}
-              onDragStart={(args) => this.handleColliderDrag(index, args)}
-              onDragMove={(args) => this.handleColliderDrag(index, args)}
-              onDragEnd={(args) => this.handleColliderDrag(index, args)}
+              onMouseDown={(args) => this.handleColliderMouseDown(args)}
+              onDragMove={(args) => this.handleColliderDrag(index, collider.rect, args)}   
             />
           ))
         }

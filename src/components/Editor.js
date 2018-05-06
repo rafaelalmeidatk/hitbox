@@ -12,6 +12,13 @@ export default class Editor extends React.Component {
     animations: PropTypes.object,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      layerScale: 1,
+    };
+  }
+
   componentDidMount() {
     // Remove AA
     const context = this.mainLayer.getContext()._context;
@@ -74,6 +81,8 @@ export default class Editor extends React.Component {
     };
     layer.position(newPos);
     stage.batchDraw();
+
+    this.setState({ layerScale: newScale });
   }
 
   render() {
@@ -94,7 +103,7 @@ export default class Editor extends React.Component {
           />
 
           <FramesGroup />
-          <CollidersGroup />
+          <CollidersGroup scale={this.state.layerScale} />
 
           <Group ref={node => this.boxesGroup = node} />
         </Layer>
