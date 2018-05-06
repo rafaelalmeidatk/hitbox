@@ -28,10 +28,10 @@ class FramesGroup extends React.Component {
     const { attrs: { x, y, width, height } } = args.target;
 
     this.props.setFrameSourceRect(selectedAnimationIndex, frameIndex, {
-      x,
-      y,
-      width,
-      height,
+      x: Math.floor(x),
+      y: Math.floor(y),
+      width: Math.floor(width),
+      height: Math.floor(height),
     });
   }
 
