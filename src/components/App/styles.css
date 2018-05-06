@@ -63,12 +63,12 @@ h1 {
 }
 
 .window .icon, .window .icon svg, .window .icon path {
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .window h1 {
   font-weight: bold;
-  font-size:1.7em;
+  font-size: 1.7em;
 }
 
 /*
@@ -76,12 +76,12 @@ h1 {
  */
 
 .window-item-list {
-  margin-top:10px;
+  margin-top: 10px;
 }
 
-.window-item-list li {
+.window-item-list li, .properties-list li {
   padding: 5px;
-  margin:3px 0;
+  margin: 3px 0;
 }
 
 .window-item-list li.selected {
@@ -124,6 +124,6 @@ h1 {
 }
 
 .window-tools-icon:hover {
-  cursor:pointer;
-  background-color:gray;
+  cursor: pointer;
+  background-color: gray;
 }
