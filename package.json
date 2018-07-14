@@ -1,10 +1,10 @@
 {
-  "name": "animation-editor",
-  "version": "0.1.0",
+  "name": "hitbox",
+  "version": "0.0.1",
   "author": "Rafael Almeida",
   "license": "MIT",
   "main": "public/electron.js",
-  "homepage": "./",
+  "homepage": "https://github.com/rafaelalmeidatk/animation-editor",
   "dependencies": {
     "classnames": "^2.2.5",
     "electron-is-dev": "^0.3.0",
