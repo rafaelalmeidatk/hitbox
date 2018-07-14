@@ -1,4 +1,9 @@
 {
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true
+  },
   "plugins": ["react"],
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "rules": {
@@ -9,5 +14,7 @@
     "prefer-const": ["warn"],
     "comma-dangle": ["error", "always-multiline"],
     "react/prefer-stateless-function": ["warn"],
+
+    "strict": 0
   }
 }
