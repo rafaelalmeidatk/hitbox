@@ -13,8 +13,18 @@
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "prefer-const": ["warn"],
     "comma-dangle": ["error", "always-multiline"],
-    "react/prefer-stateless-function": ["warn"],
-
-    "strict": 0
-  }
+    "react/prefer-stateless-function": ["warn"]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.js"
+      ],
+      "env": {
+        "browser": true,
+        "node": true,
+        "jest": true
+      }
+    }
+  ]
 }
