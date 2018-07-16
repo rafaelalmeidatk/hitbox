@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from '@blueprintjs/core';
 import Editor from '../Editor';
-import Window from '../Window';
+import AnimationsWindow from '../AnimationsWindow';
 import 'reset-css';
 import './styles.css';
 
@@ -22,7 +22,7 @@ class App extends Component {
         {!isTest && <Editor ref={node => (this.editor = node)} />}
 
         <div className="ui-overlay">
-          <Window title="Animations" />
+          <AnimationsWindow onImageChange={this.handleImageChange} />
         </div>
       </div>
     );

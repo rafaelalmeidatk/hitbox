@@ -7,6 +7,7 @@
   "homepage": "https://github.com/rafaelalmeidatk/animation-editor",
   "dependencies": {
     "@blueprintjs/core": "^3.0.1",
+    "@blueprintjs/icons": "^3.0.0",
     "classnames": "^2.2.5",
     "electron-is-dev": "^0.3.0",
     "file-system": "^2.2.2",

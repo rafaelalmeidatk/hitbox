@@ -60,6 +60,12 @@ h1 {
 .window .title {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.window .title .bp3-heading {
+  margin-bottom: 0;
 }
 
 .window .icon {
@@ -69,11 +75,6 @@ h1 {
 
 .window .icon, .window .icon svg, .window .icon path {
   cursor: pointer;
-}
-
-.window h1 {
-  font-weight: bold;
-  font-size: 1.7em;
 }
 
 /*
