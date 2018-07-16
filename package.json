@@ -6,6 +6,7 @@
   "main": "public/electron.js",
   "homepage": "https://github.com/rafaelalmeidatk/animation-editor",
   "dependencies": {
+    "@blueprintjs/core": "^3.0.1",
     "classnames": "^2.2.5",
     "electron-is-dev": "^0.3.0",
     "file-system": "^2.2.2",
@@ -13,8 +14,8 @@
     "immutable": "^3.8.2",
     "konva": "^1.7.6",
     "prop-types": "^15.6.1",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
     "react-icons": "^2.2.7",
     "react-konva": "^1.6.4",
     "react-redux": "^5.0.7",

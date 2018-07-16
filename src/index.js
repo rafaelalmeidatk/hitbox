@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'normalize.css/normalize.css';
+import '@blueprintjs/core/lib/css/blueprint.css';
+import { Provider } from 'react-redux';
 import createStore from './store';
-import {Provider} from 'react-redux';
 import './index.css';
 import App from './components/App/App';
 import registerServiceWorker from './registerServiceWorker';
@@ -34,8 +36,12 @@ store.dispatch(newFrame(1));
 store.dispatch(newCollider(0, 0));
 store.dispatch(setSelectedAnimationIndex(0));
 store.dispatch(setSelectedFrameIndex(0, 0));
-var id = store.getState()['animation'].get('animations').get(0).get('_id');
-store.dispatch(setSelectedItemId(id));
+/*var id = store
+  .getState()
+  ['animation'].get('animations')
+  .get(0)
+  .get('_id');
+store.dispatch(setSelectedItemId(id));*/
 
 ReactDOM.render(
   <Provider store={store}>
