@@ -4,22 +4,22 @@ import { Map } from 'immutable';
 const INITIAL_STATE = Map();
 
 // Actions
-const SET_SELECTED_ANIMATION_INDEX = 'animation-editor/selection/SET_SELECTED_ANIMATION_INDEX';
-const SET_SELECTED_FRAME_INDEX = 'animation-editor/selection/SET_SELECTED_FRAME_INDEX';
-const SET_SELECTED_COLLIDER_INDEX = 'animation-editor/selection/SET_SELECTED_COLLIDER_INDEX';
+const SET_SELECTED_ANIMATION_ID = 'animation-editor/selection/SET_SELECTED_ANIMATION_ID';
+const SET_SELECTED_FRAME_ID = 'animation-editor/selection/SET_SELECTED_FRAME_ID';
+const SET_SELECTED_COLLIDER_ID = 'animation-editor/selection/SET_SELECTED_COLLIDER_ID';
 const SET_SELECTED_ITEM_ID = 'animation-editor/selection/SET_SELECTED_ITEM_ID';
 
 // Reducer
 export default function reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
-    case SET_SELECTED_ANIMATION_INDEX:
-      return state.set('selectedAnimationIndex', action.index);
+    case SET_SELECTED_ANIMATION_ID:
+      return state.set('selectedAnimationId', action.id);
 
-    case SET_SELECTED_FRAME_INDEX:
-      return state.set('selectedFrameIndex', action.index);
+    case SET_SELECTED_FRAME_ID:
+      return state.set('selectedFrameId', action.id);
 
-    case SET_SELECTED_COLLIDER_INDEX:
-      return state.set('selectedColliderIndex', action.index);
+    case SET_SELECTED_COLLIDER_ID:
+      return state.set('selectedColliderId', action.id);
 
     case SET_SELECTED_ITEM_ID:
       return state.set('selectedItemId', action.id);
@@ -30,16 +30,16 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
 }
 
 // Action creators
-export function setSelectedAnimationIndex(index) {
-  return { type: SET_SELECTED_ANIMATION_INDEX, index };
+export function setSelectedAnimationId(id) {
+  return { type: SET_SELECTED_ANIMATION_ID, id };
 }
 
-export function setSelectedFrameIndex(index) {
-  return { type: SET_SELECTED_FRAME_INDEX, index };
+export function setSelectedFrameId(id) {
+  return { type: SET_SELECTED_FRAME_ID, id };
 }
 
-export function setSelectedColliderIndex(index) {
-  return { type: SET_SELECTED_COLLIDER_INDEX, index };
+export function setSelectedColliderId(id) {
+  return { type: SET_SELECTED_COLLIDER_ID, id };
 }
 
 export function setSelectedItemId(id) {
