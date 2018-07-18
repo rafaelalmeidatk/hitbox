@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ImageUploadButton from './ImageUploadButton';
-// import { setSelectedAnimationId, setSelectedItemId } from '../ducks/selection';
+import { setSelectedAnimationId, setSelectedItemId } from '../ducks/selection';
 import { newAnimation } from '../ducks/objects';
 
 import Window from './Window';
-//import WindowItemList from './WindowItemList';
+import WindowItemsList from './WindowItemsList';
 
 export class AnimationsWindow extends React.Component {
   static propTypes = {
@@ -30,15 +30,16 @@ export class AnimationsWindow extends React.Component {
 
   render() {
     const { selectedAnimationId, newAnimation } = this.props;
+    console.log('id', selectedAnimationId);
     return (
       <Window title="Animations" titleButtonAction={newAnimation}>
-        {/* <WindowItemList
+        <WindowItemsList
           items={this.animations}
           selectedId={selectedAnimationId}
-          onItemClick={(id) => this.handleOnItemClick(id)}
-        /> */}
+          onItemClick={id => this.handleOnItemClick(id)}
+        />
 
-        <ImageUploadButton onChange={this.props.onImageChange} />
+        {/* <ImageUploadButton onChange={this.props.onImageChange} /> */}
       </Window>
     );
   }
@@ -47,13 +48,13 @@ export class AnimationsWindow extends React.Component {
 function mapStateToProps(state) {
   return {
     animations: state['objects'].get('animations'),
-    // selectedAnimationId: state['selection'].get('selectedAnimationId'),
+    selectedAnimationId: state['selection'].get('selectedAnimationId'),
   };
 }
 
 const mapDispatchToProps = {
-  // setSelectedAnimationId,
-  // setSelectedItemId,
+  setSelectedAnimationId,
+  setSelectedItemId,
   newAnimation,
 };
 

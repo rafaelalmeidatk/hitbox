@@ -23,7 +23,7 @@ function fieldUpdater(props, field, value) {
 
 export default () =>
   Map({
-    _id: shortid.generate(),
+    id: shortid.generate(),
     _inspector: Map({
       editableFields: List.of(
         Map({

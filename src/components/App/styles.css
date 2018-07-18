@@ -2,7 +2,9 @@ html {
   box-sizing: border-box;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
@@ -18,7 +20,10 @@ body {
   cursor: default;
 }
 
-input, button, textarea, :focus {
+input,
+button,
+textarea,
+:focus {
   outline: none;
 }
 
@@ -68,48 +73,14 @@ h1 {
   margin-bottom: 0;
 }
 
-.window .icon {
-  display: flex;
-  align-items: center;
-}
-
-.window .icon, .window .icon svg, .window .icon path {
-  cursor: pointer;
-}
-
 /*
  * Window Item List
  */
-
-.window-item-list {
-  margin-top: 10px;
+.window-items-list {
 }
 
-.window-item-list li, .properties-list li {
-  padding: 5px;
-  margin: 3px 0;
-}
-
-.window-item-list li.selected {
-  background-color:#7e9dc5;
-}
-
-.window-item-list li:hover {
-  background-color:gray;
-  cursor:pointer;
-}
-
-.innerObject li {
-  display: flex;
-  align-items: center;
-}
-
-.innerObject li .label {
-  margin-right: 8px;
-  text-transform: capitalize;
-}
-
-.property input[type="text"], .property input[type="number"] {
+.property input[type='text'],
+.property input[type='number'] {
   width: 100%;
 }
 
