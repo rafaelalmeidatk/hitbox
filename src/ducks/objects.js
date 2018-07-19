@@ -35,25 +35,23 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
       const { animationId } = action;
       const animationIndex = state
         .get('animations')
-        .findIndex(animation => animation.get('_id') === animationId);
+        .findIndex(animation => animation.get('id') === animationId);
       if (!~animationIndex) throw new Error('The frame must specify a valid animation ID');
       const frame = createFrameModel();
       return state
         .update('frames', frames => frames.push(frame))
-        .updateIn(['animations', animationIndex, 'frames'], frames =>
-          frames.push(frame.get('_id'))
-        );
+        .updateIn(['animations', animationIndex, 'frames'], frames => frames.push(frame.get('id')));
     }
 
     case NEW_COLLIDER: {
       const { frameId } = action;
-      const frameIndex = state.get('frames').findIndex(frame => frame.get('_id') === frameId);
+      const frameIndex = state.get('frames').findIndex(frame => frame.get('id') === frameId);
       if (!~frameIndex) throw new Error('The collider must specify a valid frame ID');
       const collider = createColliderModel();
       return state
         .update('colliders', colliders => colliders.push(collider))
         .updateIn(['frames', frameIndex, 'colliders'], colliders =>
-          colliders.push(collider.get('_id'))
+          colliders.push(collider.get('id'))
         );
     }
 

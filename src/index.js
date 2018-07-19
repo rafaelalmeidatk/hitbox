@@ -7,13 +7,16 @@ import createStore from './store';
 import './index.css';
 import App from './components/App/App';
 import registerServiceWorker from './registerServiceWorker';
-import { newAnimation } from './ducks/objects';
+import { newAnimation, newFrame } from './ducks/objects';
 import { setSelectedAnimationId, setSelectedFrameId, setSelectedItemId } from './ducks/selection';
 
 const store = createStore();
 store.dispatch(newAnimation());
 store.dispatch(newAnimation());
 store.dispatch(newAnimation());
+var id = store.getState()['objects'].getIn(['animations', 0, 'id']);
+store.dispatch(setSelectedAnimationId(id));
+store.dispatch(newFrame(id));
 // store.dispatch(newAnimation());
 // store.dispatch(newAnimation());
 // store.dispatch(newFrame(0));

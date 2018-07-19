@@ -8,7 +8,7 @@ import { newAnimation } from '../ducks/objects';
 import Window from './Window';
 import WindowItemsList from './WindowItemsList';
 
-export class AnimationsWindow extends React.Component {
+class AnimationsWindow extends React.Component {
   static propTypes = {
     animations: PropTypes.object,
     selectedAnimationId: PropTypes.string,
@@ -30,7 +30,6 @@ export class AnimationsWindow extends React.Component {
 
   render() {
     const { selectedAnimationId, newAnimation } = this.props;
-    console.log('id', selectedAnimationId);
     return (
       <Window title="Animations" titleButtonAction={newAnimation}>
         <WindowItemsList

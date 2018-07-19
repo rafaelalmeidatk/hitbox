@@ -37,6 +37,7 @@ export default () =>
       ),
       updater: fieldUpdater,
     }),
+    name: 'New Frame',
     sourceRect: Map({
       x: 0,
       y: 0,
