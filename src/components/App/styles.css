@@ -12,9 +12,9 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-:not(input):not(textarea),
-:not(input):not(textarea)::after,
-:not(input):not(textarea)::before {
+:not(input):not(textarea):not(button *),
+:not(input):not(textarea):not(button *)::after,
+:not(input):not(textarea):not(button *)::before {
   -webkit-user-select: none;
   user-select: none;
   cursor: default;
