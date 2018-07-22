@@ -32,6 +32,10 @@ class FramesWindow extends React.Component {
     return (currentFrames && currentFrames.valueSeq().toArray()) || [];
   }
 
+  get canCreateNewFrame() {
+    return !!this.props.selectedAnimationId;
+  }
+
   handleOnItemClick = id => {
     const { setSelectedFrameId } = this.props;
     setSelectedFrameId(id);
@@ -45,7 +49,11 @@ class FramesWindow extends React.Component {
   render() {
     const { selectedFrameId } = this.props;
     return (
-      <Window title="Frames" titleButtonAction={this.createNewFrame}>
+      <Window
+        title="Frames"
+        titleActionButton={this.createNewFrame}
+        titleActionButtonEnabled={this.canCreateNewFrame}
+      >
         <WindowItemsList
           items={this.frames}
           selectedId={selectedFrameId}

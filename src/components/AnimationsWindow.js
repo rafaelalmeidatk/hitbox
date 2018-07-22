@@ -31,7 +31,7 @@ class AnimationsWindow extends React.Component {
   render() {
     const { selectedAnimationId, newAnimation } = this.props;
     return (
-      <Window title="Animations" titleButtonAction={newAnimation}>
+      <Window title="Animations" titleActionButton={newAnimation}>
         <WindowItemsList
           items={this.animations}
           selectedId={selectedAnimationId}

@@ -35,6 +35,8 @@ h1 {
   position: absolute;
   top: 0;
   left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 .left-windows {
@@ -47,6 +49,7 @@ h1 {
 .right-windows {
   position: absolute;
   display: flex;
+  top: 0;
   right: 0;
   flex-direction: column;
   height: 100vh;

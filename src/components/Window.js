@@ -3,13 +3,18 @@ import PropTypes from 'prop-types';
 import { Card, Icon, Button } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 
-const Window = ({ title, titleButtonAction, children, ...props }) => (
+const Window = ({ title, titleActionButton, titleActionButtonEnabled, children, ...props }) => (
   <Card className="window" {...props}>
     <div className="title">
       <h4 className="bp3-heading">{title}</h4>
-      {titleButtonAction && (
+      {titleActionButton && (
         <span className="icon">
-          <Button onClick={titleButtonAction} icon={IconNames.PLUS} small />
+          <Button
+            onClick={titleActionButton}
+            icon={IconNames.PLUS}
+            small
+            disabled={!titleActionButtonEnabled}
+          />
         </span>
       )}
     </div>
@@ -19,8 +24,13 @@ const Window = ({ title, titleButtonAction, children, ...props }) => (
 
 Window.propTypes = {
   title: PropTypes.string,
-  titleButtonAction: PropTypes.func,
+  titleActionButton: PropTypes.func,
+  titleActionButtonEnabled: PropTypes.bool,
   children: PropTypes.node,
+};
+
+Window.defaultProps = {
+  titleActionButtonEnabled: true,
 };
 
 export default Window;
