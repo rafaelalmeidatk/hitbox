@@ -1,6 +1,9 @@
-import { List, Map, fromJS } from 'immutable';
 import shortid from 'shortid';
-import reducer, { setColliderName, setColliderType, setColliderRect } from '../ducks/animation';
+import reducer, {
+  setColliderName,
+  setColliderType,
+  setColliderRect,
+} from '../ducks/animation';
 
 function fieldUpdater(props, field, value) {
   const {
@@ -22,32 +25,31 @@ function fieldUpdater(props, field, value) {
   }
 }
 
-export default () =>
-  Map({
-    id: shortid.generate(),
-    _inspector: Map({
-      editableFields: List.of(
-        Map({
-          field: 'name',
-          displayName: 'Name',
-        }),
-        Map({
-          field: 'type',
-          displayName: 'Type',
-        }),
-        Map({
-          field: 'rect',
-          displayName: 'Rectangle',
-        })
-      ),
-      updater: fieldUpdater,
-    }),
-    name: 'New Collider',
-    type: 'NONE',
-    rect: Map({
-      x: 0,
-      y: 0,
-      width: 32,
-      height: 32,
-    }),
-  });
+export default () => ({
+  id: shortid.generate(),
+  _inspector: {
+    editableFields: [
+      {
+        field: 'name',
+        displayName: 'Name',
+      },
+      {
+        field: 'type',
+        displayName: 'Type',
+      },
+      {
+        field: 'rect',
+        displayName: 'Rectangle',
+      },
+    ],
+    updater: fieldUpdater,
+  },
+  name: 'New Collider',
+  type: 'NONE',
+  rect: {
+    x: 0,
+    y: 0,
+    width: 32,
+    height: 32,
+  },
+});

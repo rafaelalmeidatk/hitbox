@@ -1,14 +1,14 @@
-import { Map, List } from 'immutable';
+import { createReducer } from '@acemarke/redux-starter-kit';
 import createAnimationModel from '../models/animation';
 import createFrameModel from '../models/frame';
 import createColliderModel from '../models/collider';
 
 // Initial State
-const INITIAL_STATE = Map({
-  animations: List(),
-  frames: List(),
-  colliders: List(),
-});
+const INITIAL_STATE = {
+  animations: [],
+  frames: [],
+  colliders: [],
+};
 
 // Actions
 const NEW_ANIMATION = 'animation-editor/objects/NEW_ANIMATION';
@@ -26,39 +26,33 @@ const SET_FRAME_SOURCERECT = 'animation-editor/objects/SET_FRAME_SOURCERECT';
 const SET_FRAME_OFFSET = 'animation-editor/objects/SET_FRAME_OFFSET';
 
 // Reducer
-export default function reducer(state = INITIAL_STATE, action = {}) {
-  switch (action.type) {
-    case NEW_ANIMATION:
-      return state.update('animations', animations => animations.push(createAnimationModel()));
+export default createReducer(INITIAL_STATE, {
+  [NEW_ANIMATION]: (state, action) => {
+    state.animations.push(createAnimationModel());
+  },
 
-    case NEW_FRAME: {
-      const { animationId } = action;
-      const animationIndex = state
-        .get('animations')
-        .findIndex(animation => animation.get('id') === animationId);
-      if (!~animationIndex) throw new Error('The frame must specify a valid animation ID');
-      const frame = createFrameModel();
-      return state
-        .update('frames', frames => frames.push(frame))
-        .updateIn(['animations', animationIndex, 'frames'], frames => frames.push(frame.get('id')));
-    }
+  [NEW_FRAME]: (state, action) => {
+    const { animationId } = action;
+    const animation = state.animations.find(a => a.id === animationId);
+    if (!animation)
+      throw new Error('The frame must specify a valid animation ID');
 
-    case NEW_COLLIDER: {
-      const { frameId } = action;
-      const frameIndex = state.get('frames').findIndex(frame => frame.get('id') === frameId);
-      if (!~frameIndex) throw new Error('The collider must specify a valid frame ID');
-      const collider = createColliderModel();
-      return state
-        .update('colliders', colliders => colliders.push(collider))
-        .updateIn(['frames', frameIndex, 'colliders'], colliders =>
-          colliders.push(collider.get('id'))
-        );
-    }
+    const frame = createFrameModel();
+    state.frames.push(frame);
+    animation.frames.push(frame.id);
+  },
 
-    default:
-      return state;
-  }
-}
+  [NEW_COLLIDER]: (state, action) => {
+    const { frameId } = action;
+    const frame = state.frames.find(a => a.id === frameId);
+    if (!frame)
+      throw new Error('The collider must specify a valid frame ID');
+
+    const collider = createColliderModel();
+    state.colliders.push(collider);
+    frame.colliders.push(collider.id);
+  },
+});
 
 // Action creators
 export function newAnimation() {

@@ -14,7 +14,7 @@ const store = createStore();
 store.dispatch(newAnimation());
 store.dispatch(newAnimation());
 store.dispatch(newAnimation());
-var id = store.getState()['objects'].getIn(['animations', 0, 'id']);
+var id = store.getState()['objects']['animations'][0]['id'];
 store.dispatch(setSelectedAnimationId(id));
 store.dispatch(newFrame(id));
 // store.dispatch(newAnimation());
@@ -31,15 +31,16 @@ store.dispatch(newFrame(id));
 // store.dispatch(setSelectedAnimationIndex(0));
 // store.dispatch(setSelectedFrameIndex(0, 0));
 /*var id = store
-  .getState()
-  ['animation'].get('animations')
-  .get(0)
-  .get('_id');
+.getState()
+['animation'].get('animations')
+.get(0)
+.get('_id');
 store.dispatch(setSelectedItemId(id));*/
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <div></div>
+    {/* <App /> */}
   </Provider>,
   document.getElementById('root')
 );

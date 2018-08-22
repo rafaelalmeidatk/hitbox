@@ -1,4 +1,3 @@
-import { List, Map, fromJS } from 'immutable';
 import shortid from 'shortid';
 import reducer, {
   setAnimationName,
@@ -18,28 +17,27 @@ function fieldUpdater(props, field, value) {
   }
 }
 
-export default () =>
-  Map({
-    id: shortid.generate(),
-    _inspector: Map({
-      editableFields: List.of(
-        Map({
-          field: 'name',
-          displayName: 'Name',
-        }),
-        Map({
-          field: 'delay',
-          displayName: 'Delay',
-        }),
-        Map({
-          field: 'repeat',
-          displayName: 'Repeat',
-        })
-      ),
-      updater: fieldUpdater,
-    }),
-    name: 'New Animation',
-    delay: 0,
-    repeat: false,
-    frames: List(),
-  });
+export default () => ({
+  id: shortid.generate(),
+  _inspector: {
+    editableFields: [
+      {
+        field: 'name',
+        displayName: 'Name',
+      },
+      {
+        field: 'delay',
+        displayName: 'Delay',
+      },
+      {
+        field: 'repeat',
+        displayName: 'Repeat',
+      },
+    ],
+    updater: fieldUpdater,
+  },
+  name: 'New Animation',
+  delay: 0,
+  repeat: false,
+  frames: [],
+});
