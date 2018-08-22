@@ -8,12 +8,12 @@ const WindowItemsList = ({ items, itemName, selectedId, onItemClick }) => (
     <ButtonGroup vertical fill>
       {items.map((item, index) => (
         <Button
-          key={item.get('id')}
-          active={selectedId === item.get('id')}
-          onClick={() => onItemClick(item.get('id'))}
+          key={item.id}
+          active={selectedId === item.id}
+          onClick={() => onItemClick(item.id)}
           alignText={Alignment.LEFT}
         >
-          {itemName ? itemName(index, item.get('name')) : `${index + 1}. ${item.get('name')}`}
+          {itemName ? itemName(index, item.name) : `${index + 1}. ${item.name}`}
         </Button>
       ))}
     </ButtonGroup>

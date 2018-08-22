@@ -10,8 +10,8 @@ import WindowItemsList from './WindowItemsList';
 
 class FramesWindow extends React.Component {
   static propTypes = {
-    animations: PropTypes.object,
-    frames: PropTypes.object,
+    animations: PropTypes.array,
+    frames: PropTypes.array,
     selectedAnimationId: PropTypes.string,
     selectedFrameId: PropTypes.string,
     setSelectedFrameId: PropTypes.func,
@@ -25,11 +25,10 @@ class FramesWindow extends React.Component {
     const { animations, selectedAnimationId, frames } = this.props;
     if (!animations || !selectedAnimationId) return [];
     const currentFrames = animations
-      .find(anim => anim.get('id') === selectedAnimationId)
-      .get('frames')
-      .map(frameId => frames.find(frame => frame.get('id') === frameId));
+      .find(anim => anim.id === selectedAnimationId)
+      .frames.map(frameId => frames.find(frame => frame.id === frameId));
 
-    return (currentFrames && currentFrames.valueSeq().toArray()) || [];
+    return currentFrames || [];
   }
 
   get canCreateNewFrame() {
@@ -68,10 +67,10 @@ class FramesWindow extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    animations: state['objects'].get('animations'),
-    frames: state['objects'].get('frames'),
-    selectedAnimationId: state['selection'].get('selectedAnimationId'),
-    selectedFrameId: state['selection'].get('selectedFrameId'),
+    animations: state['objects'].animations,
+    frames: state['objects'].frames,
+    selectedAnimationId: state['selection'].selectedAnimationId,
+    selectedFrameId: state['selection'].selectedFrameId,
   };
 }
 

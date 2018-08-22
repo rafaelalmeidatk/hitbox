@@ -9,8 +9,8 @@ import WindowItemsList from './WindowItemsList';
 
 class CollidersWindow extends React.Component {
   static propTypes = {
-    frames: PropTypes.object,
-    colliders: PropTypes.object,
+    frames: PropTypes.array,
+    colliders: PropTypes.array,
     selectedFrameId: PropTypes.string,
     selectedColliderId: PropTypes.string,
     setSelectedColliderId: PropTypes.func,
@@ -24,11 +24,12 @@ class CollidersWindow extends React.Component {
     const { frames, selectedFrameId, colliders } = this.props;
     if (!colliders || !selectedFrameId) return [];
     const currentColliders = frames
-      .find(frame => frame.get('id') === selectedFrameId)
-      .get('colliders')
-      .map(colliderId => colliders.find(collider => collider.get('id') === colliderId));
+      .find(frame => frame.id === selectedFrameId)
+      .colliders.map(colliderId =>
+        colliders.find(collider => collider.id === colliderId)
+      );
 
-    return (currentColliders && currentColliders.valueSeq().toArray()) || [];
+    return currentColliders || [];
   }
 
   get canCreateNewCollider() {
@@ -65,10 +66,10 @@ class CollidersWindow extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    frames: state['objects'].get('frames'),
-    colliders: state['objects'].get('colliders'),
-    selectedFrameId: state['selection'].get('selectedFrameId'),
-    selectedColliderId: state['selection'].get('selectedColliderId'),
+    frames: state['objects'].frames,
+    colliders: state['objects'].colliders,
+    selectedFrameId: state['selection'].selectedFrameId,
+    selectedColliderId: state['selection'].selectedColliderId,
   };
 }
 

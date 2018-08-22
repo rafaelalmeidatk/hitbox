@@ -39,8 +39,7 @@ store.dispatch(setSelectedItemId(id));*/
 
 ReactDOM.render(
   <Provider store={store}>
-    <div></div>
-    {/* <App /> */}
+    <App />
   </Provider>,
   document.getElementById('root')
 );

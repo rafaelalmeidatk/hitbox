@@ -10,7 +10,7 @@ import WindowItemsList from './WindowItemsList';
 
 class AnimationsWindow extends React.Component {
   static propTypes = {
-    animations: PropTypes.object,
+    animations: PropTypes.array,
     selectedAnimationId: PropTypes.string,
     setSelectedAnimationId: PropTypes.func,
     newAnimation: PropTypes.func,
@@ -20,7 +20,7 @@ class AnimationsWindow extends React.Component {
   };
 
   get animations() {
-    return (this.props.animations && this.props.animations.valueSeq().toArray()) || [];
+    return this.props.animations || [];
   }
 
   handleOnItemClick = id => {
@@ -30,6 +30,7 @@ class AnimationsWindow extends React.Component {
 
   render() {
     const { selectedAnimationId, newAnimation } = this.props;
+
     return (
       <Window title="Animations" titleActionButton={newAnimation}>
         <WindowItemsList
@@ -46,8 +47,8 @@ class AnimationsWindow extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    animations: state['objects'].get('animations'),
-    selectedAnimationId: state['selection'].get('selectedAnimationId'),
+    animations: state['objects'].animations,
+    selectedAnimationId: state['selection'].selectedAnimationId,
   };
 }
 
