@@ -6,6 +6,7 @@
   "main": "public/electron.js",
   "homepage": "https://github.com/rafaelalmeidatk/animation-editor",
   "dependencies": {
+    "@acemarke/redux-starter-kit": "^0.0.6",
     "@blueprintjs/core": "^3.0.1",
     "@blueprintjs/icons": "^3.0.0",
     "classnames": "^2.2.5",
