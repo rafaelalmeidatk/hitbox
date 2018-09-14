@@ -16,9 +16,8 @@ class InspectorItemPropertiesList extends Component {
     return getInspectorEditableFields(item);
   }
 
-  handleChange = (e, field) => {
+  handleChange = (newValue, field) => {
     const { item, dispatch } = this.props;
-    const newValue = e.target.value;
     const updater = getUpdater(item);
     const action = updater({ id: item.id }, field, newValue);
     dispatch(action);

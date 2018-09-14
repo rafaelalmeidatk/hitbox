@@ -9,17 +9,35 @@ export default class InspectorItemPropertyInput extends React.Component {
 
   textInput = value => {
     const { onChange } = this.props;
-    return <input type="text" value={value} onChange={onChange} />;
+    return (
+      <input
+        type="text"
+        value={value}
+        onChange={e => onChange(e.target.value)}
+      />
+    );
   };
 
   numberInput = value => {
     const { onChange } = this.props;
-    return <input type="number" value={value} onChange={onChange} />;
+    return (
+      <input
+        type="number"
+        value={value}
+        onChange={e => onChange(parseInt(e.target.value))}
+      />
+    );
   };
 
   booleanInput = value => {
     const { onChange } = this.props;
-    return <input type="checkbox" checked={value} onChange={onChange} />;
+    return (
+      <input
+        type="checkbox"
+        checked={value}
+        onChange={e => onChange(e.target.checked)}
+      />
+    );
   };
 
   inputForProperty = property => {
