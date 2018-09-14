@@ -1,8 +1,8 @@
 import shortid from 'shortid';
 import reducer, {
   setAnimationName,
-  // setAnimationDelay,
-  // setAnimationRepeat,
+  setAnimationDelay,
+  setAnimationRepeat,
 } from '../ducks/objects';
 
 function fieldUpdater(props, field, value) {
@@ -10,10 +10,10 @@ function fieldUpdater(props, field, value) {
   switch (field) {
     case 'name':
       return setAnimationName(id, value);
-    // case 'delay':
-    //   return setAnimationDelay(id, value);
-    // case 'repeat':
-    //   return setAnimationRepeat(id, value);
+    case 'delay':
+      return setAnimationDelay(id, value);
+    case 'repeat':
+      return setAnimationRepeat(id, value);
   }
 }
 
