@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import InspectorItemPropertyInput from './InspectorItemPropertyInput';
 import { getInspectorEditableFields, getUpdater } from '../inspector';
 
-export default class InspectorItemPropertiesList extends Component {
+class InspectorItemPropertiesList extends Component {
   static propTypes = {
     item: PropTypes.object,
+    dispatch: PropTypes.func,
   };
 
   get inspectorFields() {
@@ -13,11 +16,13 @@ export default class InspectorItemPropertiesList extends Component {
     return getInspectorEditableFields(item);
   }
 
-  handleChange = (e) => {
-    const { item } = this.props;
+  handleChange = (e, field) => {
+    const { item, dispatch } = this.props;
+    const newValue = e.target.value;
     const updater = getUpdater(item);
-    console.log('update', updater);
-  }
+    const action = updater({ id: item.id }, field, newValue);
+    dispatch(action);
+  };
 
   render() {
     const { item } = this.props;
@@ -28,7 +33,7 @@ export default class InspectorItemPropertiesList extends Component {
             <div className="label">{field.displayName}</div>
             <InspectorItemPropertyInput
               property={item[field.fieldKey]}
-              onChange={this.handleChange}
+              onChange={e => this.handleChange(e, field.fieldKey)}
             />
           </li>
         ))}
@@ -36,3 +41,5 @@ export default class InspectorItemPropertiesList extends Component {
     );
   }
 }
+
+export default connect()(InspectorItemPropertiesList);

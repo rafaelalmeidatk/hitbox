@@ -31,6 +31,11 @@ export default createReducer(INITIAL_STATE, {
     state.animations.push(createAnimationModel());
   },
 
+  [SET_ANIMATION_NAME]: (state, action) => {
+    const index = state.animations.findIndex(a => a.id === action.id);
+    state.animations[index].name = action.name;
+  },
+
   [NEW_FRAME]: (state, action) => {
     const { animationId } = action;
     const animation = state.animations.find(a => a.id === animationId);
@@ -45,8 +50,7 @@ export default createReducer(INITIAL_STATE, {
   [NEW_COLLIDER]: (state, action) => {
     const { frameId } = action;
     const frame = state.frames.find(a => a.id === frameId);
-    if (!frame)
-      throw new Error('The collider must specify a valid frame ID');
+    if (!frame) throw new Error('The collider must specify a valid frame ID');
 
     const collider = createColliderModel();
     state.colliders.push(collider);
@@ -57,6 +61,10 @@ export default createReducer(INITIAL_STATE, {
 // Action creators
 export function newAnimation() {
   return { type: NEW_ANIMATION };
+}
+
+export function setAnimationName(id, name) {
+  return { type: SET_ANIMATION_NAME, id, name };
 }
 
 export function newFrame(animationId) {

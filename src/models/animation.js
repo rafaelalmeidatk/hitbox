@@ -1,19 +1,19 @@
 import shortid from 'shortid';
 import reducer, {
   setAnimationName,
-  setAnimationDelay,
-  setAnimationRepeat,
-} from '../ducks/animation';
+  // setAnimationDelay,
+  // setAnimationRepeat,
+} from '../ducks/objects';
 
 function fieldUpdater(props, field, value) {
-  const { animationIndex } = props;
+  const { id } = props;
   switch (field) {
     case 'name':
-      return setAnimationName(animationIndex, value);
-    case 'delay':
-      return setAnimationDelay(animationIndex, value);
-    case 'repeat':
-      return setAnimationRepeat(animationIndex, value);
+      return setAnimationName(id, value);
+    // case 'delay':
+    //   return setAnimationDelay(id, value);
+    // case 'repeat':
+    //   return setAnimationRepeat(id, value);
   }
 }
 
