@@ -22,15 +22,15 @@ export default () => ({
   _inspector: {
     editableFields: [
       {
-        field: 'name',
+        fieldKey: 'name',
         displayName: 'Name',
       },
       {
-        field: 'delay',
+        fieldKey: 'delay',
         displayName: 'Delay',
       },
       {
-        field: 'repeat',
+        fieldKey: 'repeat',
         displayName: 'Repeat',
       },
     ],

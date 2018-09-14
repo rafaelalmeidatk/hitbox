@@ -28,11 +28,11 @@ export default () => ({
   _inspector: {
     editableFields: [
       {
-        field: 'sourceRect',
+        fieldKey: 'sourceRect',
         displayName: 'Rectangle',
       },
       {
-        field: 'offset',
+        fieldKey: 'offset',
         displayName: 'Offset',
       },
     ],

@@ -13,14 +13,17 @@ const SET_SELECTED_ITEM_ID = 'animation-editor/selection/SET_SELECTED_ITEM_ID';
 export default createReducer(INITIAL_STATE, {
   [SET_SELECTED_ANIMATION_ID]: (state, action) => {
     state.selectedAnimationId = action.id;
+    state.selectedItemId = action.id;
   },
 
   [SET_SELECTED_FRAME_ID]: (state, action) => {
     state.selectedFrameId = action.id;
+    state.selectedItemId = action.id;
   },
 
   [SET_SELECTED_COLLIDER_ID]: (state, action) => {
     state.selectedColliderId = action.id;
+    state.selectedItemId = action.id;
   },
 
   [SET_SELECTED_ITEM_ID]: (state, action) => {

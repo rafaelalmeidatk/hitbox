@@ -30,15 +30,15 @@ export default () => ({
   _inspector: {
     editableFields: [
       {
-        field: 'name',
+        fieldKey: 'name',
         displayName: 'Name',
       },
       {
-        field: 'type',
+        fieldKey: 'type',
         displayName: 'Type',
       },
       {
-        field: 'rect',
+        fieldKey: 'rect',
         displayName: 'Rectangle',
       },
     ],

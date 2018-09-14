@@ -4,6 +4,7 @@ import Editor from '../Editor';
 import AnimationsWindow from '../AnimationsWindow';
 import FramesWindow from '../FramesWindow';
 import CollidersWindow from '../CollidersWindow';
+import InspectorWindow from '../InspectorWindow';
 import 'reset-css';
 import './styles.css';
 
@@ -28,6 +29,7 @@ class App extends Component {
           <FramesWindow />
           <div className="right-windows">
             <CollidersWindow />
+            <InspectorWindow />
           </div>
         </div>
       </div>
