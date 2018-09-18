@@ -50,7 +50,6 @@ export default createReducer(INITIAL_STATE, {
     const index = findIndexById(state.animations, action.id);
     state.animations[index].repeat = action.repeat;
   },
-  
 
   [NEW_FRAME]: (state, action) => {
     const { animationId } = action;
@@ -61,6 +60,16 @@ export default createReducer(INITIAL_STATE, {
     const frame = createFrameModel();
     state.frames.push(frame);
     animation.frames.push(frame.id);
+  },
+
+  [SET_FRAME_SOURCERECT]: (state, action) => {
+    const index = findIndexById(state.frames, action.id);
+    state.frames[index].sourceRect = action.sourceRect;
+  },
+
+  [SET_FRAME_OFFSET]: (state, action) => {
+    const index = findIndexById(state.frames, action.id);
+    state.frames[index].offset = action.offset;
   },
 
   [NEW_COLLIDER]: (state, action) => {
@@ -81,6 +90,11 @@ export default createReducer(INITIAL_STATE, {
   [SET_COLLIDER_TYPE]: (state, action) => {
     const index = findIndexById(state.colliders, action.id);
     state.colliders[index].type = action.colliderType;
+  },
+
+  [SET_COLLIDER_RECT]: (state, action) => {
+    const index = findIndexById(state.colliders, action.id);
+    state.colliders[index].rect = action.rect;
   },
 });
 
@@ -105,6 +119,14 @@ export function newFrame(animationId) {
   return { type: NEW_FRAME, animationId };
 }
 
+export function setFrameSourceRect(id, sourceRect) {
+  return { type: SET_FRAME_SOURCERECT, id, sourceRect };
+}
+
+export function setFrameOffset(id, offset) {
+  return { type: SET_FRAME_OFFSET, id, offset };
+}
+
 export function newCollider(frameId) {
   return { type: NEW_COLLIDER, frameId };
 }
@@ -117,17 +139,6 @@ export function setColliderType(id, type) {
   return { type: SET_COLLIDER_TYPE, id, colliderType: type };
 }
 
-/*
-
-export function setFrameSourceRect(animationIndex, frameIndex, sourceRect) {
-  return { type: SET_FRAME_SOURCERECT, animationIndex, frameIndex, sourceRect };
+export function setColliderRect(id, rect) {
+  return { type: SET_COLLIDER_RECT, id, rect };
 }
-
-export function setFrameOffset(animationIndex, frameIndex, offset) {
-  return { type: SET_FRAME_OFFSET, animationIndex, frameIndex, offset };
-}
-
-export function setColliderRect(animationIndex, frameIndex, colliderIndex, rect) {
-  return { type: SET_COLLIDER_RECT, animationIndex, frameIndex, colliderIndex, rect };
-}
-/**/

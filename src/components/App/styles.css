@@ -107,3 +107,21 @@ h1 {
   cursor: pointer;
   background-color: gray;
 }
+
+/*
+ * Inner objects
+ */
+
+.innerObject li {
+  display: flex;
+  align-items: center;
+}
+
+.innerObject li .label {
+  margin-right: 8px;
+  text-transform: capitalize;
+}
+
+.property input[type="text"], .property input[type="number"] {
+  width: 100%;
+}

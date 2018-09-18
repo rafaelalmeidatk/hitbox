@@ -1,24 +1,26 @@
 import shortid from 'shortid';
-import reducer, {
-  setFrameSourceRect,
-  setFrameOffset,
-} from '../ducks/animation';
+import reducer, { setFrameSourceRect, setFrameOffset } from '../ducks/objects';
 
 function fieldUpdater(props, field, value) {
   const {
-    animationIndex,
-    frameIndex,
+    id,
     property,
     data: { innerField },
   } = props;
   switch (field) {
     case 'sourceRect': {
-      const sourceRect = property.set(innerField, value);
-      return setFrameSourceRect(animationIndex, frameIndex, sourceRect);
+      const sourceRect = {
+        ...property,
+        [innerField]: value,
+      };
+      return setFrameSourceRect(id, sourceRect);
     }
     case 'offset': {
-      const offset = property.set(innerField, value);
-      return setFrameOffset(animationIndex, frameIndex, offset);
+      const offset = {
+        ...property,
+        [innerField]: value,
+      };
+      return setFrameOffset(id, offset);
     }
   }
 }

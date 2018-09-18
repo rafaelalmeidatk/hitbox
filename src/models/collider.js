@@ -2,20 +2,27 @@ import shortid from 'shortid';
 import reducer, {
   setColliderName,
   setColliderType,
-  // setColliderRect,
+  setColliderRect,
 } from '../ducks/objects';
 
 function fieldUpdater(props, field, value) {
-  const { id } = props;
+  const {
+    id,
+    property,
+    data: { innerField },
+  } = props;
   switch (field) {
     case 'name':
       return setColliderName(id, value);
     case 'type':
       return setColliderType(id, value);
-    // case 'rect': {
-    //   const rect = property.set(innerField, value);
-    //   return setColliderRect(animationIndex, frameIndex, colliderIndex, rect);
-    // }
+    case 'rect': {
+      const rect = {
+        ...property,
+        [innerField]: value,
+      };
+      return setColliderRect(id, rect);
+    }
   }
 }
 

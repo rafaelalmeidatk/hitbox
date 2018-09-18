@@ -16,10 +16,18 @@ class InspectorItemPropertiesList extends Component {
     return getInspectorEditableFields(item);
   }
 
-  handleChange = (newValue, field) => {
+  handleChange = (newValue, field, data) => {
     const { item, dispatch } = this.props;
+
+    const property = item[field];
+    const props = {
+      id: item.id,
+      property,
+      data,
+    };
+
     const updater = getUpdater(item);
-    const action = updater({ id: item.id }, field, newValue);
+    const action = updater(props, field, newValue);
     dispatch(action);
   };
 
@@ -32,7 +40,9 @@ class InspectorItemPropertiesList extends Component {
             <div className="label">{field.displayName}</div>
             <InspectorItemPropertyInput
               property={item[field.fieldKey]}
-              onChange={e => this.handleChange(e, field.fieldKey)}
+              onChange={(value, data) =>
+                this.handleChange(value, field.fieldKey, data)
+              }
             />
           </li>
         ))}
