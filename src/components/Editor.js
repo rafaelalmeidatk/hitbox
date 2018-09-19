@@ -5,6 +5,7 @@ import { Group, Layer, Stage } from 'react-konva';
 import GridLayer from './GridLayer';
 import SpriteImage from './SpriteImage';
 import FramesLayer from './FramesLayer';
+import CollidersLayer from './CollidersLayer';
 
 export default class Editor extends React.Component {
   static propTypes = {
@@ -98,6 +99,7 @@ export default class Editor extends React.Component {
           <SpriteImage ref={node => (this.sprite = node)} onImageLoaded={this.handleImageLoaded} />
 
           <FramesLayer />
+          <CollidersLayer />
 
           <Group ref={node => (this.boxesGroup = node)} />
         </Layer>
