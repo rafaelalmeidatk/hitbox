@@ -39,10 +39,10 @@ class CollidersLayer extends React.Component {
     } = args.target;
 
     this.props.setColliderRect(colliderId, {
-      x,
-      y,
-      width,
-      height,
+      x: Math.floor(x),
+      y: Math.floor(y),
+      width: Math.floor(width),
+      height: Math.floor(height),
     });
   };
 
