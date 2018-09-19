@@ -22,16 +22,17 @@ class App extends Component {
     const isTest = process.env.NODE_ENV === 'test';
     return (
       <div className="App bp3-dark">
-        {!isTest && <Editor ref={node => (this.editor = node)} />}
 
-        <div className="ui-overlay">
+        <div className="left-windows">
           <AnimationsWindow onImageChange={this.handleImageChange} />
           <FramesWindow />
-          <div className="right-windows">
-            <CollidersWindow />
-            <InspectorWindow />
-          </div>
         </div>
+        <div className="right-windows">
+          <CollidersWindow />
+          <InspectorWindow />
+        </div>
+        
+        {!isTest && <Editor ref={node => (this.editor = node)} />}
       </div>
     );
   }
