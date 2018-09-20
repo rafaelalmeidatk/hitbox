@@ -36,17 +36,32 @@ class CollidersLayer extends React.Component {
 
   handleColliderDrag = (colliderId, args) => {
     if (!args.target) return;
+    const { selectedFrameId, frames } = this.props;
+    const frame = frames.find(frame => frame.id === selectedFrameId);
+
     const {
       attrs: { x, y, width, height },
     } = args.target;
 
     this.props.setColliderRect(colliderId, {
-      x: Math.floor(x),
-      y: Math.floor(y),
+      x: Math.floor(x) - frame.sourceRect.x,
+      y: Math.floor(y) - frame.sourceRect.y,
       width: Math.floor(width),
       height: Math.floor(height),
     });
   };
+
+  calculateColliderX = (rect) => {
+    const { selectedFrameId, frames } = this.props;
+    const frame = frames.find(frame => frame.id === selectedFrameId);
+    return frame.sourceRect.x + rect.x;
+  }
+
+  calculateColliderY = (rect) => {
+    const { selectedFrameId, frames } = this.props;
+    const frame = frames.find(frame => frame.id === selectedFrameId);
+    return frame.sourceRect.y + rect.y;
+  }
 
   render() {
     const { collidersVisible } = this.props;
@@ -56,8 +71,8 @@ class CollidersLayer extends React.Component {
           this.colliders.map(collider => (
             <Rect
               key={collider.id}
-              x={collider.rect.x}
-              y={collider.rect.y}
+              x={this.calculateColliderX(collider.rect)}
+              y={this.calculateColliderY(collider.rect)}
               width={collider.rect.width}
               height={collider.rect.height}
               fill={colors.colliderRect}

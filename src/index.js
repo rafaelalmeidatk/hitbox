@@ -7,8 +7,17 @@ import createStore from './store';
 import './index.css';
 import App from './components/App/App';
 import registerServiceWorker from './registerServiceWorker';
-import { newAnimation, newFrame, newCollider } from './ducks/objects';
-import { setSelectedAnimationId, setSelectedFrameId, setSelectedItemId } from './ducks/selection';
+import {
+  newAnimation,
+  newFrame,
+  newCollider,
+  setFrameSourceRect,
+} from './ducks/objects';
+import {
+  setSelectedAnimationId,
+  setSelectedFrameId,
+  setSelectedItemId,
+} from './ducks/selection';
 
 const store = createStore();
 store.dispatch(newAnimation());
@@ -17,8 +26,12 @@ store.dispatch(newAnimation());
 var id = store.getState()['objects']['animations'][0]['id'];
 store.dispatch(setSelectedAnimationId(id));
 store.dispatch(newFrame(id));
+
 var frameId = store.getState()['objects']['frames'][0]['id'];
 store.dispatch(setSelectedFrameId(frameId));
+store.dispatch(
+  setFrameSourceRect(frameId, { x: 0, y: 64, width: 64, height: 64 })
+);
 store.dispatch(newCollider(frameId));
 // store.dispatch(newAnimation());
 // store.dispatch(newAnimation());
