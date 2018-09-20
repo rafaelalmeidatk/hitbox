@@ -78,6 +78,14 @@ h1 {
   width: 100%;
 }
 
+.property-entry {
+  margin-top: 12px;
+}
+
+.properties-list > .property-entry .label {
+  margin-bottom: 6px;
+}
+
 /*
  * Window Tools Row
  */
@@ -104,6 +112,6 @@ h1 {
   text-transform: capitalize;
 }
 
-.property input[type="text"], .property input[type="number"] {
-  width: 100%;
+.innerObject .bp3-form-group {
+  margin-bottom: 0;
 }

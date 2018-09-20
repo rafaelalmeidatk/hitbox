@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormGroup, InputGroup, NumericInput, Checkbox } from '@blueprintjs/core';
 
 export default class InspectorItemPropertyInput extends React.Component {
   static propTypes = {
@@ -10,29 +11,33 @@ export default class InspectorItemPropertyInput extends React.Component {
   textInput = (value, data) => {
     const { onChange } = this.props;
     return (
-      <input
-        type="text"
-        value={value}
-        onChange={e => onChange(e.target.value, data)}
-      />
+      <FormGroup>
+        <InputGroup
+          fill
+          value={value}
+          onChange={e => onChange(e.target.value, data)}
+        />
+      </FormGroup>
     );
   };
 
   numberInput = (value, data) => {
     const { onChange } = this.props;
     return (
-      <input
-        type="number"
-        value={value}
-        onChange={e => onChange(parseInt(e.target.value), data)}
-      />
+      <FormGroup>
+        <NumericInput
+          fill
+          value={value}
+          onValueChange={value => onChange(value, data)}
+        />
+      </FormGroup>
     );
   };
 
   booleanInput = (value, data) => {
     const { onChange } = this.props;
     return (
-      <input
+      <Checkbox
         type="checkbox"
         checked={value}
         onChange={e => onChange(e.target.checked, data)}
