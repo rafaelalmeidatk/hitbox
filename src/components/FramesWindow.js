@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ImageUploadButton from './ImageUploadButton';
 import { setSelectedFrameId, setSelectedItemId } from '../ducks/selection';
 import { newFrame } from '../ducks/objects';
+import { showFrames, hideFrames } from '../ducks/ui';
 
 import Window from './Window';
 import WindowItemsList from './WindowItemsList';
+import WindowToolsRow from './WindowToolsRow';
 
 class FramesWindow extends React.Component {
   static propTypes = {
@@ -16,9 +17,9 @@ class FramesWindow extends React.Component {
     selectedFrameId: PropTypes.string,
     setSelectedFrameId: PropTypes.func,
     newFrame: PropTypes.func,
-
-    // Deprecated
-    onImageChange: PropTypes.func,
+    framesVisible: PropTypes.bool,
+    showFrames: PropTypes.func,
+    hideFrames: PropTypes.func,
   };
 
   get frames() {
@@ -46,20 +47,28 @@ class FramesWindow extends React.Component {
   };
 
   render() {
-    const { selectedFrameId } = this.props;
+    const {
+      selectedFrameId,
+      framesVisible,
+      showFrames,
+      hideFrames,
+    } = this.props;
     return (
       <Window
         title="Frames"
         titleActionButton={this.createNewFrame}
         titleActionButtonEnabled={this.canCreateNewFrame}
       >
+        <WindowToolsRow
+          visibility={true}
+          visibilityValue={framesVisible}
+          onClick={() => (framesVisible ? hideFrames() : showFrames())}
+        />
         <WindowItemsList
           items={this.frames}
           selectedId={selectedFrameId}
           onItemClick={id => this.handleOnItemClick(id)}
         />
-
-        {/* <ImageUploadButton onChange={this.props.onImageChange} /> */}
       </Window>
     );
   }
@@ -71,6 +80,7 @@ function mapStateToProps(state) {
     frames: state['objects'].frames,
     selectedAnimationId: state['selection'].selectedAnimationId,
     selectedFrameId: state['selection'].selectedFrameId,
+    framesVisible: state['ui'].framesVisible,
   };
 }
 
@@ -78,6 +88,8 @@ const mapDispatchToProps = {
   setSelectedFrameId,
   setSelectedItemId,
   newFrame,
+  showFrames,
+  hideFrames,
 };
 
 export default connect(

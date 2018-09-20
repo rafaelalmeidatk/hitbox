@@ -14,6 +14,8 @@ class CollidersLayer extends React.Component {
     selectedFrameId: PropTypes.string,
     setSelectedColliderId: PropTypes.func,
     setColliderRect: PropTypes.func,
+
+    collidersVisible: PropTypes.bool,
   };
 
   get colliders() {
@@ -47,23 +49,25 @@ class CollidersLayer extends React.Component {
   };
 
   render() {
+    const { collidersVisible } = this.props;
     return (
       <Group ref={node => (this.collidersGroup = node)}>
-        {this.colliders.map(collider => (
-          <Rect
-            key={collider.id}
-            x={collider.rect.x}
-            y={collider.rect.y}
-            width={collider.rect.width}
-            height={collider.rect.height}
-            fill={colors.colliderRect}
-            draggable={true}
-            onClick={() => this.handleColliderClick(collider.id)}
-            onDragStart={args => this.handleColliderDrag(collider.id, args)}
-            onDragMove={args => this.handleColliderDrag(collider.id, args)}
-            onDragEnd={args => this.handleColliderDrag(collider.id, args)}
-          />
-        ))}
+        {collidersVisible &&
+          this.colliders.map(collider => (
+            <Rect
+              key={collider.id}
+              x={collider.rect.x}
+              y={collider.rect.y}
+              width={collider.rect.width}
+              height={collider.rect.height}
+              fill={colors.colliderRect}
+              draggable={true}
+              onClick={() => this.handleColliderClick(collider.id)}
+              onDragStart={args => this.handleColliderDrag(collider.id, args)}
+              onDragMove={args => this.handleColliderDrag(collider.id, args)}
+              onDragEnd={args => this.handleColliderDrag(collider.id, args)}
+            />
+          ))}
       </Group>
     );
   }
@@ -74,6 +78,7 @@ function mapStateToProps(state) {
     frames: state['objects'].frames,
     colliders: state['objects'].colliders,
     selectedFrameId: state['selection'].selectedFrameId,
+    collidersVisible: state['ui'].collidersVisible,
   };
 }
 

@@ -15,19 +15,19 @@ const HIDE_COLLIDERS = 'animation-editor/ui/HIDE_COLLIDERS';
 
 // Reducer
 export default createReducer(INITIAL_STATE, {
-  [SHOW_FRAMES]: (state, action) => {
+  [SHOW_FRAMES]: state => {
     state.framesVisible = true;
   },
 
-  [HIDE_FRAMES]: (state, action) => {
+  [HIDE_FRAMES]: state => {
     state.framesVisible = false;
   },
 
-  [SHOW_COLLIDERS]: (state, action) => {
+  [SHOW_COLLIDERS]: state => {
     state.collidersVisible = true;
   },
 
-  [HIDE_COLLIDERS]: (state, action) => {
+  [HIDE_COLLIDERS]: state => {
     state.collidersVisible = false;
   },
 });

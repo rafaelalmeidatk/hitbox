@@ -60,7 +60,7 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 
 .window .title .bp3-heading {
@@ -83,20 +83,7 @@ h1 {
  */
 
 .window-tools-row {
-  margin: 10px 0 5px 5px;
-}
-
-.window-tools-row li {
-}
-
-.window-tools-icon {
-  display: inline-block;
-  padding: 5px;
-}
-
-.window-tools-icon:hover {
-  cursor: pointer;
-  background-color: gray;
+  margin: 0 0 5px 0;
 }
 
 /*

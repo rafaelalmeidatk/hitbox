@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setSelectedColliderId, setSelectedItemId } from '../ducks/selection';
 import { newCollider } from '../ducks/objects';
+import { showColliders, hideColliders } from '../ducks/ui';
 
 import Window from './Window';
 import WindowItemsList from './WindowItemsList';
+import WindowToolsRow from './WindowToolsRow';
 
 class CollidersWindow extends React.Component {
   static propTypes = {
@@ -15,9 +17,9 @@ class CollidersWindow extends React.Component {
     selectedColliderId: PropTypes.string,
     setSelectedColliderId: PropTypes.func,
     newCollider: PropTypes.func,
-
-    // Deprecated
-    onImageChange: PropTypes.func,
+    collidersVisible: PropTypes.bool,
+    showColliders: PropTypes.func,
+    hideColliders: PropTypes.func,
   };
 
   get colliders() {
@@ -47,13 +49,23 @@ class CollidersWindow extends React.Component {
   };
 
   render() {
-    const { selectedColliderId } = this.props;
+    const {
+      selectedColliderId,
+      collidersVisible,
+      showColliders,
+      hideColliders,
+    } = this.props;
     return (
       <Window
         title="Colliders"
         titleActionButton={this.createNewCollider}
         titleActionButtonEnabled={this.canCreateNewCollider}
       >
+        <WindowToolsRow
+          visibility={true}
+          visibilityValue={collidersVisible}
+          onClick={() => (collidersVisible ? hideColliders() : showColliders())}
+        />
         <WindowItemsList
           items={this.colliders}
           selectedId={selectedColliderId}
@@ -70,6 +82,7 @@ function mapStateToProps(state) {
     colliders: state['objects'].colliders,
     selectedFrameId: state['selection'].selectedFrameId,
     selectedColliderId: state['selection'].selectedColliderId,
+    collidersVisible: state['ui'].collidersVisible,
   };
 }
 
@@ -77,6 +90,8 @@ const mapDispatchToProps = {
   setSelectedColliderId,
   setSelectedItemId,
   newCollider,
+  showColliders,
+  hideColliders,
 };
 
 export default connect(

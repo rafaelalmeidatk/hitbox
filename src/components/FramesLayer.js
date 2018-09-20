@@ -4,7 +4,7 @@ import { Group, Rect } from 'react-konva';
 import { connect } from 'react-redux';
 
 import { setSelectedFrameId } from '../ducks/selection';
-import { setFrameSourceRect } from '../ducks/objects'
+import { setFrameSourceRect } from '../ducks/objects';
 import colors from '../colors';
 
 class FramesLayer extends React.Component {
@@ -14,6 +14,8 @@ class FramesLayer extends React.Component {
     selectedAnimationId: PropTypes.string,
     setSelectedFrameId: PropTypes.func,
     setFrameSourceRect: PropTypes.func,
+
+    framesVisible: PropTypes.bool,
   };
 
   get frames() {
@@ -32,7 +34,9 @@ class FramesLayer extends React.Component {
 
   handleFrameDrag = (frameId, args) => {
     if (!args.target) return;
-    const { attrs: { x, y, width, height } } = args.target;
+    const {
+      attrs: { x, y, width, height },
+    } = args.target;
 
     this.props.setFrameSourceRect(frameId, {
       x: Math.floor(x),
@@ -40,26 +44,28 @@ class FramesLayer extends React.Component {
       width: Math.floor(width),
       height: Math.floor(height),
     });
-  }
+  };
 
   render() {
+    const { framesVisible } = this.props;
     return (
       <Group ref={node => (this.framesGroup = node)}>
-        {this.frames.map(frame => (
-          <Rect
-            key={frame.id}
-            x={frame.sourceRect.x}
-            y={frame.sourceRect.y}
-            width={frame.sourceRect.width}
-            height={frame.sourceRect.height}
-            fill={colors.frameRect}
-            draggable={true}
-            onClick={() => this.handleFrameClick(frame.id)}
-            onDragStart={args => this.handleFrameDrag(frame.id, args)}
-            onDragMove={args => this.handleFrameDrag(frame.id, args)}
-            onDragEnd={args => this.handleFrameDrag(frame.id, args)}
-          />
-        ))}
+        {framesVisible &&
+          this.frames.map(frame => (
+            <Rect
+              key={frame.id}
+              x={frame.sourceRect.x}
+              y={frame.sourceRect.y}
+              width={frame.sourceRect.width}
+              height={frame.sourceRect.height}
+              fill={colors.frameRect}
+              draggable={true}
+              onClick={() => this.handleFrameClick(frame.id)}
+              onDragStart={args => this.handleFrameDrag(frame.id, args)}
+              onDragMove={args => this.handleFrameDrag(frame.id, args)}
+              onDragEnd={args => this.handleFrameDrag(frame.id, args)}
+            />
+          ))}
       </Group>
     );
   }
@@ -70,6 +76,7 @@ function mapStateToProps(state) {
     animations: state['objects'].animations,
     frames: state['objects'].frames,
     selectedAnimationId: state['selection'].selectedAnimationId,
+    framesVisible: state['ui'].framesVisible,
   };
 }
 
