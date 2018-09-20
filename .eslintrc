@@ -1,4 +1,9 @@
 {
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true
+  },
   "plugins": ["react"],
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "rules": {
@@ -8,6 +13,18 @@
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "prefer-const": ["warn"],
     "comma-dangle": ["error", "always-multiline"],
-    "react/prefer-stateless-function": ["warn"],
-  }
+    "react/prefer-stateless-function": ["warn"]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.js"
+      ],
+      "env": {
+        "browser": true,
+        "node": true,
+        "jest": true
+      }
+    }
+  ]
 }

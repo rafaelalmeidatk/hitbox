@@ -34,13 +34,13 @@ export function getInspectableObjectById(animations, id) {
 }
 
 export function getInspectorEditableFields(inspectableObject) {
-  var inspector = inspectableObject.get('_inspector');
-  return inspector.get('editableFields').toJS();
+  const inspector = inspectableObject._inspector;
+  return inspector.editableFields || [];
 }
 
 export function getUpdater(inspectableObject) {
-  var inspector = inspectableObject.get('_inspector');
-  return inspector.get('updater');
+  const inspector = inspectableObject._inspector;
+  return inspector.updater || [];
 }
 
 export function extractFieldsByType(inspectableObject) {
@@ -65,29 +65,8 @@ export function extractFieldsByType(inspectableObject) {
   };
 }
 
-export function findObjectById(animations, id) {
-  let finalObject = null;
-  animations.find((obj) => {
-    if (obj.get('_id') === id) {
-      finalObject = obj;
-      return true;
-    }
-    var frames = obj.get('frames');
-    if (!frames) return false;
-    frames.find((obj) => {
-      if (obj.get('_id') === id) {
-        finalObject = obj;
-        return true;
-      }
-      var colliders = obj.get('colliders');
-      if (!colliders) return false;
-      colliders.find((obj) => {
-        if (obj.get('_id') === id) {
-          finalObject = obj;
-          return true;
-        }
-      });
-    });
-  });
-  return finalObject;
+export function findObjectById(objects, id) {
+  return objects.find(object => (
+    object && object.id === id
+  ));
 }

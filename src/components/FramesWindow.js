@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {setSelectedFrameIndex, setSelectedItemId} from '../ducks/selection';
-import {newFrame} from '../ducks/animation';
-import {showFrames, hideFrames} from '../ducks/ui';
+import { connect } from 'react-redux';
+import { setSelectedFrameId, setSelectedItemId } from '../ducks/selection';
+import { newFrame } from '../ducks/objects';
+import { showFrames, hideFrames } from '../ducks/ui';
 
 import Window from './Window';
-import WindowItemList from './WindowItemList';
+import WindowItemsList from './WindowItemsList';
 import WindowToolsRow from './WindowToolsRow';
 
-export class FramesWindow extends React.Component {
+class FramesWindow extends React.Component {
   static propTypes = {
-    animations: PropTypes.object,
-    selectedAnimationIndex: PropTypes.number,
-    selectedFrameIndex: PropTypes.number,
-    setSelectedFrameIndex: PropTypes.func,
-    setSelectedItemId: PropTypes.func,
+    animations: PropTypes.array,
+    frames: PropTypes.array,
+    selectedAnimationId: PropTypes.string,
+    selectedFrameId: PropTypes.string,
+    setSelectedFrameId: PropTypes.func,
     newFrame: PropTypes.func,
     framesVisible: PropTypes.bool,
     showFrames: PropTypes.func,
@@ -23,40 +23,32 @@ export class FramesWindow extends React.Component {
   };
 
   get frames() {
-    const {animations, selectedAnimationIndex} = this.props;
-    if (animations && selectedAnimationIndex >= 0) {
-      var animation = animations.get(selectedAnimationIndex);
-      return animation.get('frames');
-    }
-    return [];
+    const { animations, selectedAnimationId, frames } = this.props;
+    if (!animations || !selectedAnimationId) return [];
+    const currentFrames = animations
+      .find(anim => anim.id === selectedAnimationId)
+      .frames.map(frameId => frames.find(frame => frame.id === frameId));
+
+    return currentFrames || [];
   }
 
-  frameByIndex = (index) => {
-    const {animations, selectedAnimationIndex} = this.props;
-    return animations.getIn([
-      selectedAnimationIndex,
-      'frames',
-      index,
-    ]);
+  get canCreateNewFrame() {
+    return !!this.props.selectedAnimationId;
   }
+
+  handleOnItemClick = id => {
+    const { setSelectedFrameId } = this.props;
+    setSelectedFrameId(id);
+  };
 
   createNewFrame = () => {
-    const {selectedAnimationIndex} = this.props;
-    if (selectedAnimationIndex >= 0) {
-      this.props.newFrame(selectedAnimationIndex);
-    }
-  }
-
-  handleOnItemClick = (index) => {
-    const {setSelectedFrameIndex, setSelectedItemId} = this.props;
-    var frame = this.frameByIndex(index);
-    setSelectedFrameIndex(index);
-    setSelectedItemId(frame.get('_id'));
-  }
+    const { selectedAnimationId, newFrame } = this.props;
+    newFrame(selectedAnimationId);
+  };
 
   render() {
     const {
-      selectedFrameIndex,
+      selectedFrameId,
       framesVisible,
       showFrames,
       hideFrames,
@@ -64,18 +56,18 @@ export class FramesWindow extends React.Component {
     return (
       <Window
         title="Frames"
-        titleButtonAction={this.createNewFrame}
+        titleActionButton={this.createNewFrame}
+        titleActionButtonEnabled={this.canCreateNewFrame}
       >
         <WindowToolsRow
           visibility={true}
           visibilityValue={framesVisible}
-          onClick={() => framesVisible ?  hideFrames() : showFrames()}
+          onClick={() => (framesVisible ? hideFrames() : showFrames())}
         />
-        <WindowItemList
+        <WindowItemsList
           items={this.frames}
-          itemName={(index, name) => `Frame ${index}`}
-          selectedIndex={selectedFrameIndex}
-          onItemClick={(index) => this.handleOnItemClick(index)}
+          selectedId={selectedFrameId}
+          onItemClick={id => this.handleOnItemClick(id)}
         />
       </Window>
     );
@@ -84,19 +76,23 @@ export class FramesWindow extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    animations: state['animation'].get('animations'),
-    selectedAnimationIndex: state['selection'].get('selectedAnimationIndex'),
-    selectedFrameIndex: state['selection'].get('selectedFrameIndex'),
-    framesVisible: state['ui'].get('framesVisible'),
+    animations: state['objects'].animations,
+    frames: state['objects'].frames,
+    selectedAnimationId: state['selection'].selectedAnimationId,
+    selectedFrameId: state['selection'].selectedFrameId,
+    framesVisible: state['ui'].framesVisible,
   };
 }
 
 const mapDispatchToProps = {
-  setSelectedFrameIndex,
+  setSelectedFrameId,
   setSelectedItemId,
   newFrame,
   showFrames,
   hideFrames,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FramesWindow);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FramesWindow);

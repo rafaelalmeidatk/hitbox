@@ -1,51 +1,43 @@
-import {List, Map, fromJS} from 'immutable';
+import shortid from 'shortid';
 import reducer, {
   setAnimationName,
   setAnimationDelay,
   setAnimationRepeat,
-} from '../ducks/animation';
-
-let shortid = require('shortid');
-if (process.env.NODE_ENV === 'test') {
-  // Mock shortid if in tests
-  shortid = {
-    generate: () => 0,
-  };
-}
+} from '../ducks/objects';
 
 function fieldUpdater(props, field, value) {
-  const { animationIndex } = props;
+  const { id } = props;
   switch (field) {
     case 'name':
-      return setAnimationName(animationIndex, value);
+      return setAnimationName(id, value);
     case 'delay':
-      return setAnimationDelay(animationIndex, value);
+      return setAnimationDelay(id, value);
     case 'repeat':
-      return setAnimationRepeat(animationIndex, value);
+      return setAnimationRepeat(id, value);
   }
 }
 
-export default () => Map({
-  _id: shortid.generate(),
-  _inspector: Map({
-    editableFields: List.of(
-      Map({
-        field: 'name',
+export default () => ({
+  id: shortid.generate(),
+  _inspector: {
+    editableFields: [
+      {
+        fieldKey: 'name',
         displayName: 'Name',
-      }),
-      Map({
-        field: 'delay',
+      },
+      {
+        fieldKey: 'delay',
         displayName: 'Delay',
-      }),
-      Map({
-        field: 'repeat',
+      },
+      {
+        fieldKey: 'repeat',
         displayName: 'Repeat',
-      }),
-    ),
+      },
+    ],
     updater: fieldUpdater,
-  }),
+  },
   name: 'New Animation',
   delay: 0,
   repeat: false,
-  frames: List(),
+  frames: [],
 });

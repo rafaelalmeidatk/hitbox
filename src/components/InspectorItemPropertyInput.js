@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormGroup, InputGroup, NumericInput, Checkbox } from '@blueprintjs/core';
 
 export default class InspectorItemPropertyInput extends React.Component {
   static propTypes = {
@@ -8,57 +9,60 @@ export default class InspectorItemPropertyInput extends React.Component {
   };
 
   textInput = (value, data) => {
-    const {onChange} = this.props;
+    const { onChange } = this.props;
     return (
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value, data)}
-      />
+      <FormGroup>
+        <InputGroup
+          fill
+          value={value}
+          onChange={e => onChange(e.target.value, data)}
+        />
+      </FormGroup>
     );
-  }
+  };
 
   numberInput = (value, data) => {
-    const {onChange} = this.props;
+    const { onChange } = this.props;
     return (
-      <input
-        type="number"
-        value={value}
-        onChange={(e) => onChange(parseInt(e.target.value), data)}
-      />
+      <FormGroup>
+        <NumericInput
+          fill
+          value={value}
+          onValueChange={value => onChange(value, data)}
+        />
+      </FormGroup>
     );
-  }
+  };
 
   booleanInput = (value, data) => {
-    const {onChange} = this.props;
+    const { onChange } = this.props;
     return (
-      <input
+      <Checkbox
         type="checkbox"
         checked={value}
-        onChange={(e) => onChange(e.target.checked, data)}
+        onChange={e => onChange(e.target.checked, data)}
       />
     );
-  }
+  };
 
-  objectInput = (object) => {
-    const [...keys] = object.keys();
+  objectInput = object => {
+    const keys = Object.keys(object);
+
     return (
       <ul className="innerObject">
-        {
-          keys.map(key => (
-            <li key={key}>
-              <div className="label">{key}</div>
-              <div className="property">
-                {this.inputForInnerProperty(object.get(key), key)}
-              </div>
-            </li>
-          ))
-        }
+        {keys.map(key => (
+          <li key={key}>
+            <div className="label">{key}</div>
+            <div className="property">
+              {this.inputForInnerProperty(object[key], key)}
+            </div>
+          </li>
+        ))}
       </ul>
     );
-  }
+  };
 
-  inputForProperty = (property) => {
+  inputForProperty = property => {
     const type = typeof property;
     switch (type) {
       case 'string':
@@ -72,7 +76,7 @@ export default class InspectorItemPropertyInput extends React.Component {
       default:
         return property.toString();
     }
-  }
+  };
 
   inputForInnerProperty = (property, innerField) => {
     const data = { innerField };
@@ -87,10 +91,10 @@ export default class InspectorItemPropertyInput extends React.Component {
       default:
         return property.toString();
     }
-  }
+  };
 
   render() {
-    const {property} = this.props;
+    const { property } = this.props;
     return this.inputForProperty(property);
   }
 }

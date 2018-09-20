@@ -1,22 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {setSelectedColliderIndex, setSelectedItemId} from '../ducks/selection';
-import {newCollider} from '../ducks/animation';
-import {showColliders, hideColliders} from '../ducks/ui';
+import { connect } from 'react-redux';
+import { setSelectedColliderId, setSelectedItemId } from '../ducks/selection';
+import { newCollider } from '../ducks/objects';
+import { showColliders, hideColliders } from '../ducks/ui';
 
 import Window from './Window';
-import WindowItemList from './WindowItemList';
+import WindowItemsList from './WindowItemsList';
 import WindowToolsRow from './WindowToolsRow';
 
-export class CollidersWindow extends React.Component {
+class CollidersWindow extends React.Component {
   static propTypes = {
-    animations: PropTypes.object,
-    selectedAnimationIndex: PropTypes.number,
-    selectedFrameIndex: PropTypes.number,
-    selectedColliderIndex: PropTypes.number,
-    setSelectedColliderIndex: PropTypes.func,
-    setSelectedItemId: PropTypes.func,
+    frames: PropTypes.array,
+    colliders: PropTypes.array,
+    selectedFrameId: PropTypes.string,
+    selectedColliderId: PropTypes.string,
+    setSelectedColliderId: PropTypes.func,
     newCollider: PropTypes.func,
     collidersVisible: PropTypes.bool,
     showColliders: PropTypes.func,
@@ -24,46 +23,34 @@ export class CollidersWindow extends React.Component {
   };
 
   get colliders() {
-    const {animations, selectedAnimationIndex, selectedFrameIndex} = this.props;
-    if (animations && selectedAnimationIndex >= 0 && selectedFrameIndex >= 0) {
-      var animation = animations.get(selectedAnimationIndex);
-      var frames = animation.get('frames');
-      if (frames.size > 0) {
-        var frame = frames.get(selectedFrameIndex);
-        return frame.get('colliders');
-      }
-    }
-    return [];
+    const { frames, selectedFrameId, colliders } = this.props;
+    if (!colliders || !selectedFrameId) return [];
+    const currentColliders = frames
+      .find(frame => frame.id === selectedFrameId)
+      .colliders.map(colliderId =>
+        colliders.find(collider => collider.id === colliderId)
+      );
+
+    return currentColliders || [];
   }
 
-  colliderByIndex = (index) => {
-    const {animations, selectedAnimationIndex, selectedFrameIndex} = this.props;
-    return animations.getIn([
-      selectedAnimationIndex,
-      'frames',
-      selectedFrameIndex,
-      'colliders',
-      index,
-    ]);
+  get canCreateNewCollider() {
+    return !!this.props.selectedFrameId;
   }
+
+  handleOnItemClick = id => {
+    const { setSelectedColliderId } = this.props;
+    setSelectedColliderId(id);
+  };
 
   createNewCollider = () => {
-    const {selectedAnimationIndex, selectedFrameIndex} = this.props;
-    if (selectedAnimationIndex >= 0 && selectedFrameIndex >= 0) {
-      this.props.newCollider(selectedAnimationIndex, selectedFrameIndex);
-    }
-  }
-
-  handleOnItemClick = (index) => {
-    const {setSelectedColliderIndex, setSelectedItemId} = this.props;
-    var collider = this.colliderByIndex(index);
-    setSelectedColliderIndex(index);
-    setSelectedItemId(collider.get('_id'));
-  }
+    const { selectedFrameId, newCollider } = this.props;
+    newCollider(selectedFrameId);
+  };
 
   render() {
-    const { 
-      selectedColliderIndex,
+    const {
+      selectedColliderId,
       collidersVisible,
       showColliders,
       hideColliders,
@@ -71,17 +58,18 @@ export class CollidersWindow extends React.Component {
     return (
       <Window
         title="Colliders"
-        titleButtonAction={this.createNewCollider}
+        titleActionButton={this.createNewCollider}
+        titleActionButtonEnabled={this.canCreateNewCollider}
       >
         <WindowToolsRow
           visibility={true}
           visibilityValue={collidersVisible}
-          onClick={() => collidersVisible ?  hideColliders() : showColliders()}
+          onClick={() => (collidersVisible ? hideColliders() : showColliders())}
         />
-        <WindowItemList
+        <WindowItemsList
           items={this.colliders}
-          selectedIndex={selectedColliderIndex}
-          onItemClick={(index) => this.handleOnItemClick(index)}
+          selectedId={selectedColliderId}
+          onItemClick={id => this.handleOnItemClick(id)}
         />
       </Window>
     );
@@ -90,20 +78,23 @@ export class CollidersWindow extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    animations: state['animation'].get('animations'),
-    selectedAnimationIndex: state['selection'].get('selectedAnimationIndex'),
-    selectedFrameIndex: state['selection'].get('selectedFrameIndex'),
-    selectedColliderIndex: state['selection'].get('selectedColliderIndex'),
-    collidersVisible: state['ui'].get('collidersVisible'),
+    frames: state['objects'].frames,
+    colliders: state['objects'].colliders,
+    selectedFrameId: state['selection'].selectedFrameId,
+    selectedColliderId: state['selection'].selectedColliderId,
+    collidersVisible: state['ui'].collidersVisible,
   };
 }
 
 const mapDispatchToProps = {
-  setSelectedColliderIndex,
+  setSelectedColliderId,
   setSelectedItemId,
   newCollider,
   showColliders,
   hideColliders,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CollidersWindow);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CollidersWindow);

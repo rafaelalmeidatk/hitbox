@@ -2,7 +2,9 @@ html {
   box-sizing: border-box;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
@@ -10,15 +12,18 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-:not(input):not(textarea),
-:not(input):not(textarea)::after,
-:not(input):not(textarea)::before {
+:not(input):not(textarea):not(button *),
+:not(input):not(textarea):not(button *)::after,
+:not(input):not(textarea):not(button *)::before {
   -webkit-user-select: none;
   user-select: none;
   cursor: default;
 }
 
-input, button, textarea, :focus {
+input,
+button,
+textarea,
+:focus {
   outline: none;
 }
 
@@ -43,7 +48,6 @@ h1 {
 
 .window {
   width: 250px;
-  background-color: lightsteelblue;
   z-index: 99;
   padding: 10px 15px;
   margin: 5px;
@@ -55,43 +59,48 @@ h1 {
 .window .title {
   display: flex;
   justify-content: space-between;
-}
-
-.window .icon {
-  display: flex;
   align-items: center;
+  margin-bottom: 6px;
 }
 
-.window .icon, .window .icon svg, .window .icon path {
-  cursor: pointer;
-}
-
-.window h1 {
-  font-weight: bold;
-  font-size: 1.7em;
+.window .title .bp3-heading {
+  margin-bottom: 0;
 }
 
 /*
  * Window Item List
  */
-
-.window-item-list {
-  margin-top: 10px;
+.window-items-list {
 }
 
-.window-item-list li, .properties-list li {
-  padding: 5px;
-  margin: 3px 0;
+.property input[type='text'],
+.property input[type='number'] {
+  width: 100%;
 }
 
-.window-item-list li.selected {
-  background-color:#7e9dc5;
+.property-entry {
+  margin-top: 12px;
 }
 
-.window-item-list li:hover {
-  background-color:gray;
-  cursor:pointer;
+.properties-list > .property-entry .label {
+  margin-bottom: 6px;
 }
+
+/*
+ * Window Tools Row
+ */
+
+.window-tools-row {
+  margin: 0 0 5px 0;
+}
+
+.window-tools-row li {
+  margin-right: 6px;
+}
+
+/*
+ * Inner objects
+ */
 
 .innerObject li {
   display: flex;
@@ -103,27 +112,6 @@ h1 {
   text-transform: capitalize;
 }
 
-.property input[type="text"], .property input[type="number"] {
-  width: 100%;
-}
-
-/*
- * Window Tools Row
- */
-
-.window-tools-row {
-  margin: 10px 0 5px 5px;
-}
-
-.window-tools-row li {
-}
-
-.window-tools-icon {
-  display: inline-block;
-  padding: 5px;
-}
-
-.window-tools-icon:hover {
-  cursor: pointer;
-  background-color: gray;
+.innerObject .bp3-form-group {
+  margin-bottom: 0;
 }

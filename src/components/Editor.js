@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Stage, Layer, Group, Rect } from 'react-konva';
-import SpriteImage from './SpriteImage';
 import Konva from 'konva';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Group, Layer, Stage } from 'react-konva';
 import GridLayer from './GridLayer';
-import FramesGroup from './FramesGroup';
-import CollidersGroup from './CollidersGroup';
+import SpriteImage from './SpriteImage';
+import FramesLayer from './FramesLayer';
+import CollidersLayer from './CollidersLayer';
 
 export default class Editor extends React.Component {
   static propTypes = {
@@ -45,22 +45,22 @@ export default class Editor extends React.Component {
     });
     this.boxesGroup.add(rect);
     this.stage.getStage().batchDraw();
-  }
+  };
 
-  changeImage = (data) => {
+  changeImage = data => {
     this.sprite.changeImage(data);
-  }
+  };
 
-  handleImageLoaded = (imageData) => {
+  handleImageLoaded = imageData => {
     const layer = this.mainLayer;
     const x = Math.floor((layer.width() - imageData.width) / 2);
     const y = Math.floor((layer.height() - imageData.height) / 2);
     layer.position({ x, y });
-  }
+  };
 
-  handleWheel = (e) => {
+  handleWheel = e => {
     const stage = this.stage.getStage();
-    const layer = this.mainLayer;
+    const layer = this.stage.getStage();
     const scaleBy = 2;
     if (!stage.getPointerPosition()) return;
 
@@ -83,29 +83,25 @@ export default class Editor extends React.Component {
     stage.batchDraw();
 
     this.setState({ layerScale: newScale });
-  }
+  };
 
   render() {
-    return (  
+    return (
       <Stage
-        ref={node => this.stage = node}
+        ref={node => (this.stage = node)}
         width={window.innerWidth}
-        height={window.innerHeight}>
+        height={window.innerHeight}
+        draggable={true}
+      >
         <GridLayer width={window.innerWidth} height={window.innerWidth} size={28} />
 
-        <Layer 
-          ref={node => this.mainLayer = node}
-          onWheel={this.onWheel} 
-          draggable={true}>
-          <SpriteImage
-            ref={node => this.sprite = node}
-            onImageLoaded={this.handleImageLoaded}
-          />
+        <Layer ref={node => (this.mainLayer = node)} onWheel={this.onWheel}>
+          <SpriteImage ref={node => (this.sprite = node)} onImageLoaded={this.handleImageLoaded} />
 
-          <FramesGroup />
-          <CollidersGroup scale={this.state.layerScale} />
+          <FramesLayer />
+          <CollidersLayer />
 
-          <Group ref={node => this.boxesGroup = node} />
+          <Group ref={node => (this.boxesGroup = node)} />
         </Layer>
       </Stage>
     );

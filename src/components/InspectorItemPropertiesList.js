@@ -1,88 +1,54 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {
-  getInspectableObjectById,
-  getInspectorEditableFields,
-  getUpdater,
-} from '../inspector';
-import InspectorItemPropertyInput from './InspectorItemPropertyInput';
-import './InspectorItemPropertiesList.style.css';
+import { connect } from 'react-redux';
 
-export class InspectorItemPropertiesList extends React.Component {
+import InspectorItemPropertyInput from './InspectorItemPropertyInput';
+import { getInspectorEditableFields, getUpdater } from '../inspector';
+
+class InspectorItemPropertiesList extends Component {
   static propTypes = {
     item: PropTypes.object,
     dispatch: PropTypes.func,
-    animations: PropTypes.object,
-    selectedItemId: PropTypes.string,
-    selectedAnimationIndex: PropTypes.number,
-    selectedFrameIndex: PropTypes.number,
-    selectedColliderIndex: PropTypes.number,
   };
 
-  get inspectableObject() {
-    const {animations, selectedItemId} = this.props;
-    return getInspectableObjectById(animations, selectedItemId);
+  get inspectorFields() {
+    const { item } = this.props;
+    return getInspectorEditableFields(item);
   }
 
-  get getInspectorFields() {
-    const inspectableObject = this.inspectableObject;
-    return getInspectorEditableFields(inspectableObject);
-  }
+  handleChange = (newValue, field, data) => {
+    const { item, dispatch } = this.props;
 
-  handleOnChange = (newValue, field, data) => {
-    const {
-      item,
-      selectedAnimationIndex,
-      selectedFrameIndex,
-      selectedColliderIndex,
-    } = this.props;
-    const property = item.get(field);
-
+    const property = item[field];
     const props = {
-      animationIndex: selectedAnimationIndex,
-      frameIndex: selectedFrameIndex,
-      colliderIndex: selectedColliderIndex,
+      id: item.id,
       property,
       data,
     };
+
     const updater = getUpdater(item);
     const action = updater(props, field, newValue);
-    this.props.dispatch(action);
-  }
+    dispatch(action);
+  };
 
   render() {
-    const {item} = this.props;
+    const { item } = this.props;
     return (
       <ul className="properties-list">
-        {
-          this.getInspectorFields.map((entry) => (
-            <li key={entry.field} className="property-entry">
-              <div className="label">{entry.displayName}</div>
-              <div className="property">
-                <InspectorItemPropertyInput 
-                  property={item.get(entry.field)}
-                  onChange={(value, data) => 
-                    this.handleOnChange(value, entry.field, data)
-                  }
-                />
-              </div>
-            </li>
-          ))
-        }
+        {this.inspectorFields.map(field => (
+          <li key={field.fieldKey} className="property-entry">
+            <div className="label">{field.displayName}</div>
+            <InspectorItemPropertyInput
+              property={item[field.fieldKey]}
+              onChange={(value, data) =>
+                this.handleChange(value, field.fieldKey, data)
+              }
+            />
+          </li>
+        ))}
       </ul>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    animations: state['animation'].get('animations'),
-    selectedItemId: state['selection'].get('selectedItemId'),
-    selectedAnimationIndex: state['selection'].get('selectedAnimationIndex'),
-    selectedFrameIndex: state['selection'].get('selectedFrameIndex'),
-    selectedColliderIndex: state['selection'].get('selectedColliderIndex'),
-  };
-}
-
-export default connect(mapStateToProps)(InspectorItemPropertiesList);
+export default connect()(InspectorItemPropertiesList);

@@ -1,19 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import ImageUploadButton from './ImageUploadButton';
-import {setSelectedAnimationIndex, setSelectedItemId} from '../ducks/selection';
-import {newAnimation} from '../ducks/animation';
+import { setSelectedAnimationId, setSelectedItemId } from '../ducks/selection';
+import { newAnimation } from '../ducks/objects';
 
 import Window from './Window';
-import WindowItemList from './WindowItemList';
+import WindowItemsList from './WindowItemsList';
 
-export class AnimationsWindow extends React.Component {
+class AnimationsWindow extends React.Component {
   static propTypes = {
-    animations: PropTypes.object,
-    selectedAnimationIndex: PropTypes.number,
-    setSelectedAnimationIndex: PropTypes.func,
-    setSelectedItemId: PropTypes.func,
+    animations: PropTypes.array,
+    selectedAnimationId: PropTypes.string,
+    setSelectedAnimationId: PropTypes.func,
     newAnimation: PropTypes.func,
 
     // Deprecated
@@ -24,36 +23,23 @@ export class AnimationsWindow extends React.Component {
     return this.props.animations || [];
   }
 
-  animationByIndex = (index) => {
-    const {animations} = this.props;
-    return animations.getIn([
-      index,
-    ]);
-  }
-
-  handleOnItemClick = (index) => {
-    const {setSelectedAnimationIndex, setSelectedItemId} = this.props;
-    var frame = this.animationByIndex(index);
-    setSelectedAnimationIndex(index);
-    setSelectedItemId(frame.get('_id'));
-  }
+  handleOnItemClick = id => {
+    const { setSelectedAnimationId } = this.props;
+    setSelectedAnimationId(id);
+  };
 
   render() {
-    const {
-      selectedAnimationIndex,
-      newAnimation,
-    } = this.props;
+    const { selectedAnimationId, newAnimation } = this.props;
+
     return (
-      <Window
-        title="Animations"
-        titleButtonAction={newAnimation}
-      >
-        <WindowItemList
+      <Window title="Animations" titleActionButton={newAnimation}>
+        <WindowItemsList
           items={this.animations}
-          selectedIndex={selectedAnimationIndex}
-          onItemClick={(index) => this.handleOnItemClick(index)}
+          selectedId={selectedAnimationId}
+          onItemClick={id => this.handleOnItemClick(id)}
         />
-        <ImageUploadButton onChange={this.props.onImageChange} />
+
+        {/* <ImageUploadButton onChange={this.props.onImageChange} /> */}
       </Window>
     );
   }
@@ -61,15 +47,18 @@ export class AnimationsWindow extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    animations: state['animation'].get('animations'),
-    selectedAnimationIndex: state['selection'].get('selectedAnimationIndex'),
+    animations: state['objects'].animations,
+    selectedAnimationId: state['selection'].selectedAnimationId,
   };
 }
 
 const mapDispatchToProps = {
-  setSelectedAnimationIndex,
+  setSelectedAnimationId,
   setSelectedItemId,
   newAnimation,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AnimationsWindow);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AnimationsWindow);

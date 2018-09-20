@@ -1,55 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {setSelectedColliderIndex} from '../ducks/selection';
-import {newCollider} from '../ducks/animation';
-import {findObjectById} from '../inspector';
+import { connect } from 'react-redux';
 
 import Window from './Window';
 import InspectorItemPropertiesList from './InspectorItemPropertiesList';
+import { findObjectById } from '../inspector';
 
-export class InspectorWindow extends React.Component {
+class InspectorWindow extends React.Component {
   static propTypes = {
-    animations: PropTypes.object,
+    objects: PropTypes.array,
     selectedItemId: PropTypes.string,
-    setSelectedColliderIndex: PropTypes.func,
-    newCollider: PropTypes.func,
   };
 
   get selectedItem() {
-    const {animations, selectedItemId} = this.props;
-    return findObjectById(animations, selectedItemId);
+    const { objects, selectedItemId } = this.props;
+    return findObjectById(objects, selectedItemId);
   }
 
   render() {
     const item = this.selectedItem;
     return (
       <Window title="Inspector">
-        {
-          !item &&
-          <div>
-            No item available to inspect
-          </div>
-        }
-        {
-          item &&
-          <InspectorItemPropertiesList item={item} />
-        }
+        {!item && <div>No item available to inspect</div>}
+        {item && <InspectorItemPropertiesList item={item} />}
       </Window>
     );
   }
 }
 
 function mapStateToProps(state) {
+  const {
+    objects: { animations, colliders, frames },
+    selection: { selectedItemId },
+  } = state;
   return {
-    animations: state['animation'].get('animations'),
-    selectedItemId: state['selection'].get('selectedItemId'),
+    objects: [...animations, ...colliders, ...frames],
+    selectedItemId,
   };
 }
 
-const mapDispatchToProps = {
-  setSelectedColliderIndex,
-  newCollider,
-};
+const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(InspectorWindow);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(InspectorWindow);

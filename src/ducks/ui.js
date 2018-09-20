@@ -1,10 +1,10 @@
-import { Map } from 'immutable';
+import { createReducer } from '@acemarke/redux-starter-kit';
 
 // Initial State
-const INITIAL_STATE = Map({
+const INITIAL_STATE = {
   framesVisible: true,
   collidersVisible: true,
-});
+};
 
 // Actions
 const SHOW_FRAMES = 'animation-editor/ui/SHOW_FRAMES';
@@ -14,24 +14,23 @@ const SHOW_COLLIDERS = 'animation-editor/ui/SHOW_COLLIDERS';
 const HIDE_COLLIDERS = 'animation-editor/ui/HIDE_COLLIDERS';
 
 // Reducer
-export default function reducer(state = INITIAL_STATE, action = {}) {
-  switch (action.type) {
-    case SHOW_FRAMES:
-      return state.set('framesVisible', true);
+export default createReducer(INITIAL_STATE, {
+  [SHOW_FRAMES]: state => {
+    state.framesVisible = true;
+  },
 
-    case HIDE_FRAMES:
-      return state.set('framesVisible', false);
+  [HIDE_FRAMES]: state => {
+    state.framesVisible = false;
+  },
 
-    case SHOW_COLLIDERS:
-      return state.set('collidersVisible', true);
+  [SHOW_COLLIDERS]: state => {
+    state.collidersVisible = true;
+  },
 
-    case HIDE_COLLIDERS:
-      return state.set('collidersVisible', false);
-
-    default:
-      return state;
-  }
-}
+  [HIDE_COLLIDERS]: state => {
+    state.collidersVisible = false;
+  },
+});
 
 // Action creators
 export function showFrames() {
