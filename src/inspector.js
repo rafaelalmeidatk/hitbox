@@ -1,5 +1,3 @@
-import {fromJS} from 'immutable';
-
 // Types
 export const ANIMATION_TYPE = 'inspector/ANIMATION';
 export const FRAME_TYPE = 'inspector/FRAME';

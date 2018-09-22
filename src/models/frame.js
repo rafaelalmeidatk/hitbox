@@ -1,5 +1,5 @@
 import shortid from 'shortid';
-import reducer, { setFrameSourceRect, setFrameOffset } from '../ducks/objects';
+import { setFrameSourceRect, setFrameOffset } from '../ducks/objects';
 
 function fieldUpdater(props, field, value) {
   const {

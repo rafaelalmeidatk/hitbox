@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Button } from '@blueprintjs/core';
 import Editor from '../Editor';
 import AnimationsWindow from '../AnimationsWindow';
 import FramesWindow from '../FramesWindow';

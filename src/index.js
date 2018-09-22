@@ -13,11 +13,7 @@ import {
   newCollider,
   setFrameSourceRect,
 } from './ducks/objects';
-import {
-  setSelectedAnimationId,
-  setSelectedFrameId,
-  setSelectedItemId,
-} from './ducks/selection';
+import { setSelectedAnimationId, setSelectedFrameId } from './ducks/selection';
 
 const store = createStore();
 store.dispatch(newAnimation());

@@ -1,5 +1,5 @@
 import shortid from 'shortid';
-import reducer, {
+import {
   setAnimationName,
   setAnimationDelay,
   setAnimationRepeat,

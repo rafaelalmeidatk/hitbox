@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, Icon, Button } from '@blueprintjs/core';
+import { Card, Button } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 
 const Window = ({ title, titleActionButton, titleActionButtonEnabled, children, ...props }) => (

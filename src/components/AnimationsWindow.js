@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ImageUploadButton from './ImageUploadButton';
 import { setSelectedAnimationId, setSelectedItemId } from '../ducks/selection';
 import { newAnimation } from '../ducks/objects';
 
