@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import { setSelectedColliderId } from '../ducks/selection';
 import { setColliderRect } from '../ducks/objects';
+import { localPositionToCanvas, canvasToLocalPosition } from '../helpers/colliders'
 import colors from '../colors';
 
 class CollidersLayer extends React.Component {
@@ -30,37 +31,37 @@ class CollidersLayer extends React.Component {
     return currentColliders || [];
   }
 
+  get frame() {
+    const { selectedFrameId, frames } = this.props;
+    return frames.find(frame => frame.id === selectedFrameId);
+  }
+
   handleColliderClick = colliderId => {
     this.props.setSelectedColliderId(colliderId);
   };
 
-  handleColliderDrag = (colliderId, args) => {
+  handleColliderDrag = (collider, args) => {
     if (!args.target) return;
-    const { selectedFrameId, frames } = this.props;
-    const frame = frames.find(frame => frame.id === selectedFrameId);
+    const frame = this.frame;
 
     const {
       attrs: { x, y, width, height },
     } = args.target;
 
-    this.props.setColliderRect(colliderId, {
-      x: Math.floor(x) - frame.sourceRect.x,
-      y: Math.floor(y) - frame.sourceRect.y,
+    this.props.setColliderRect(collider.id, {
+      x: canvasToLocalPosition({ x, y }, frame.sourceRect).x,
+      y: canvasToLocalPosition({ x, y }, frame.sourceRect).y,
       width: Math.floor(width),
       height: Math.floor(height),
     });
   };
 
-  calculateColliderX = (rect) => {
-    const { selectedFrameId, frames } = this.props;
-    const frame = frames.find(frame => frame.id === selectedFrameId);
-    return frame.sourceRect.x + rect.x;
+  calculateColliderX = (collider) => {
+    return localPositionToCanvas(collider.rect, this.frame.sourceRect).x;
   }
 
-  calculateColliderY = (rect) => {
-    const { selectedFrameId, frames } = this.props;
-    const frame = frames.find(frame => frame.id === selectedFrameId);
-    return frame.sourceRect.y + rect.y;
+  calculateColliderY = (collider) => {
+    return localPositionToCanvas(collider.rect, this.frame.sourceRect).y;
   }
 
   render() {
@@ -71,16 +72,16 @@ class CollidersLayer extends React.Component {
           this.colliders.map(collider => (
             <Rect
               key={collider.id}
-              x={this.calculateColliderX(collider.rect)}
-              y={this.calculateColliderY(collider.rect)}
+              x={this.calculateColliderX(collider)}
+              y={this.calculateColliderY(collider)}
               width={collider.rect.width}
               height={collider.rect.height}
               fill={colors.colliderRect}
               draggable={true}
               onClick={() => this.handleColliderClick(collider.id)}
-              onDragStart={args => this.handleColliderDrag(collider.id, args)}
-              onDragMove={args => this.handleColliderDrag(collider.id, args)}
-              onDragEnd={args => this.handleColliderDrag(collider.id, args)}
+              onDragStart={args => this.handleColliderDrag(collider, args)}
+              onDragMove={args => this.handleColliderDrag(collider, args)}
+              onDragEnd={args => this.handleColliderDrag(collider, args)}
             />
           ))}
       </Group>
