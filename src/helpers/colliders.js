@@ -1,13 +1,12 @@
-export function localPositionToCanvas(position, frameSourceRect) {
+export function localPositionToCanvas(rect, origin, frameSourceRect) {
   return {
-    x: frameSourceRect.x + position.x,
-    y: frameSourceRect.y + position.y,
+    x:
+      frameSourceRect.x +
+      rect.x +
+      (frameSourceRect.width - rect.width) * origin.x,
+    y:
+      frameSourceRect.y +
+      rect.y +
+      (frameSourceRect.height - rect.height) * origin.y,
   };
-}
-
-export function canvasToLocalPosition(position, frameSourceRect) {
-  return {
-    x: Math.floor(position.x) - frameSourceRect.x,
-    y: Math.floor(position.y) - frameSourceRect.y,
-  }
 }

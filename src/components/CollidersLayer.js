@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { setSelectedColliderId } from '../ducks/selection';
 import { setColliderRect } from '../ducks/objects';
-import { localPositionToCanvas, canvasToLocalPosition } from '../helpers/colliders'
+import { localPositionToCanvas } from '../helpers/colliders';
 import colors from '../colors';
 
 class CollidersLayer extends React.Component {
@@ -17,6 +17,11 @@ class CollidersLayer extends React.Component {
     setColliderRect: PropTypes.func,
 
     collidersVisible: PropTypes.bool,
+  };
+
+  initialDragData = {
+    mousePosition: { x: 0, y: 0 },
+    colliderPosition: { x: 0, y: 0 },
   };
 
   get colliders() {
@@ -40,29 +45,44 @@ class CollidersLayer extends React.Component {
     this.props.setSelectedColliderId(colliderId);
   };
 
+  handleColliderMouseDown = (collider, args) => {
+    const { x, y } = args.target.attrs;
+    this.initialDragData = {
+      mousePosition: { x, y },
+      colliderPosition: { x: collider.rect.x, y: collider.rect.y },
+    };
+  };
+
   handleColliderDrag = (collider, args) => {
     if (!args.target) return;
-    const frame = this.frame;
+    const { x, y, width, height } = args.target.attrs;
 
-    const {
-      attrs: { x, y, width, height },
-    } = args.target;
+    const deltaX = x - this.initialDragData.mousePosition.x;
+    const deltaY = y - this.initialDragData.mousePosition.y;
 
     this.props.setColliderRect(collider.id, {
-      x: canvasToLocalPosition({ x, y }, frame.sourceRect).x,
-      y: canvasToLocalPosition({ x, y }, frame.sourceRect).y,
+      x: this.initialDragData.colliderPosition.x + Math.floor(deltaX),
+      y: this.initialDragData.colliderPosition.y + Math.floor(deltaY),
       width: Math.floor(width),
       height: Math.floor(height),
     });
   };
 
-  calculateColliderX = (collider) => {
-    return localPositionToCanvas(collider.rect, this.frame.sourceRect).x;
-  }
+  calculateColliderX = collider => {
+    return localPositionToCanvas(
+      collider.rect,
+      { x: 0.5, y: 0.5 },
+      this.frame.sourceRect
+    ).x;
+  };
 
-  calculateColliderY = (collider) => {
-    return localPositionToCanvas(collider.rect, this.frame.sourceRect).y;
-  }
+  calculateColliderY = collider => {
+    return localPositionToCanvas(
+      collider.rect,
+      { x: 0.5, y: 0.5 },
+      this.frame.sourceRect
+    ).y;
+  };
 
   render() {
     const { collidersVisible } = this.props;
@@ -78,10 +98,10 @@ class CollidersLayer extends React.Component {
               height={collider.rect.height}
               fill={colors.colliderRect}
               draggable={true}
+              dragDistance={0}
               onClick={() => this.handleColliderClick(collider.id)}
-              onDragStart={args => this.handleColliderDrag(collider, args)}
+              onMouseDown={args => this.handleColliderMouseDown(collider, args)}
               onDragMove={args => this.handleColliderDrag(collider, args)}
-              onDragEnd={args => this.handleColliderDrag(collider, args)}
             />
           ))}
       </Group>
