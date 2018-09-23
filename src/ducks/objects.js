@@ -20,6 +20,7 @@ const NEW_COLLIDER = 'animation-editor/objects/NEW_COLLIDER';
 const SET_COLLIDER_NAME = 'animation-editor/objects/SET_COLLIDER_NAME';
 const SET_COLLIDER_TYPE = 'animation-editor/objects/SET_COLLIDER_TYPE';
 const SET_COLLIDER_RECT = 'animation-editor/objects/SET_COLLIDER_RECT';
+const SET_COLLIDER_ORIGIN = 'animation-editor/objects/SET_COLLIDER_ORIGIN';
 
 const NEW_FRAME = 'animation-editor/objects/NEW_FRAME';
 const SET_FRAME_SOURCERECT = 'animation-editor/objects/SET_FRAME_SOURCERECT';
@@ -96,6 +97,11 @@ export default createReducer(INITIAL_STATE, {
     const index = findIndexById(state.colliders, action.id);
     state.colliders[index].rect = action.rect;
   },
+
+  [SET_COLLIDER_ORIGIN]: (state, action) => {
+    const index = findIndexById(state.colliders, action.id);
+    state.colliders[index].origin = action.origin;
+  },
 });
 
 // Action creators
@@ -141,4 +147,8 @@ export function setColliderType(id, type) {
 
 export function setColliderRect(id, rect) {
   return { type: SET_COLLIDER_RECT, id, rect };
+}
+
+export function setColliderOrigin(id, origin) {
+  return { type: SET_COLLIDER_ORIGIN, id, origin };
 }

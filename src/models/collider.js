@@ -3,6 +3,7 @@ import {
   setColliderName,
   setColliderType,
   setColliderRect,
+  setColliderOrigin,
 } from '../ducks/objects';
 
 function fieldUpdater(props, field, value) {
@@ -23,6 +24,13 @@ function fieldUpdater(props, field, value) {
       };
       return setColliderRect(id, rect);
     }
+    case 'origin': {
+      const origin = {
+        ...property,
+        [innerField]: value,
+      };
+      return setColliderOrigin(id, origin);
+    }
   }
 }
 
@@ -42,6 +50,10 @@ export default () => ({
         fieldKey: 'rect',
         displayName: 'Rectangle',
       },
+      {
+        fieldKey: 'origin',
+        displayName: 'Origin',
+      },
     ],
     updater: fieldUpdater,
   },
@@ -52,5 +64,9 @@ export default () => ({
     y: 0,
     width: 32,
     height: 32,
+  },
+  origin: {
+    x: 0.5,
+    y: 0.5,
   },
 });

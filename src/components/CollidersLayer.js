@@ -71,7 +71,7 @@ class CollidersLayer extends React.Component {
   calculateColliderX = collider => {
     return localPositionToCanvas(
       collider.rect,
-      { x: 0.5, y: 0.5 },
+      collider.origin,
       this.frame.sourceRect
     ).x;
   };
@@ -79,7 +79,7 @@ class CollidersLayer extends React.Component {
   calculateColliderY = collider => {
     return localPositionToCanvas(
       collider.rect,
-      { x: 0.5, y: 0.5 },
+      collider.origin,
       this.frame.sourceRect
     ).y;
   };
