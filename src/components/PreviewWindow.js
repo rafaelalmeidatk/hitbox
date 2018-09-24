@@ -1,97 +1,36 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Sprite, Layer, Stage } from 'react-konva';
+import { Button } from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons';
 
-import { setSelectedFrameId, setSelectedItemId } from '../ducks/selection';
 import Window from './Window';
+import PreviewSprite from './PreviewSprite';
 
 class PreviewWindow extends React.Component {
-  static propTypes = {
-    animations: PropTypes.array,
-    frames: PropTypes.array,
-    selectedAnimationId: PropTypes.string,
-    selectedFrameId: PropTypes.string,
-    setSelectedFrameId: PropTypes.func,
+  handlePlayButton = () => {
+    this.previewSprite.play();
   };
 
-  state = {
-    image: null,
-    sprite: null,
-  };
-
-  componentDidMount = () => {
-    this.loadImage('http://localhost:3000/player.png');
-  };
-
-  loadImage = url => {
-    const image = new window.Image();
-    image.src = url;
-    image.onload = () => {
-      // const sprite = new
-
-      this.setState({ image }, () => this.sprite.start());
-    };
-  };
-
-  get frames() {
-    const { animations, selectedAnimationId, frames } = this.props;
-    if (!animations || !selectedAnimationId) return [];
-    const currentFrames = animations
-      .find(anim => anim.id === selectedAnimationId)
-      .frames.map(frameId => frames.find(frame => frame.id === frameId));
-
-    return currentFrames || [];
-  }
-
-  convertFramesToSpriteAnimations = frames => {
-    if (!frames) return { default: [] };
-    return {
-      default: frames
-        .map(({ sourceRect }) => [
-          sourceRect.x,
-          sourceRect.y,
-          sourceRect.width,
-          sourceRect.height,
-        ])
-        .reduce((arr, value) => [...arr, ...value], []),
-    };
+  handlePauseButton = () => {
+    this.previewSprite.pause();
   };
 
   render() {
-    const animations = this.convertFramesToSpriteAnimations(this.frames);
     return (
       <Window title="Preview">
-        <Stage width={64} height={64}>
-          <Layer>
-            <Sprite
-              image={this.state.image}
-              ref={node => (this.sprite = node)}
-              animation={'default'}
-              animations={animations}
-              frameRate={6}
-            />
-          </Layer>
-        </Stage>
+        <div className="preview-btns">
+          <Button onClick={this.handlePlayButton} icon={IconNames.PLAY} small />
+          <Button
+            onClick={this.handlePauseButton}
+            icon={IconNames.PAUSE}
+            small
+          />
+        </div>
+        <PreviewSprite
+          ref={node => (this.previewSprite = node.getWrappedInstance())}
+        />
       </Window>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    animations: state['objects'].animations,
-    frames: state['objects'].frames,
-    selectedAnimationId: state['selection'].selectedAnimationId,
-  };
-}
-
-const mapDispatchToProps = {
-  setSelectedFrameId,
-  setSelectedItemId,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PreviewWindow);
+export default PreviewWindow;

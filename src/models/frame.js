@@ -1,7 +1,7 @@
 import shortid from 'shortid';
 import { setFrameSourceRect, setFrameOffset } from '../ducks/objects';
 
-function fieldUpdater(props, field, value) {
+export function fieldUpdater(props, field, value) {
   const {
     id,
     property,
@@ -28,6 +28,7 @@ function fieldUpdater(props, field, value) {
 export default () => ({
   id: shortid.generate(),
   _inspector: {
+    modelType: 'frame',
     editableFields: [
       {
         fieldKey: 'sourceRect',
@@ -38,7 +39,6 @@ export default () => ({
         displayName: 'Offset',
       },
     ],
-    updater: fieldUpdater,
   },
   name: 'New Frame',
   sourceRect: {

@@ -6,7 +6,7 @@ import {
   setColliderOrigin,
 } from '../ducks/objects';
 
-function fieldUpdater(props, field, value) {
+export function fieldUpdater(props, field, value) {
   const {
     id,
     property,
@@ -37,6 +37,7 @@ function fieldUpdater(props, field, value) {
 export default () => ({
   id: shortid.generate(),
   _inspector: {
+    modelType: 'collider',
     editableFields: [
       {
         fieldKey: 'name',
@@ -55,7 +56,6 @@ export default () => ({
         displayName: 'Origin',
       },
     ],
-    updater: fieldUpdater,
   },
   name: 'New Collider',
   type: 'NONE',

@@ -115,3 +115,15 @@ h1 {
 .innerObject .bp3-form-group {
   margin-bottom: 0;
 }
+
+/*
+ * Preview window
+ */
+
+.preview-btns {
+  margin-bottom: 6px;
+}
+
+.preview-btns button {
+  margin-right: 6px;
+}

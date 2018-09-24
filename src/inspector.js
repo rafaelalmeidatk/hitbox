@@ -1,3 +1,13 @@
+import { fieldUpdater as animationUpdater } from './models/animation';
+import { fieldUpdater as frameUpdater } from './models/frame';
+import { fieldUpdater as colliderUpdater } from './models/collider';
+
+const modelsUpdater = {
+  animation: animationUpdater,
+  frame: frameUpdater,
+  collider: colliderUpdater,
+};
+
 // Types
 export const ANIMATION_TYPE = 'inspector/ANIMATION';
 export const FRAME_TYPE = 'inspector/FRAME';
@@ -38,7 +48,7 @@ export function getInspectorEditableFields(inspectableObject) {
 
 export function getUpdater(inspectableObject) {
   const inspector = inspectableObject._inspector;
-  return inspector.updater || [];
+  return modelsUpdater[inspector.modelType];
 }
 
 export function extractFieldsByType(inspectableObject) {

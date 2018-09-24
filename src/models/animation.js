@@ -5,7 +5,7 @@ import {
   setAnimationRepeat,
 } from '../ducks/objects';
 
-function fieldUpdater(props, field, value) {
+export function fieldUpdater(props, field, value) {
   const { id } = props;
   switch (field) {
     case 'name':
@@ -20,6 +20,7 @@ function fieldUpdater(props, field, value) {
 export default () => ({
   id: shortid.generate(),
   _inspector: {
+    modelType: 'animation',
     editableFields: [
       {
         fieldKey: 'name',
@@ -34,7 +35,6 @@ export default () => ({
         displayName: 'Repeat',
       },
     ],
-    updater: fieldUpdater,
   },
   name: 'New Animation',
   delay: 0,
