@@ -4,6 +4,7 @@ import AnimationsWindow from '../AnimationsWindow';
 import FramesWindow from '../FramesWindow';
 import CollidersWindow from '../CollidersWindow';
 import InspectorWindow from '../InspectorWindow';
+import PreviewWindow from '../PreviewWindow';
 import 'reset-css';
 import './styles.css';
 
@@ -21,16 +22,16 @@ class App extends Component {
     const isTest = process.env.NODE_ENV === 'test';
     return (
       <div className="App bp3-dark">
-
         <div className="left-windows">
           <AnimationsWindow onImageChange={this.handleImageChange} />
           <FramesWindow />
+          <PreviewWindow />
         </div>
         <div className="right-windows">
           <CollidersWindow />
           <InspectorWindow />
         </div>
-        
+
         {!isTest && <Editor ref={node => (this.editor = node)} />}
       </div>
     );
