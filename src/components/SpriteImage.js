@@ -12,7 +12,7 @@ export default class SpriteImage extends React.Component {
   }
 
   componentDidMount() {
-    this.loadImage('http://localhost:3000/player.png');
+    this.loadImage('./player.png');
   }
 
   changeImage = (data) => {

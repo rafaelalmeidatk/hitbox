@@ -36,7 +36,7 @@ class PreviewSprite extends React.Component {
   }
 
   componentDidMount = () => {
-    this.loadImage('http://localhost:3000/player.png');
+    this.loadImage('./player.png');
     this.sprite.on('frameIndexChange.konva', this.handleFrameIndexChange);
   };
 
