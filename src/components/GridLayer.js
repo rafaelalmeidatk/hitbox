@@ -1,38 +1,73 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Konva from 'konva';
-import { Layer} from 'react-konva';
+import { Layer, Rect } from 'react-konva';
 
 export default class GridLayer extends React.Component {
   static propTypes = {
+    x: PropTypes.number,
+    y: PropTypes.number,
     width: PropTypes.number,
     height: PropTypes.number,
-    size: PropTypes.number,
+    squareDimensions: PropTypes.number,
   };
 
   componentDidMount() {
-    const { width, height, size } = this.props;
-
-    for (let i = 0; i < width / size; i++) {
-      this.gridlayer.add(new Konva.Line({
-        points: [Math.round(i * size) + 0.5, 0, Math.round(i * size) + 0.5, height],
-        stroke: '#dadada',
-        strokeWidth: 1,
-      }));
-    }
-
-    for (let i = 0; i < height / size; i++) {
-      this.gridlayer.add(new Konva.Line({
-        points: [0, Math.round(i * size), width, Math.round(i * size)],
-        stroke: '#dadada',
-        strokeWidth: 1,
-      }));
-    }
+    this.drawGrid();
   }
 
+  componentDidUpdate() {
+    this.drawGrid();
+  }
+
+  drawGrid = () => {
+    const { width, height, squareDimensions } = this.props;
+
+    this.gridLayer.clear();
+
+    for (let i = 0; i < width / squareDimensions; i++) {
+      this.gridLayer.add(
+        new Konva.Line({
+          points: [
+            Math.round(i * squareDimensions) + 0.5,
+            0,
+            Math.round(i * squareDimensions) + 0.5,
+            height,
+          ],
+          stroke: '#dadada',
+          strokeWidth: 1,
+        })
+      );
+    }
+
+    for (let i = 0; i < height / squareDimensions; i++) {
+      this.gridLayer.add(
+        new Konva.Line({
+          points: [
+            0,
+            Math.round(i * squareDimensions),
+            width,
+            Math.round(i * squareDimensions),
+          ],
+          stroke: '#dadada',
+          strokeWidth: 1,
+        })
+      );
+    }
+  };
+
   render() {
+    const { width, height, x, y } = this.props;
     return (
-      <Layer ref={(node) => this.gridlayer = node} />
+      <Layer x={x} y={y} ref={node => (this.gridLayer = node)}>
+        <Rect
+          fill="#fff"
+          width={width}
+          height={height}
+          shadowBlur={20}
+          shadowColor="rgba(0, 0, 0, 0.2)"
+        />
+      </Layer>
     );
   }
 }

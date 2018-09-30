@@ -10,6 +10,7 @@ html {
 
 body {
   font-family: 'Roboto', sans-serif;
+  background-color: #26333d;
 }
 
 :not(input):not(textarea):not(button *),

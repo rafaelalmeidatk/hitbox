@@ -8,16 +8,10 @@ import FramesLayer from './FramesLayer';
 import CollidersLayer from './CollidersLayer';
 
 export default class Editor extends React.Component {
-  static propTypes = {
-    animations: PropTypes.object,
+  state = {
+    spriteSize: { width: 0, height: 0 },
+    layersPosition: { x: 0, y: 0 },
   };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      layerScale: 1,
-    };
-  }
 
   componentDidMount() {
     // Remove AA
@@ -52,10 +46,13 @@ export default class Editor extends React.Component {
   };
 
   handleImageLoaded = imageData => {
-    const layer = this.mainLayer;
+    const layer = this.stage.getStage();
     const x = Math.floor((layer.width() - imageData.width) / 2);
     const y = Math.floor((layer.height() - imageData.height) / 2);
-    layer.position({ x, y });
+    this.setState({
+      spriteSize: { width: imageData.width, height: imageData.height },
+      layersPosition: { x, y },
+    });
   };
 
   handleWheel = e => {
@@ -81,11 +78,11 @@ export default class Editor extends React.Component {
     };
     layer.position(newPos);
     stage.batchDraw();
-
-    this.setState({ layerScale: newScale });
   };
 
   render() {
+    const { spriteSize, layersPosition } = this.state;
+
     return (
       <Stage
         ref={node => (this.stage = node)}
@@ -93,10 +90,24 @@ export default class Editor extends React.Component {
         height={window.innerHeight}
         draggable={true}
       >
-        <GridLayer width={window.innerWidth} height={window.innerWidth} size={28} />
+        <GridLayer
+          x={layersPosition.x}
+          y={layersPosition.y}
+          width={spriteSize.width}
+          height={spriteSize.height}
+          squareDimensions={32}
+        />
 
-        <Layer ref={node => (this.mainLayer = node)} onWheel={this.onWheel}>
-          <SpriteImage ref={node => (this.sprite = node)} onImageLoaded={this.handleImageLoaded} />
+        <Layer
+          ref={node => (this.mainLayer = node)}
+          x={layersPosition.x}
+          y={layersPosition.y}
+          onWheel={this.onWheel}
+        >
+          <SpriteImage
+            ref={node => (this.sprite = node)}
+            onImageLoaded={this.handleImageLoaded}
+          />
 
           <FramesLayer />
           <CollidersLayer />
