@@ -19,6 +19,12 @@ class PreviewSprite extends React.Component {
     sprite: null,
   };
 
+  get animation() {
+    const { animations, selectedAnimationId } = this.props;
+    if (!animations || !selectedAnimationId) null;
+    return animations.find(anim => anim.id === selectedAnimationId);
+  }
+
   get frames() {
     const { animations, selectedAnimationId, frames } = this.props;
     if (!animations || !selectedAnimationId) return [];
@@ -31,9 +37,15 @@ class PreviewSprite extends React.Component {
 
   componentDidMount = () => {
     this.loadImage('http://localhost:3000/player.png');
+    this.sprite.on('frameIndexChange.konva', this.handleFrameIndexChange);
+  };
+
+  componentWillUnmount = () => {
+    this.sprite.off('frameIndexChange.konva', this.handleFrameIndexChange);
   };
 
   play = () => {
+    this.sprite.stop(); // Prevents the animation from starting more than once
     this.sprite.start();
   };
 
@@ -47,6 +59,13 @@ class PreviewSprite extends React.Component {
     image.onload = () => {
       this.setState({ image });
     };
+  };
+
+  handleFrameIndexChange = event => {
+    const animation = this.animation;
+    if (!animation.repeat && event.newVal === animation.frames.length - 1) {
+      this.sprite.stop();
+    }
   };
 
   convertFramesToSpriteAnimations = frames => {
@@ -65,6 +84,9 @@ class PreviewSprite extends React.Component {
 
   render() {
     const animations = this.convertFramesToSpriteAnimations(this.frames);
+    const animation = this.animation;
+    const frameRate = 1000 / (animation.delay || 1000);
+    
     return (
       <Stage width={64} height={64}>
         <Layer>
@@ -73,7 +95,7 @@ class PreviewSprite extends React.Component {
             ref={node => (this.sprite = node)}
             animation={'default'}
             animations={animations}
-            frameRate={6}
+            frameRate={frameRate}
           />
         </Layer>
       </Stage>

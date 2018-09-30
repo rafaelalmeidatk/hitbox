@@ -37,7 +37,7 @@ export default () => ({
     ],
   },
   name: 'New Animation',
-  delay: 0,
-  repeat: false,
+  delay: 200,
+  repeat: true,
   frames: [],
 });
