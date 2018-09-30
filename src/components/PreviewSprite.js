@@ -85,7 +85,7 @@ class PreviewSprite extends React.Component {
   render() {
     const animations = this.convertFramesToSpriteAnimations(this.frames);
     const animation = this.animation;
-    const frameRate = 1000 / (animation.delay || 1000);
+    const frameRate = 1000 / (animation && animation.delay || 1000);
     
     return (
       <Stage width={64} height={64}>
