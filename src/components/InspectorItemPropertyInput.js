@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormGroup, InputGroup, NumericInput, Checkbox } from '@blueprintjs/core';
+import {
+  FormGroup,
+  InputGroup,
+  NumericInput,
+  Checkbox,
+} from '@blueprintjs/core';
 
 export default class InspectorItemPropertyInput extends React.Component {
   static propTypes = {
@@ -28,7 +33,7 @@ export default class InspectorItemPropertyInput extends React.Component {
         <NumericInput
           fill
           value={value}
-          onValueChange={value => onChange(value, data)}
+          onValueChange={value => !isNaN(value) && onChange(value, data)}
         />
       </FormGroup>
     );
