@@ -49,8 +49,6 @@ export default class Editor extends React.Component {
   };
 
   handleWheel = e => {
-    e.preventDefault();
-
     const isIncrease = e.deltaY < 0;
     const stage = this.stage.getStage();
     const currentScale = stage.scaleX();
@@ -61,6 +59,8 @@ export default class Editor extends React.Component {
       (!isIncrease && currentScale <= MIN_ZOOM_MULTIPLIER)
     )
       return;
+      
+    e.preventDefault();
 
     const mousePointTo = {
       x: stage.getPointerPosition().x / currentScale - stage.x() / currentScale,
