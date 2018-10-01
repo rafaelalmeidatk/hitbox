@@ -9,6 +9,7 @@ import CollidersLayer from './CollidersLayer';
 
 export default class Editor extends React.Component {
   state = {
+    canvasSize: { width: window.innerWidth, height: window.innerHeight },
     spriteSize: { width: 0, height: 0 },
     layersPosition: { x: 0, y: 0 },
   };
@@ -21,25 +22,13 @@ export default class Editor extends React.Component {
     context.imageSmoothingEnabled = false;
 
     window.addEventListener('wheel', this.handleWheel);
+    window.addEventListener('resize', this.handleResize);
   }
 
   componentWillUnmount() {
     window.removeEventListener('wheel', this.handleWheel);
+    window.removeEventListener('resize', this.handleResize);
   }
-
-  createFrame = () => {
-    var rect = new Konva.Rect({
-      x: 50,
-      y: 50,
-      fill: 'orange',
-      draggable: true,
-      width: 50,
-      height: 50,
-      opacity: 0.5,
-    });
-    this.boxesGroup.add(rect);
-    this.stage.getStage().batchDraw();
-  };
 
   changeImage = data => {
     this.sprite.changeImage(data);
@@ -80,14 +69,20 @@ export default class Editor extends React.Component {
     stage.batchDraw();
   };
 
+  handleResize = e => {
+    this.setState({
+      canvasSize: { width: e.target.innerWidth, height: e.target.innerHeight },
+    });
+  };
+
   render() {
-    const { spriteSize, layersPosition } = this.state;
+    const { canvasSize, spriteSize, layersPosition } = this.state;
 
     return (
       <Stage
         ref={node => (this.stage = node)}
-        width={window.innerWidth}
-        height={window.innerHeight}
+        width={canvasSize.width}
+        height={canvasSize.height}
         draggable={true}
       >
         <GridLayer
