@@ -1,11 +1,15 @@
-import Konva from 'konva';
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Group, Layer, Stage } from 'react-konva';
 import GridLayer from './GridLayer';
 import SpriteImage from './SpriteImage';
 import FramesLayer from './FramesLayer';
 import CollidersLayer from './CollidersLayer';
+
+import {
+  ZOOM_MULTIPLIER,
+  MAX_ZOOM_MULTIPLIER,
+  MIN_ZOOM_MULTIPLIER,
+} from '../helpers/constants';
 
 export default class Editor extends React.Component {
   state = {
@@ -45,27 +49,34 @@ export default class Editor extends React.Component {
   };
 
   handleWheel = e => {
-    const stage = this.stage.getStage();
-    const layer = this.stage.getStage();
-    const scaleBy = 2;
-    if (!stage.getPointerPosition()) return;
-
     e.preventDefault();
-    var oldScale = layer.scaleX();
 
-    var mousePointTo = {
-      x: stage.getPointerPosition().x / oldScale - layer.x() / oldScale,
-      y: stage.getPointerPosition().y / oldScale - layer.y() / oldScale,
+    const isIncrease = e.deltaY < 0;
+    const stage = this.stage.getStage();
+    const currentScale = stage.scaleX();
+
+    if (
+      !stage.getPointerPosition() ||
+      (isIncrease && currentScale >= MAX_ZOOM_MULTIPLIER) ||
+      (!isIncrease && currentScale <= MIN_ZOOM_MULTIPLIER)
+    )
+      return;
+
+    const mousePointTo = {
+      x: stage.getPointerPosition().x / currentScale - stage.x() / currentScale,
+      y: stage.getPointerPosition().y / currentScale - stage.y() / currentScale,
     };
 
-    var newScale = e.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
-    layer.scale({ x: newScale, y: newScale });
+    const newScale = isIncrease
+      ? currentScale * ZOOM_MULTIPLIER
+      : currentScale / ZOOM_MULTIPLIER;
+    stage.scale({ x: newScale, y: newScale });
 
-    var newPos = {
+    const newPos = {
       x: -(mousePointTo.x - stage.getPointerPosition().x / newScale) * newScale,
       y: -(mousePointTo.y - stage.getPointerPosition().y / newScale) * newScale,
     };
-    layer.position(newPos);
+    stage.position(newPos);
     stage.batchDraw();
   };
 

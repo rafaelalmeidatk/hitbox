@@ -7,7 +7,7 @@
 - Delete animations, frames and colliders
 - Reajust the windows on the layout
 - Copy hitboxes from other frames
-- Zoom limit
+- ~~Zoom limit~~
 - Show boxes on preview window
 - Bigger sprite preview
 - Resize rectangle with the mouse
