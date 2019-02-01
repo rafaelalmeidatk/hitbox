@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setSelectedAnimationId, setSelectedItemId } from '../ducks/selection';
-import { newAnimation } from '../ducks/objects';
+import { newAnimation, deleteAnimation } from '../ducks/objects';
 
 import Window from './Window';
 import WindowItemsList from './WindowItemsList';
@@ -13,6 +13,7 @@ class AnimationsWindow extends React.Component {
     selectedAnimationId: PropTypes.string,
     setSelectedAnimationId: PropTypes.func,
     newAnimation: PropTypes.func,
+    deleteAnimation: PropTypes.func,
 
     // Deprecated
     onImageChange: PropTypes.func,
@@ -27,6 +28,12 @@ class AnimationsWindow extends React.Component {
     setSelectedAnimationId(id);
   };
 
+  handleOnItemDeleteClick = (id) => {
+    const { deleteAnimation, setSelectedAnimationId } = this.props;
+    deleteAnimation(id);
+    setSelectedAnimationId(undefined);
+  };
+
   render() {
     const { selectedAnimationId, newAnimation } = this.props;
 
@@ -36,6 +43,7 @@ class AnimationsWindow extends React.Component {
           items={this.animations}
           selectedId={selectedAnimationId}
           onItemClick={id => this.handleOnItemClick(id)}
+          onItemDeleteClick={id => this.handleOnItemDeleteClick(id)}
         />
 
         {/* <ImageUploadButton onChange={this.props.onImageChange} /> */}
@@ -55,6 +63,7 @@ const mapDispatchToProps = {
   setSelectedAnimationId,
   setSelectedItemId,
   newAnimation,
+  deleteAnimation,
 };
 
 export default connect(

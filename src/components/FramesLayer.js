@@ -21,9 +21,12 @@ class FramesLayer extends React.Component {
   get frames() {
     const { animations, selectedAnimationId, frames } = this.props;
     if (!animations || !selectedAnimationId) return [];
-    const currentFrames = animations
-      .find(anim => anim.id === selectedAnimationId)
-      .frames.map(frameId => frames.find(frame => frame.id === frameId));
+    const animation = animations.find(anim => anim.id === selectedAnimationId);
+    if (!animation) return [];
+
+    const currentFrames = animation.frames.map(frameId =>
+      frames.find(frame => frame.id === frameId)
+    );
 
     return currentFrames || [];
   }
@@ -51,7 +54,7 @@ class FramesLayer extends React.Component {
     return (
       <Group ref={node => (this.framesGroup = node)}>
         {framesVisible &&
-          this.frames.map(frame => (
+          (console.log(this.frames), this.frames).map(frame => (
             <Rect
               key={frame.id}
               x={frame.sourceRect.x}

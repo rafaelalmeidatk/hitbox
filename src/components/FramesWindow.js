@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setSelectedFrameId, setSelectedItemId } from '../ducks/selection';
-import { newFrame } from '../ducks/objects';
+import { newFrame, deleteFrame } from '../ducks/objects';
 import { showFrames, hideFrames } from '../ducks/ui';
 
 import Window from './Window';
@@ -17,6 +17,7 @@ class FramesWindow extends React.Component {
     selectedFrameId: PropTypes.string,
     setSelectedFrameId: PropTypes.func,
     newFrame: PropTypes.func,
+    deleteFrame: PropTypes.func,
     framesVisible: PropTypes.bool,
     showFrames: PropTypes.func,
     hideFrames: PropTypes.func,
@@ -25,9 +26,12 @@ class FramesWindow extends React.Component {
   get frames() {
     const { animations, selectedAnimationId, frames } = this.props;
     if (!animations || !selectedAnimationId) return [];
-    const currentFrames = animations
-      .find(anim => anim.id === selectedAnimationId)
-      .frames.map(frameId => frames.find(frame => frame.id === frameId));
+    const animation = animations.find(anim => anim.id === selectedAnimationId);
+    if (!animation) return [];
+
+    const currentFrames = animation.frames.map(frameId =>
+      frames.find(frame => frame.id === frameId)
+    );
 
     return currentFrames || [];
   }
@@ -39,6 +43,12 @@ class FramesWindow extends React.Component {
   handleOnItemClick = id => {
     const { setSelectedFrameId } = this.props;
     setSelectedFrameId(id);
+  };
+
+  handleOnItemDeleteClick = id => {
+    const { deleteFrame, setSelectedFrameId } = this.props;
+    deleteFrame(id);
+    setSelectedFrameId(undefined);
   };
 
   createNewFrame = () => {
@@ -68,6 +78,7 @@ class FramesWindow extends React.Component {
           items={this.frames}
           selectedId={selectedFrameId}
           onItemClick={id => this.handleOnItemClick(id)}
+          onItemDeleteClick={id => this.handleOnItemDeleteClick(id)}
         />
       </Window>
     );
@@ -88,6 +99,7 @@ const mapDispatchToProps = {
   setSelectedFrameId,
   setSelectedItemId,
   newFrame,
+  deleteFrame,
   showFrames,
   hideFrames,
 };

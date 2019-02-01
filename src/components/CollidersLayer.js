@@ -27,12 +27,12 @@ class CollidersLayer extends React.Component {
   get colliders() {
     const { frames, selectedFrameId, colliders } = this.props;
     if (!colliders || !selectedFrameId) return [];
-    const currentColliders = frames
-      .find(frame => frame.id === selectedFrameId)
-      .colliders.map(colliderId =>
-        colliders.find(collider => collider.id === colliderId)
-      );
+    const frame = frames.find(frame => frame.id === selectedFrameId);
+    if (!frame) return [];
 
+    const currentColliders = frame.colliders.map(colliderId =>
+      colliders.find(collider => collider.id === colliderId)
+    );
     return currentColliders || [];
   }
 

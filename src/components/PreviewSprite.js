@@ -28,9 +28,12 @@ class PreviewSprite extends React.Component {
   get frames() {
     const { animations, selectedAnimationId, frames } = this.props;
     if (!animations || !selectedAnimationId) return [];
-    const currentFrames = animations
-      .find(anim => anim.id === selectedAnimationId)
-      .frames.map(frameId => frames.find(frame => frame.id === frameId));
+    const animation = animations.find(anim => anim.id === selectedAnimationId);
+    if (!animation) return [];
+
+    const currentFrames = animation.frames.map(frameId =>
+      frames.find(frame => frame.id === frameId)
+    );
 
     return currentFrames || [];
   }
@@ -85,8 +88,8 @@ class PreviewSprite extends React.Component {
   render() {
     const animations = this.convertFramesToSpriteAnimations(this.frames);
     const animation = this.animation;
-    const frameRate = 1000 / (animation && animation.delay || 1000);
-    
+    const frameRate = 1000 / ((animation && animation.delay) || 1000);
+
     return (
       <Stage width={64} height={64}>
         <Layer>

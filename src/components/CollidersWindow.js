@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setSelectedColliderId, setSelectedItemId } from '../ducks/selection';
-import { newCollider } from '../ducks/objects';
+import { newCollider, deleteCollider } from '../ducks/objects';
 import { showColliders, hideColliders } from '../ducks/ui';
 
 import Window from './Window';
@@ -17,6 +17,7 @@ class CollidersWindow extends React.Component {
     selectedColliderId: PropTypes.string,
     setSelectedColliderId: PropTypes.func,
     newCollider: PropTypes.func,
+    deleteCollider: PropTypes.func,
     collidersVisible: PropTypes.bool,
     showColliders: PropTypes.func,
     hideColliders: PropTypes.func,
@@ -25,12 +26,12 @@ class CollidersWindow extends React.Component {
   get colliders() {
     const { frames, selectedFrameId, colliders } = this.props;
     if (!colliders || !selectedFrameId) return [];
-    const currentColliders = frames
-      .find(frame => frame.id === selectedFrameId)
-      .colliders.map(colliderId =>
-        colliders.find(collider => collider.id === colliderId)
-      );
+    const frame = frames.find(frame => frame.id === selectedFrameId);
+    if (!frame) return [];
 
+    const currentColliders = frame.colliders.map(colliderId =>
+      colliders.find(collider => collider.id === colliderId)
+    );
     return currentColliders || [];
   }
 
@@ -41,6 +42,12 @@ class CollidersWindow extends React.Component {
   handleOnItemClick = id => {
     const { setSelectedColliderId } = this.props;
     setSelectedColliderId(id);
+  };
+
+  handleOnItemDeleteClick = (id) => {
+    const { deleteCollider, setSelectedColliderId } = this.props;
+    deleteCollider(id);
+    setSelectedColliderId(undefined);
   };
 
   createNewCollider = () => {
@@ -70,6 +77,7 @@ class CollidersWindow extends React.Component {
           items={this.colliders}
           selectedId={selectedColliderId}
           onItemClick={id => this.handleOnItemClick(id)}
+          onItemDeleteClick={id => this.handleOnItemDeleteClick(id)}
         />
       </Window>
     );
@@ -90,6 +98,7 @@ const mapDispatchToProps = {
   setSelectedColliderId,
   setSelectedItemId,
   newCollider,
+  deleteCollider,
   showColliders,
   hideColliders,
 };

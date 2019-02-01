@@ -12,17 +12,20 @@ const INITIAL_STATE = {
 
 // Actions
 const NEW_ANIMATION = 'animation-editor/objects/NEW_ANIMATION';
+const DELETE_ANIMATION = 'animation-editor/objects/DELETE_ANIMATION';
 const SET_ANIMATION_NAME = 'animation-editor/objects/SET_ANIMATION_NAME';
 const SET_ANIMATION_DELAY = 'animation-editor/objects/SET_ANIMATION_DELAY';
 const SET_ANIMATION_REPEAT = 'animation-editor/objects/SET_ANIMATION_REPEAT';
 
 const NEW_COLLIDER = 'animation-editor/objects/NEW_COLLIDER';
+const DELETE_COLLIDER = 'animation-editor/objects/DELETE_COLLIDER';
 const SET_COLLIDER_NAME = 'animation-editor/objects/SET_COLLIDER_NAME';
 const SET_COLLIDER_TYPE = 'animation-editor/objects/SET_COLLIDER_TYPE';
 const SET_COLLIDER_RECT = 'animation-editor/objects/SET_COLLIDER_RECT';
 const SET_COLLIDER_ORIGIN = 'animation-editor/objects/SET_COLLIDER_ORIGIN';
 
 const NEW_FRAME = 'animation-editor/objects/NEW_FRAME';
+const DELETE_FRAME = 'animation-editor/objects/DELETE_FRAME';
 const SET_FRAME_SOURCERECT = 'animation-editor/objects/SET_FRAME_SOURCERECT';
 const SET_FRAME_OFFSET = 'animation-editor/objects/SET_FRAME_OFFSET';
 
@@ -35,6 +38,11 @@ function findIndexById(array, id) {
 export default createReducer(INITIAL_STATE, {
   [NEW_ANIMATION]: (state, action) => {
     state.animations.push(createAnimationModel());
+  },
+
+  [DELETE_ANIMATION]: (state, action) => {
+    const index = findIndexById(state.animations, action.id);
+    state.animations.splice(index, 1);
   },
 
   [SET_ANIMATION_NAME]: (state, action) => {
@@ -63,6 +71,17 @@ export default createReducer(INITIAL_STATE, {
     animation.frames.push(frame.id);
   },
 
+  [DELETE_FRAME]: (state, action) => {
+    const { id } = action;
+    
+    state.animations.forEach(animation => {
+      animation.frames = animation.frames.filter(frameId => frameId !== id);
+    });
+
+    const index = findIndexById(state.frames, action.id);
+    state.frames.splice(index, 1);
+  },
+
   [SET_FRAME_SOURCERECT]: (state, action) => {
     const index = findIndexById(state.frames, action.id);
     state.frames[index].sourceRect = action.sourceRect;
@@ -81,6 +100,17 @@ export default createReducer(INITIAL_STATE, {
     const collider = createColliderModel();
     state.colliders.push(collider);
     frame.colliders.push(collider.id);
+  },
+
+  [DELETE_COLLIDER]: (state, action) => {
+    const { id } = action;
+
+    state.frames.forEach(frame => {
+      frame.colliders = frame.colliders.filter(colliderId => colliderId !== id);
+    });
+
+    const index = findIndexById(state.colliders, action.id);
+    state.colliders.splice(index, 1);
   },
 
   [SET_COLLIDER_NAME]: (state, action) => {
@@ -109,6 +139,10 @@ export function newAnimation() {
   return { type: NEW_ANIMATION };
 }
 
+export function deleteAnimation(id) {
+  return { type: DELETE_ANIMATION, id };
+}
+
 export function setAnimationName(id, name) {
   return { type: SET_ANIMATION_NAME, id, name };
 }
@@ -125,6 +159,10 @@ export function newFrame(animationId) {
   return { type: NEW_FRAME, animationId };
 }
 
+export function deleteFrame(id) {
+  return { type: DELETE_FRAME, id };
+}
+
 export function setFrameSourceRect(id, sourceRect) {
   return { type: SET_FRAME_SOURCERECT, id, sourceRect };
 }
@@ -135,6 +173,10 @@ export function setFrameOffset(id, offset) {
 
 export function newCollider(frameId) {
   return { type: NEW_COLLIDER, frameId };
+}
+
+export function deleteCollider(id) {
+  return { type: DELETE_COLLIDER, id };
 }
 
 export function setColliderName(id, name) {
