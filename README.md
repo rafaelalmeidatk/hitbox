@@ -4,14 +4,14 @@
 
 ## Features
 - ~~Preview animations~~
-- Delete animations, frames and colliders
+- ~~Delete animations, frames and colliders~~
 - Reajust the windows on the layout
 - Copy hitboxes from other frames
 - ~~Zoom limit~~
 - Show boxes on preview window
 - Bigger sprite preview
 - Resize rectangle with the mouse
-- Stroke on boxes rects
+- ~~Stroke on boxes rects~~
 - Rename collider types
 - Change collider types color
 - Hide other frames

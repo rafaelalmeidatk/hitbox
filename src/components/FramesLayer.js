@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Group, Rect } from 'react-konva';
+import { Group, Line, Rect } from 'react-konva';
 import { connect } from 'react-redux';
 
 import { setSelectedFrameId } from '../ducks/selection';
 import { setFrameSourceRect } from '../ducks/objects';
 import colors from '../colors';
+import { OBJ_STROKE_WIDTH, OBJ_HALF_STROKE_WIDTH } from '../helpers/constants';
 
 class FramesLayer extends React.Component {
   static propTypes = {
@@ -54,20 +55,38 @@ class FramesLayer extends React.Component {
     return (
       <Group ref={node => (this.framesGroup = node)}>
         {framesVisible &&
-          (console.log(this.frames), this.frames).map(frame => (
-            <Rect
-              key={frame.id}
-              x={frame.sourceRect.x}
-              y={frame.sourceRect.y}
-              width={frame.sourceRect.width}
-              height={frame.sourceRect.height}
-              fill={colors.frameRect}
-              draggable={true}
-              onClick={() => this.handleFrameClick(frame.id)}
-              onDragStart={args => this.handleFrameDrag(frame.id, args)}
-              onDragMove={args => this.handleFrameDrag(frame.id, args)}
-              onDragEnd={args => this.handleFrameDrag(frame.id, args)}
-            />
+          this.frames.map(frame => (
+            <Group key={frame.id}>
+              <Line
+                x={frame.sourceRect.x}
+                y={frame.sourceRect.y}
+                points={[
+                  OBJ_HALF_STROKE_WIDTH,
+                  OBJ_HALF_STROKE_WIDTH,
+                  frame.sourceRect.width - OBJ_HALF_STROKE_WIDTH,
+                  OBJ_HALF_STROKE_WIDTH,
+                  frame.sourceRect.width - OBJ_HALF_STROKE_WIDTH,
+                  frame.sourceRect.height - OBJ_HALF_STROKE_WIDTH,
+                  OBJ_HALF_STROKE_WIDTH,
+                  frame.sourceRect.height - OBJ_HALF_STROKE_WIDTH,
+                ]}
+                stroke={colors.frameRectStroke}
+                strokeWidth={OBJ_STROKE_WIDTH}
+                closed
+              />
+              <Rect
+                x={frame.sourceRect.x}
+                y={frame.sourceRect.y}
+                width={frame.sourceRect.width}
+                height={frame.sourceRect.height}
+                fill={colors.frameRect}
+                draggable={true}
+                onClick={() => this.handleFrameClick(frame.id)}
+                onDragStart={args => this.handleFrameDrag(frame.id, args)}
+                onDragMove={args => this.handleFrameDrag(frame.id, args)}
+                onDragEnd={args => this.handleFrameDrag(frame.id, args)}
+              />
+            </Group>
           ))}
       </Group>
     );

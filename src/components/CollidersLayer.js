@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Group, Rect } from 'react-konva';
+import { Group, Line, Rect } from 'react-konva';
 import { connect } from 'react-redux';
 
 import { setSelectedColliderId } from '../ducks/selection';
 import { setColliderRect } from '../ducks/objects';
 import { localPositionToCanvas } from '../helpers/colliders';
 import colors from '../colors';
+import { OBJ_STROKE_WIDTH, OBJ_HALF_STROKE_WIDTH } from '../helpers/constants';
 
 class CollidersLayer extends React.Component {
   static propTypes = {
@@ -90,19 +91,39 @@ class CollidersLayer extends React.Component {
       <Group ref={node => (this.collidersGroup = node)}>
         {collidersVisible &&
           this.colliders.map(collider => (
-            <Rect
-              key={collider.id}
-              x={this.calculateColliderX(collider)}
-              y={this.calculateColliderY(collider)}
-              width={collider.rect.width}
-              height={collider.rect.height}
-              fill={colors.colliderRect}
-              draggable={true}
-              dragDistance={0}
-              onClick={() => this.handleColliderClick(collider.id)}
-              onMouseDown={args => this.handleColliderMouseDown(collider, args)}
-              onDragMove={args => this.handleColliderDrag(collider, args)}
-            />
+            <Group key={collider.id}>
+              <Line
+                x={this.calculateColliderX(collider)}
+                y={this.calculateColliderY(collider)}
+                points={[
+                  OBJ_HALF_STROKE_WIDTH,
+                  OBJ_HALF_STROKE_WIDTH,
+                  collider.rect.width - OBJ_HALF_STROKE_WIDTH,
+                  OBJ_HALF_STROKE_WIDTH,
+                  collider.rect.width - OBJ_HALF_STROKE_WIDTH,
+                  collider.rect.height - OBJ_HALF_STROKE_WIDTH,
+                  OBJ_HALF_STROKE_WIDTH,
+                  collider.rect.height - OBJ_HALF_STROKE_WIDTH,
+                ]}
+                stroke={colors.colliderRectStroke}
+                strokeWidth={OBJ_STROKE_WIDTH}
+                closed
+              />
+              <Rect
+                x={this.calculateColliderX(collider)}
+                y={this.calculateColliderY(collider)}
+                width={collider.rect.width}
+                height={collider.rect.height}
+                fill={colors.colliderRect}
+                draggable={true}
+                dragDistance={0}
+                onClick={() => this.handleColliderClick(collider.id)}
+                onMouseDown={args =>
+                  this.handleColliderMouseDown(collider, args)
+                }
+                onDragMove={args => this.handleColliderDrag(collider, args)}
+              />
+            </Group>
           ))}
       </Group>
     );
