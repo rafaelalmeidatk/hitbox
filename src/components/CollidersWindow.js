@@ -45,9 +45,11 @@ class CollidersWindow extends React.Component {
   };
 
   handleOnItemDeleteClick = (id) => {
-    const { deleteCollider, setSelectedColliderId } = this.props;
+    const { selectedColliderId, deleteCollider, setSelectedColliderId } = this.props;
     deleteCollider(id);
-    setSelectedColliderId(undefined);
+
+    if (id === selectedColliderId)
+      setSelectedColliderId(undefined);
   };
 
   createNewCollider = () => {

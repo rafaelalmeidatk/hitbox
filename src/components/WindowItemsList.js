@@ -4,10 +4,22 @@ import { ButtonGroup, Icon, Button, Alignment } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 
 const DeleteItemButton = ({ onItemDeleteClick }) => (
-  <Icon icon={IconNames.SMALL_CROSS} onClick={onItemDeleteClick} />
+  <Icon
+    icon={IconNames.SMALL_CROSS}
+    onClick={e => {
+      e.stopPropagation();
+      onItemDeleteClick();
+    }}
+  />
 );
 
-const WindowItemsList = ({ items, itemName, selectedId, onItemClick, onItemDeleteClick }) => (
+const WindowItemsList = ({
+  items,
+  itemName,
+  selectedId,
+  onItemClick,
+  onItemDeleteClick,
+}) => (
   <div className="window-items-list">
     {(!items || items.length === 0 || items.size === 0) && (
       <div>No items yet!</div>
@@ -19,7 +31,11 @@ const WindowItemsList = ({ items, itemName, selectedId, onItemClick, onItemDelet
           active={selectedId === item.id}
           onClick={() => onItemClick(item.id)}
           alignText={Alignment.LEFT}
-          rightIcon={<DeleteItemButton onItemDeleteClick={() => onItemDeleteClick(item.id, index)} />}
+          rightIcon={
+            <DeleteItemButton
+              onItemDeleteClick={() => onItemDeleteClick(item.id, index)}
+            />
+          }
         >
           {itemName ? itemName(index, item.name) : `${index + 1}. ${item.name}`}
         </Button>

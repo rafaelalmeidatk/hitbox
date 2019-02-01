@@ -29,9 +29,11 @@ class AnimationsWindow extends React.Component {
   };
 
   handleOnItemDeleteClick = (id) => {
-    const { deleteAnimation, setSelectedAnimationId } = this.props;
+    const { selectedAnimationId, deleteAnimation, setSelectedAnimationId } = this.props;
     deleteAnimation(id);
-    setSelectedAnimationId(undefined);
+
+    if (id === selectedAnimationId)
+      setSelectedAnimationId(undefined);
   };
 
   render() {

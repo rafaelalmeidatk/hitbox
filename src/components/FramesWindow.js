@@ -46,9 +46,11 @@ class FramesWindow extends React.Component {
   };
 
   handleOnItemDeleteClick = id => {
-    const { deleteFrame, setSelectedFrameId } = this.props;
+    const { selectedFrameId, deleteFrame, setSelectedFrameId } = this.props;
     deleteFrame(id);
-    setSelectedFrameId(undefined);
+
+    if (id === selectedFrameId)
+      setSelectedFrameId(undefined);
   };
 
   createNewFrame = () => {
