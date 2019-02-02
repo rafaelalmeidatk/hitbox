@@ -6,6 +6,7 @@ import FramesLayer from './FramesLayer';
 import CollidersLayer from './CollidersLayer';
 
 import {
+  NAVBAR_HEIGHT,
   ZOOM_MULTIPLIER,
   MAX_ZOOM_MULTIPLIER,
   MIN_ZOOM_MULTIPLIER,
@@ -13,7 +14,10 @@ import {
 
 export default class Editor extends React.Component {
   state = {
-    canvasSize: { width: window.innerWidth, height: window.innerHeight },
+    canvasSize: {
+      width: window.innerWidth,
+      height: window.innerHeight - NAVBAR_HEIGHT,
+    },
     spriteSize: { width: 0, height: 0 },
     layersPosition: { x: 0, y: 0 },
   };
@@ -59,7 +63,7 @@ export default class Editor extends React.Component {
       (!isIncrease && currentScale <= MIN_ZOOM_MULTIPLIER)
     )
       return;
-      
+
     e.preventDefault();
 
     const mousePointTo = {
@@ -82,7 +86,10 @@ export default class Editor extends React.Component {
 
   handleResize = e => {
     this.setState({
-      canvasSize: { width: e.target.innerWidth, height: e.target.innerHeight },
+      canvasSize: {
+        width: e.target.innerWidth,
+        height: e.target.innerHeight - NAVBAR_HEIGHT,
+      },
     });
   };
 

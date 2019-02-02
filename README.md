@@ -19,3 +19,4 @@
 ## Known bugs
 - ~~Moving a collider with zoom causes the collider to offset from the mouse position based on the zoom~~
 - ~~The canvas does not change with window resize~~
+- Window resize makes scaling blurry
