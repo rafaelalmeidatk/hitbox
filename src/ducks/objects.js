@@ -1,4 +1,4 @@
-import { createReducer } from '@acemarke/redux-starter-kit';
+import { createReducer } from 'redux-starter-kit';
 import createAnimationModel from '../models/animation';
 import createFrameModel from '../models/frame';
 import createColliderModel from '../models/collider';

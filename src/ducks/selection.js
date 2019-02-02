@@ -1,4 +1,4 @@
-import { createReducer } from '@acemarke/redux-starter-kit';
+import { createReducer } from 'redux-starter-kit';
 
 // Initial State
 const INITIAL_STATE = {};

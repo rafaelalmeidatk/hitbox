@@ -6,7 +6,6 @@
   "main": "public/electron.js",
   "homepage": "./",
   "dependencies": {
-    "@acemarke/redux-starter-kit": "^0.0.6",
     "@blueprintjs/core": "^3.0.1",
     "@blueprintjs/icons": "^3.0.0",
     "classnames": "^2.2.5",
@@ -23,6 +22,7 @@
     "react-redux": "^5.0.7",
     "react-scripts": "1.0.17",
     "redux": "^3.7.2",
+    "redux-starter-kit": "^0.4.3",
     "reset-css": "^3.0.0",
     "shortid": "^2.2.8"
   },
