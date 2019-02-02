@@ -32,6 +32,11 @@ h1 {
   font-family: 'Open Sans', sans-serif;
 }
 
+.bp3-portal {
+  /* Place portal above everything (like menu dropdowns) */
+  z-index: 99;
+}
+
 .left-windows {
   position: absolute;
   display: flex;
