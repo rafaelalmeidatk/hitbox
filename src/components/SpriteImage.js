@@ -12,10 +12,10 @@ export default class SpriteImage extends React.Component {
   }
 
   componentDidMount() {
-    this.loadImage('./player.png');
+    //this.loadImage('./player.png');
   }
 
-  changeImage = (data) => {
+  loadBase64Image = (data) => {
     this.loadImage('data:image/png;base64,' + data);
   }
 

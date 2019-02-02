@@ -14,9 +14,6 @@ class AnimationsWindow extends React.Component {
     setSelectedAnimationId: PropTypes.func,
     newAnimation: PropTypes.func,
     deleteAnimation: PropTypes.func,
-
-    // Deprecated
-    onImageChange: PropTypes.func,
   };
 
   get animations() {
@@ -28,12 +25,15 @@ class AnimationsWindow extends React.Component {
     setSelectedAnimationId(id);
   };
 
-  handleOnItemDeleteClick = (id) => {
-    const { selectedAnimationId, deleteAnimation, setSelectedAnimationId } = this.props;
+  handleOnItemDeleteClick = id => {
+    const {
+      selectedAnimationId,
+      deleteAnimation,
+      setSelectedAnimationId,
+    } = this.props;
     deleteAnimation(id);
 
-    if (id === selectedAnimationId)
-      setSelectedAnimationId(undefined);
+    if (id === selectedAnimationId) setSelectedAnimationId(undefined);
   };
 
   render() {
@@ -47,8 +47,6 @@ class AnimationsWindow extends React.Component {
           onItemClick={id => this.handleOnItemClick(id)}
           onItemDeleteClick={id => this.handleOnItemDeleteClick(id)}
         />
-
-        {/* <ImageUploadButton onChange={this.props.onImageChange} /> */}
       </Window>
     );
   }

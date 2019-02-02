@@ -9,6 +9,6 @@ export default () => {
   return configureStore({
     reducer,
     middleware: [...getDefaultMiddleware(), io],
-    preloadedState,
+    //preloadedState,
   });
 };

@@ -15,11 +15,11 @@ import { connect } from 'react-redux';
 import { NAVBAR_HEIGHT } from '../helpers/constants';
 import { saveFile } from '../middlewares/io';
 
-const FileButton = ({ onSave }) => (
+const FileButton = ({ onNewFile, onSave }) => (
   <Popover
     content={
       <Menu>
-        <Menu.Item text="New File" label="Ctrl + N" />
+        <Menu.Item text="New File" label="Ctrl + N" onClick={onNewFile} />
         <Menu.Item text="Open File..." label="Ctrl + O" />
         <Menu.Divider />
         <Menu.Item text="Save" label="Ctrl + S" onClick={onSave} />
@@ -35,21 +35,23 @@ const FileButton = ({ onSave }) => (
 );
 
 FileButton.propTypes = {
+  onNewFile: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
 };
 
-const AppNavbar = ({ saveFile }) => (
+const AppNavbar = ({ onNewFile, saveFile }) => (
   <Navbar style={{ height: NAVBAR_HEIGHT }}>
     <NavbarGroup style={{ height: NAVBAR_HEIGHT }}>
       <NavbarHeading>Hitbox</NavbarHeading>
       <NavbarDivider />
-      <FileButton onSave={saveFile} />
+      <FileButton onNewFile={onNewFile} onSave={saveFile} />
       <Button icon={IconNames.COG} text="Settings" minimal />
     </NavbarGroup>
   </Navbar>
 );
 
 AppNavbar.propTypes = {
+  onNewFile: PropTypes.func.isRequired,
   saveFile: PropTypes.func.isRequired,
 };
 

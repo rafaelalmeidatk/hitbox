@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Navbar from '../AppNavbar';
 import Editor from '../Editor';
 import AnimationsWindow from '../AnimationsWindow';
@@ -8,15 +10,27 @@ import InspectorWindow from '../InspectorWindow';
 import PreviewWindow from '../PreviewWindow';
 import 'reset-css';
 import './styles.css';
+import { createNewSchema } from '../../ducks/schema';
 import { NAVBAR_HEIGHT } from '../../helpers/constants';
+import { openImage } from '../../helpers/io';
 
 class App extends Component {
-  handleImageChange = data => {
-    this.editor.changeImage(data);
+  static propTypes = {
+    createNewSchema: PropTypes.func.isRequired,
   };
 
-  handleAddAnimation = () => {
-    this.editor.createFrame();
+  handleNewFile = () => {
+    const { createNewSchema } = this.props;
+
+    openImage().then((imageData) => {
+      if (!imageData) return;
+      const { data, path } = imageData;
+
+      const spriteFileName = path.base;
+      createNewSchema(spriteFileName);
+
+      this.editor.loadBase64Image(data);
+    });
   };
 
   render() {
@@ -26,9 +40,9 @@ class App extends Component {
 
     return (
       <div className="App bp3-dark">
-        <Navbar />
+        <Navbar onNewFile={this.handleNewFile} />
         <div className="left-windows" style={{ height: windowAreaHeight }}>
-          <AnimationsWindow onImageChange={this.handleImageChange} />
+          <AnimationsWindow />
           <FramesWindow />
           <PreviewWindow />
         </div>
@@ -43,4 +57,11 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = {
+  createNewSchema,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(App);

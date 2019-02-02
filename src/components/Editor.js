@@ -38,8 +38,8 @@ export default class Editor extends React.Component {
     window.removeEventListener('resize', this.handleResize);
   }
 
-  changeImage = data => {
-    this.sprite.changeImage(data);
+  loadBase64Image = data => {
+    this.sprite.loadBase64Image(data);
   };
 
   handleImageLoaded = imageData => {
