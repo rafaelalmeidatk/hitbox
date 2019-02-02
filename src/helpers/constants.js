@@ -1,3 +1,5 @@
+export const APP_VERSION = "0.0.1";
+
 export const NAVBAR_HEIGHT = 38;
 
 export const ZOOM_MULTIPLIER = 2;

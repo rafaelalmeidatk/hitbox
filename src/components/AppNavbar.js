@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Navbar,
   NavbarGroup,
@@ -10,16 +11,18 @@ import {
   Menu,
 } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
+import { connect } from 'react-redux';
 import { NAVBAR_HEIGHT } from '../helpers/constants';
+import { saveFile } from '../middlewares/io';
 
-const FileButton = () => (
+const FileButton = ({ onSave }) => (
   <Popover
     content={
       <Menu>
         <Menu.Item text="New File" label="Ctrl + N" />
         <Menu.Item text="Open File..." label="Ctrl + O" />
         <Menu.Divider />
-        <Menu.Item text="Save" label="Ctrl + S" />
+        <Menu.Item text="Save" label="Ctrl + S" onClick={onSave} />
         <Menu.Item text="Save As..." label="Ctrl + Shift + S" />
         <Menu.Divider />
         <Menu.Item text="Exit" label="Ctrl + Q" />
@@ -31,15 +34,27 @@ const FileButton = () => (
   </Popover>
 );
 
-const AppNavbar = () => (
+FileButton.propTypes = {
+  onSave: PropTypes.func.isRequired,
+};
+
+const AppNavbar = ({ saveFile }) => (
   <Navbar style={{ height: NAVBAR_HEIGHT }}>
     <NavbarGroup style={{ height: NAVBAR_HEIGHT }}>
       <NavbarHeading>Hitbox</NavbarHeading>
       <NavbarDivider />
-      <FileButton />
+      <FileButton onSave={saveFile} />
       <Button icon={IconNames.COG} text="Settings" minimal />
     </NavbarGroup>
   </Navbar>
 );
 
-export default AppNavbar;
+AppNavbar.propTypes = {
+  saveFile: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = {
+  saveFile,
+};
+
+export default connect(null, mapDispatchToProps)(AppNavbar);
