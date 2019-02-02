@@ -15,6 +15,10 @@
 - Rename collider types
 - Change collider types color
 - Hide other frames
+- Load files
+- Hotkeys
+- Settings window
+- Undo
 
 ## Known bugs
 - ~~Moving a collider with zoom causes the collider to offset from the mouse position based on the zoom~~
