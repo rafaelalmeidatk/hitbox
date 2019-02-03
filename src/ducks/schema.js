@@ -15,9 +15,10 @@ const HIDE_FRAMES = 'animation-editor/ui/HIDE_FRAMES';
 // Reducer
 export default createReducer(INITIAL_STATE, {
   [CREATE_NEW_SCHEMA]: (state, action) => {
-    const { spritesheetFileName } = action;
-    state = {
+    const { spritesheetPath, spritesheetFileName } = action;
+    return {
       ...INITIAL_STATE,
+      spritesheetPath,
       spritesheetFileName,
       isDirty: true,
     };
@@ -29,8 +30,8 @@ export default createReducer(INITIAL_STATE, {
 });
 
 // Action creators
-export function createNewSchema(spritePath, spritesheetFileName) {
-  return { type: CREATE_NEW_SCHEMA, spritePath, spritesheetFileName };
+export function createNewSchema(spritesheetPath, spritesheetFileName) {
+  return { type: CREATE_NEW_SCHEMA, spritesheetPath, spritesheetFileName };
 }
 
 export function hideFrames() {

@@ -8,6 +8,15 @@ if (window.require) {
   path = window.require('path');
 }
 
+export function relativePathToFile(from, to) {
+  if (!fs || !dialog) {
+    console.error("Can't solve relative path on browser");
+    return;
+  }
+  const fromFolder = path.dirname(from);
+  return path.relative(fromFolder, to);
+}
+
 export function openImage() {
   return new window.Promise(resolve => {
     if (!fs || !dialog) {
@@ -35,36 +44,49 @@ export function openImage() {
   });
 }
 
-export function saveFile(data) {
-  if (!fs || !dialog) {
-    console.error("Ops, you can't save a file inside the browser");
-    return;
-  }
+export function showSaveDialog() {
+  return new window.Promise(resolve => {
+    if (!fs || !dialog) {
+      console.error("Ops, you can't save a file inside the browser");
+      return resolve(null);
+    }
 
-  dialog.showSaveDialog(
-    {
-      filters: [
-        {
-          name: '*.json',
-          extensions: ['json'],
-        },
-      ],
-    },
-    fileName => {
-      if (!fileName) {
-        console.log("You didn't save the file");
-        return;
+    dialog.showSaveDialog(
+      {
+        filters: [
+          {
+            name: '*.json',
+            extensions: ['json'],
+          },
+        ],
+      },
+      fileName => {
+        if (!fileName) {
+          console.log("You didn't save the file");
+          return resolve(null);
+        }
+        
+        resolve(fileName);
+      }
+    );
+  });
+}
+
+export function saveFile(filePath, data) {
+  return new window.Promise((resolve, reject) => {
+    if (!fs || !dialog) {
+      console.error("Ops, you can't save a file inside the browser");
+      return reject(null);
+    }
+
+    fs.writeFile(filePath, data, err => {
+      if (err) {
+        alert('An error ocurred creating the file ' + err.message);
+        return reject(err.message);
       }
 
-      fs.writeFile(fileName, data, err => {
-        if (err) {
-          alert('An error ocurred creating the file ' + err.message);
-          return;
-        }
-
-        alert('The file has been succesfully saved');
-        console.log('saved!');
-      });
-    }
-  );
+      alert('The file has been succesfully saved');
+      resolve(true);
+    });
+  });
 }
