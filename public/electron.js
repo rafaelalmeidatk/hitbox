@@ -23,9 +23,18 @@ function createWindow() {
       : `file://${path.join(__dirname, '../build/index.html')}`
   );
 
-  // Open the DevTools.
   if (isDev) {
+    // Open the DevTools.
     mainWindow.webContents.openDevTools();
+
+    // Add custom extensions to DevTools
+    // obs: __dirname = public folder
+    BrowserWindow.addDevToolsExtension(
+      path.resolve(__dirname, '../electron-extensions/react-devtools/3.6.0_0')
+    );
+    BrowserWindow.addDevToolsExtension(
+      path.resolve(__dirname, '../electron-extensions/redux-devtools/2.17.0_0')
+    );
   }
 
   // Emitted when the window is closed.
