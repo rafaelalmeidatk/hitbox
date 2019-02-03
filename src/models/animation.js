@@ -18,7 +18,6 @@ export function fieldUpdater(props, field, value) {
 }
 
 export default () => ({
-  id: shortid.generate(),
   _inspector: {
     modelType: 'animation',
     editableFields: [
@@ -36,6 +35,11 @@ export default () => ({
       },
     ],
   },
+  _meta: {
+    // 'frames' is a special field that is always saved
+    saveFields: ['id', 'name', 'delay', 'repeat'],
+  },
+  id: shortid.generate(),
   name: 'New Animation',
   delay: 200,
   repeat: true,

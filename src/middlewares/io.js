@@ -4,6 +4,7 @@ import {
   relativePathToFile,
   saveFile as ioSaveFile,
 } from '../helpers/io';
+import { formatObjectToSave } from '../helpers/saveFile';
 
 // Actions
 const SAVE_FILE = 'animation-editor/io/SAVE_FILE';
@@ -19,13 +20,16 @@ const createAnimationsJsonContent = objects => {
   const { animations, frames, colliders } = objects;
 
   // Basically what we are doing here is just replacing the IDs
-  // with the actual objects
+  // with the actual objects and formating the objects to remove
+  // any non necessary data on the save file
   return animations.map(animation => {
     return {
-      ...animation,
+      ...formatObjectToSave(animation),
       frames: mapIdsToObjects(animation.frames, frames).map(frame => ({
-        ...frame,
-        colliders: mapIdsToObjects(frame.colliders, colliders),
+        ...formatObjectToSave(frame),
+        colliders: mapIdsToObjects(frame.colliders, colliders).map(collider =>
+          formatObjectToSave(collider)
+        ),
       })),
     };
   });

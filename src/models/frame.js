@@ -26,7 +26,6 @@ export function fieldUpdater(props, field, value) {
 }
 
 export default () => ({
-  id: shortid.generate(),
   _inspector: {
     modelType: 'frame',
     editableFields: [
@@ -40,6 +39,11 @@ export default () => ({
       },
     ],
   },
+  _meta: {
+    // 'colliders' is a special field that is always saved
+    saveFields: ['id', 'name', 'sourceRect', 'offset'],
+  },
+  id: shortid.generate(),
   name: 'New Frame',
   sourceRect: {
     x: 0,

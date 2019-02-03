@@ -35,7 +35,6 @@ export function fieldUpdater(props, field, value) {
 }
 
 export default () => ({
-  id: shortid.generate(),
   _inspector: {
     modelType: 'collider',
     editableFields: [
@@ -57,6 +56,10 @@ export default () => ({
       },
     ],
   },
+  _meta: {
+    saveFields: ['id', 'name', 'type', 'rect', 'origin'],
+  },
+  id: shortid.generate(),
   name: 'New Collider',
   type: 'NONE',
   rect: {
