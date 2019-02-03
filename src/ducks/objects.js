@@ -29,6 +29,8 @@ const DELETE_FRAME = 'animation-editor/objects/DELETE_FRAME';
 const SET_FRAME_SOURCERECT = 'animation-editor/objects/SET_FRAME_SOURCERECT';
 const SET_FRAME_OFFSET = 'animation-editor/objects/SET_FRAME_OFFSET';
 
+const RESET_OBJECTS = 'animation-editor/objects/RESET_OBJECTS';
+
 // Helper
 function findIndexById(array, id) {
   return array.findIndex(obj => obj && obj.id === id);
@@ -132,6 +134,10 @@ export default createReducer(INITIAL_STATE, {
     const index = findIndexById(state.colliders, action.id);
     state.colliders[index].origin = action.origin;
   },
+
+  [RESET_OBJECTS]: () => {
+    return INITIAL_STATE;
+  },
 });
 
 // Action creators
@@ -193,4 +199,8 @@ export function setColliderRect(id, rect) {
 
 export function setColliderOrigin(id, origin) {
   return { type: SET_COLLIDER_ORIGIN, id, origin };
+}
+
+export function resetObjects() {
+  return { type: RESET_OBJECTS };
 }

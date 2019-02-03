@@ -3,7 +3,8 @@ import { createReducer } from 'redux-starter-kit';
 // Initial State
 const INITIAL_STATE = {
   filename: null,
-  spriteFileName: null,
+  spritesheetPath: null,
+  spritesheetFileName: null,
   isDirty: false,
 };
 
@@ -14,10 +15,10 @@ const HIDE_FRAMES = 'animation-editor/ui/HIDE_FRAMES';
 // Reducer
 export default createReducer(INITIAL_STATE, {
   [CREATE_NEW_SCHEMA]: (state, action) => {
-    const { spriteFileName } = action;
+    const { spritesheetFileName } = action;
     state = {
       ...INITIAL_STATE,
-      spriteFileName,
+      spritesheetFileName,
       isDirty: true,
     };
   },
@@ -28,8 +29,8 @@ export default createReducer(INITIAL_STATE, {
 });
 
 // Action creators
-export function createNewSchema(spriteFileName) {
-  return { type: CREATE_NEW_SCHEMA, spriteFileName };
+export function createNewSchema(spritePath, spritesheetFileName) {
+  return { type: CREATE_NEW_SCHEMA, spritePath, spritesheetFileName };
 }
 
 export function hideFrames() {

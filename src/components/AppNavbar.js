@@ -19,8 +19,8 @@ const FileButton = ({ onNewFile, onSave }) => (
   <Popover
     content={
       <Menu>
-        <Menu.Item text="New File" label="Ctrl + N" onClick={onNewFile} />
-        <Menu.Item text="Open File..." label="Ctrl + O" />
+        <Menu.Item text="New..." label="Ctrl + N" onClick={onNewFile} />
+        <Menu.Item text="Open..." label="Ctrl + O" />
         <Menu.Divider />
         <Menu.Item text="Save" label="Ctrl + S" onClick={onSave} />
         <Menu.Item text="Save As..." label="Ctrl + Shift + S" />

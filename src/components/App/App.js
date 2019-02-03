@@ -11,23 +11,26 @@ import PreviewWindow from '../PreviewWindow';
 import 'reset-css';
 import './styles.css';
 import { createNewSchema } from '../../ducks/schema';
+import { resetObjects } from '../../ducks/objects';
 import { NAVBAR_HEIGHT } from '../../helpers/constants';
 import { openImage } from '../../helpers/io';
 
 class App extends Component {
   static propTypes = {
+    resetObjects: PropTypes.func.isRequired,
     createNewSchema: PropTypes.func.isRequired,
   };
 
   handleNewFile = () => {
-    const { createNewSchema } = this.props;
+    const { resetObjects, createNewSchema } = this.props;
 
     openImage().then((imageData) => {
       if (!imageData) return;
-      const { data, path } = imageData;
+      const { data, filePath, pathInfo } = imageData;
 
-      const spriteFileName = path.base;
-      createNewSchema(spriteFileName);
+      const spriteFileName = pathInfo.base;
+      resetObjects();
+      createNewSchema(filePath, spriteFileName);
 
       this.editor.loadBase64Image(data);
     });
@@ -59,6 +62,7 @@ class App extends Component {
 
 const mapDispatchToProps = {
   createNewSchema,
+  resetObjects,
 };
 
 export default connect(

@@ -15,7 +15,7 @@
 - Rename collider types
 - Change collider types color
 - Hide other frames
-- Load files
+- ~~Load files~~
 - Hotkeys
 - Settings window
 - Undo

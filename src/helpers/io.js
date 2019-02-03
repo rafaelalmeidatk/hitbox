@@ -28,7 +28,7 @@ export function openImage() {
         const pathInfo = path.parse(filePath);
 
         fs.readFile(filePath, 'base64', (err, data) => {
-          resolve({ data, path: pathInfo });
+          resolve({ data, filePath, pathInfo });
         });
       }
     );
