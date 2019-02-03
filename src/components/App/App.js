@@ -11,16 +11,21 @@ import PreviewWindow from '../PreviewWindow';
 import 'reset-css';
 import './styles.css';
 import { createNewSchema } from '../../ducks/schema';
-import { resetObjects } from '../../ducks/objects';
+import { resetObjects, loadObjects } from '../../ducks/objects';
 import { NAVBAR_HEIGHT } from '../../helpers/constants';
 import { openImage, openFile } from '../../helpers/io';
-import { parseSaveFile } from '../../helpers/saveFile'
+import { parseSaveFile, createObjectsList } from '../../helpers/saveFile';
 
 class App extends Component {
   static propTypes = {
+    loadObjects: PropTypes.func.isRequired,
     resetObjects: PropTypes.func.isRequired,
     createNewSchema: PropTypes.func.isRequired,
   };
+
+  componentDidMount() {
+    this.handleOpenFile();
+  }
 
   handleNewFile = () => {
     const { resetObjects, createNewSchema } = this.props;
@@ -41,13 +46,21 @@ class App extends Component {
     openFile()
       .then(json => {
         if (!json) return;
-        
+
         const content = parseSaveFile(json);
+        const objectsList = createObjectsList(content);
+        this.loadObjectsList(objectsList);
       })
       .catch(err => {
-        console.log("owo err", err);
-        alert("Invalid file");
+        console.log('err', err);
+        alert('Invalid file');
       });
+  };
+
+  loadObjectsList = objectsList => {
+    const { loadObjects } = this.props;
+    const { animations, frames, colliders } = objectsList;
+    loadObjects(animations, frames, colliders);
   };
 
   render() {
@@ -57,7 +70,10 @@ class App extends Component {
 
     return (
       <div className="App bp3-dark">
-        <Navbar onNewFile={this.handleNewFile} onOpenFile={this.handleOpenFile} />
+        <Navbar
+          onNewFile={this.handleNewFile}
+          onOpenFile={this.handleOpenFile}
+        />
         <div className="left-windows" style={{ height: windowAreaHeight }}>
           <AnimationsWindow />
           <FramesWindow />
@@ -77,6 +93,7 @@ class App extends Component {
 const mapDispatchToProps = {
   createNewSchema,
   resetObjects,
+  loadObjects,
 };
 
 export default connect(

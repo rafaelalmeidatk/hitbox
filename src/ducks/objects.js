@@ -29,6 +29,7 @@ const DELETE_FRAME = 'animation-editor/objects/DELETE_FRAME';
 const SET_FRAME_SOURCERECT = 'animation-editor/objects/SET_FRAME_SOURCERECT';
 const SET_FRAME_OFFSET = 'animation-editor/objects/SET_FRAME_OFFSET';
 
+const LOAD_OBJECTS = 'animation-editor/objects/LOAD_OBJECTS';
 const RESET_OBJECTS = 'animation-editor/objects/RESET_OBJECTS';
 
 // Helper
@@ -75,7 +76,7 @@ export default createReducer(INITIAL_STATE, {
 
   [DELETE_FRAME]: (state, action) => {
     const { id } = action;
-    
+
     state.animations.forEach(animation => {
       animation.frames = animation.frames.filter(frameId => frameId !== id);
     });
@@ -133,6 +134,32 @@ export default createReducer(INITIAL_STATE, {
   [SET_COLLIDER_ORIGIN]: (state, action) => {
     const index = findIndexById(state.colliders, action.id);
     state.colliders[index].origin = action.origin;
+  },
+
+  [LOAD_OBJECTS]: (state, action) => {
+    const { animations, frames, colliders } = action;
+    
+    // Create animations
+    animations.forEach(animation => {
+      state.animations.push({
+        ...createAnimationModel(),
+        ...animation,
+      });
+    });
+
+    frames.forEach(frame => {
+      state.frames.push({
+        ...createFrameModel(),
+        ...frame,
+      });
+    });
+
+    colliders.forEach(collider => {
+      state.colliders.push({
+        ...createColliderModel(),
+        ...collider,
+      });
+    });
   },
 
   [RESET_OBJECTS]: () => {
@@ -199,6 +226,10 @@ export function setColliderRect(id, rect) {
 
 export function setColliderOrigin(id, origin) {
   return { type: SET_COLLIDER_ORIGIN, id, origin };
+}
+
+export function loadObjects(animations, frames, colliders) {
+  return { type: LOAD_OBJECTS, animations, frames, colliders };
 }
 
 export function resetObjects() {
