@@ -10,7 +10,7 @@ import InspectorWindow from '../InspectorWindow';
 import PreviewWindow from '../PreviewWindow';
 import 'reset-css';
 import './styles.css';
-import { createNewSchema } from '../../ducks/schema';
+import { createNewSchema, loadSchema } from '../../ducks/schema';
 import { resetObjects, loadObjects } from '../../ducks/objects';
 import { NAVBAR_HEIGHT } from '../../helpers/constants';
 import { openImage, openFile } from '../../helpers/io';
@@ -20,12 +20,9 @@ class App extends Component {
   static propTypes = {
     loadObjects: PropTypes.func.isRequired,
     resetObjects: PropTypes.func.isRequired,
+    loadSchema: PropTypes.func.isRequired,
     createNewSchema: PropTypes.func.isRequired,
   };
-
-  componentDidMount() {
-    this.handleOpenFile();
-  }
 
   handleNewFile = () => {
     const { resetObjects, createNewSchema } = this.props;
@@ -43,11 +40,16 @@ class App extends Component {
   };
 
   handleOpenFile = () => {
-    openFile()
-      .then(json => {
-        if (!json) return;
+    const { loadSchema } = this.props;
 
+    openFile()
+      .then(data => {
+        if (!data) return;
+
+        const { filePath, json } = data;
         const content = parseSaveFile(json);
+        loadSchema(filePath, json.spritesheetPath, json.spritesheetName);
+
         const objectsList = createObjectsList(content);
         this.loadObjectsList(objectsList);
       })
@@ -92,6 +94,7 @@ class App extends Component {
 
 const mapDispatchToProps = {
   createNewSchema,
+  loadSchema,
   resetObjects,
   loadObjects,
 };

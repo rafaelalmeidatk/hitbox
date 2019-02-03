@@ -41,7 +41,7 @@ export function openFile() {
 
           try {
             const json = JSON.parse(data);
-            resolve(json);
+            resolve({ filePath, json });
           } catch (err) {
             reject(err);
           }

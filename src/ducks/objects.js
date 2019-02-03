@@ -39,7 +39,7 @@ function findIndexById(array, id) {
 
 // Reducer
 export default createReducer(INITIAL_STATE, {
-  [NEW_ANIMATION]: (state, action) => {
+  [NEW_ANIMATION]: (state) => {
     state.animations.push(createAnimationModel());
   },
 
@@ -138,7 +138,7 @@ export default createReducer(INITIAL_STATE, {
 
   [LOAD_OBJECTS]: (state, action) => {
     const { animations, frames, colliders } = action;
-    
+
     // Create animations
     animations.forEach(animation => {
       state.animations.push({

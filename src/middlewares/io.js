@@ -37,7 +37,9 @@ const createAnimationsJsonContent = objects => {
 
 const createJsonContent = (schema, objects, savePath) => {
   const { spritesheetPath, spritesheetFileName } = schema;
-  const spritesheetRelativePath = relativePathToFile(savePath, spritesheetPath);
+  const spritesheetRelativePath =
+    schema.spritesheetRelativePath ||
+    relativePathToFile(savePath, spritesheetPath);
 
   return {
     // It is better to save the relative path so the user can move
@@ -51,23 +53,27 @@ const createJsonContent = (schema, objects, savePath) => {
 };
 
 // Middleware
-export default store => next => action => {
+export default store => next => async action => {
   if (action.type !== SAVE_FILE) return next(action);
 
-  // Get save path
-  showSaveDialog().then(path => {
-    if (!path) return;
+  const { isSaveAs } = action;
+  const state = store.getState();
+  const { objects, schema } = state;
 
-    const state = store.getState();
-    const { objects, schema } = state;
-    console.log('schema', schema);
-    const content = createJsonContent(schema, objects, path);
-    const fileData = JSON.stringify(content);
-    ioSaveFile(path, fileData);
-  });
+  // Get save path
+  const savePath =
+    isSaveAs || !schema.filePath ? await showSaveDialog() : schema.filePath;
+  if (!savePath) return;
+
+  // Generate content
+  const content = createJsonContent(schema, objects, savePath);
+  const fileData = JSON.stringify(content);
+
+  // Save the file
+  ioSaveFile(savePath, fileData);
 };
 
 // Action creators
-export function saveFile() {
-  return { type: SAVE_FILE };
+export function saveFile({ isSaveAs }) {
+  return { type: SAVE_FILE, isSaveAs };
 }

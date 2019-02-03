@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import { NAVBAR_HEIGHT } from '../helpers/constants';
 import { saveFile } from '../middlewares/io';
 
-const FileButton = ({ onNewFile, onOpenFile, onSave }) => (
+const FileButton = ({ onNewFile, onOpenFile, onSave, onSaveAs }) => (
   <Popover
     content={
       <Menu>
@@ -23,7 +23,11 @@ const FileButton = ({ onNewFile, onOpenFile, onSave }) => (
         <Menu.Item text="Open..." label="Ctrl + O" onClick={onOpenFile} />
         <Menu.Divider />
         <Menu.Item text="Save" label="Ctrl + S" onClick={onSave} />
-        <Menu.Item text="Save As..." label="Ctrl + Shift + S" />
+        <Menu.Item
+          text="Save As..."
+          label="Ctrl + Shift + S"
+          onClick={onSaveAs}
+        />
         <Menu.Divider />
         <Menu.Item text="Exit" label="Ctrl + Q" />
       </Menu>
@@ -38,6 +42,7 @@ FileButton.propTypes = {
   onOpenFile: PropTypes.func.isRequired,
   onNewFile: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
+  onSaveAs: PropTypes.func.isRequired,
 };
 
 const AppNavbar = ({ onNewFile, onOpenFile, saveFile }) => (
@@ -48,7 +53,8 @@ const AppNavbar = ({ onNewFile, onOpenFile, saveFile }) => (
       <FileButton
         onNewFile={onNewFile}
         onOpenFile={onOpenFile}
-        onSave={saveFile}
+        onSave={() => saveFile({ isSaveAs: false })}
+        onSaveAs={() => saveFile({ isSaveAs: true })}
       />
       <Button icon={IconNames.COG} text="Settings" minimal />
     </NavbarGroup>
