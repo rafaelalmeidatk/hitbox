@@ -23,19 +23,28 @@ export default class Editor extends React.Component {
   };
 
   componentDidMount() {
-    // Remove AA
-    const context = this.mainLayer.getContext()._context;
-    context.webkitImageSmoothingEnabled = false;
-    context.mozImageSmoothingEnabled = false;
-    context.imageSmoothingEnabled = false;
-
+    this.removeAntiAliasing();
     window.addEventListener('wheel', this.handleWheel);
     window.addEventListener('resize', this.handleResize);
+  }
+
+  componentDidUpdate() {
+    // We need to execute this on every update because the
+    // stage is recreated, losing the context settings
+    this.removeAntiAliasing();
   }
 
   componentWillUnmount() {
     window.removeEventListener('wheel', this.handleWheel);
     window.removeEventListener('resize', this.handleResize);
+  }
+
+  removeAntiAliasing = () => {
+    // Remove AA
+    const context = this.mainLayer.getContext()._context;
+    context.webkitImageSmoothingEnabled = false;
+    context.mozImageSmoothingEnabled = false;
+    context.imageSmoothingEnabled = false;
   }
 
   loadBase64Image = data => {
