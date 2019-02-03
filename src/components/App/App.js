@@ -13,7 +13,8 @@ import './styles.css';
 import { createNewSchema } from '../../ducks/schema';
 import { resetObjects } from '../../ducks/objects';
 import { NAVBAR_HEIGHT } from '../../helpers/constants';
-import { openImage } from '../../helpers/io';
+import { openImage, openFile } from '../../helpers/io';
+import { parseSaveFile } from '../../helpers/saveFile'
 
 class App extends Component {
   static propTypes = {
@@ -24,7 +25,7 @@ class App extends Component {
   handleNewFile = () => {
     const { resetObjects, createNewSchema } = this.props;
 
-    openImage().then((imageData) => {
+    openImage().then(imageData => {
       if (!imageData) return;
       const { data, filePath, pathInfo } = imageData;
 
@@ -36,6 +37,19 @@ class App extends Component {
     });
   };
 
+  handleOpenFile = () => {
+    openFile()
+      .then(json => {
+        if (!json) return;
+        
+        const content = parseSaveFile(json);
+      })
+      .catch(err => {
+        console.log("owo err", err);
+        alert("Invalid file");
+      });
+  };
+
   render() {
     // Do not render the editor inside tests
     const isTest = process.env.NODE_ENV === 'test';
@@ -43,7 +57,7 @@ class App extends Component {
 
     return (
       <div className="App bp3-dark">
-        <Navbar onNewFile={this.handleNewFile} />
+        <Navbar onNewFile={this.handleNewFile} onOpenFile={this.handleOpenFile} />
         <div className="left-windows" style={{ height: windowAreaHeight }}>
           <AnimationsWindow />
           <FramesWindow />

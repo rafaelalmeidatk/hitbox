@@ -15,12 +15,12 @@ import { connect } from 'react-redux';
 import { NAVBAR_HEIGHT } from '../helpers/constants';
 import { saveFile } from '../middlewares/io';
 
-const FileButton = ({ onNewFile, onSave }) => (
+const FileButton = ({ onNewFile, onOpenFile, onSave }) => (
   <Popover
     content={
       <Menu>
         <Menu.Item text="New..." label="Ctrl + N" onClick={onNewFile} />
-        <Menu.Item text="Open..." label="Ctrl + O" />
+        <Menu.Item text="Open..." label="Ctrl + O" onClick={onOpenFile} />
         <Menu.Divider />
         <Menu.Item text="Save" label="Ctrl + S" onClick={onSave} />
         <Menu.Item text="Save As..." label="Ctrl + Shift + S" />
@@ -35,22 +35,28 @@ const FileButton = ({ onNewFile, onSave }) => (
 );
 
 FileButton.propTypes = {
+  onOpenFile: PropTypes.func.isRequired,
   onNewFile: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
 };
 
-const AppNavbar = ({ onNewFile, saveFile }) => (
+const AppNavbar = ({ onNewFile, onOpenFile, saveFile }) => (
   <Navbar style={{ height: NAVBAR_HEIGHT }}>
     <NavbarGroup style={{ height: NAVBAR_HEIGHT }}>
       <NavbarHeading>Hitbox</NavbarHeading>
       <NavbarDivider />
-      <FileButton onNewFile={onNewFile} onSave={saveFile} />
+      <FileButton
+        onNewFile={onNewFile}
+        onOpenFile={onOpenFile}
+        onSave={saveFile}
+      />
       <Button icon={IconNames.COG} text="Settings" minimal />
     </NavbarGroup>
   </Navbar>
 );
 
 AppNavbar.propTypes = {
+  onOpenFile: PropTypes.func.isRequired,
   onNewFile: PropTypes.func.isRequired,
   saveFile: PropTypes.func.isRequired,
 };
@@ -59,4 +65,7 @@ const mapDispatchToProps = {
   saveFile,
 };
 
-export default connect(null, mapDispatchToProps)(AppNavbar);
+export default connect(
+  null,
+  mapDispatchToProps
+)(AppNavbar);

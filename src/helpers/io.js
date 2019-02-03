@@ -17,6 +17,40 @@ export function relativePathToFile(from, to) {
   return path.relative(fromFolder, to);
 }
 
+export function openFile() {
+  return new window.Promise((resolve, reject) => {
+    if (!fs || !dialog) {
+      console.error("Ops, you can't open a file inside the browser");
+      return resolve(null);
+    }
+
+    dialog.showOpenDialog(
+      {
+        filters: [{ name: 'Hitbox file (*.json)', extensions: ['json'] }],
+      },
+      filePaths => {
+        if (!filePaths || !filePaths[0]) {
+          console.log('No file selected');
+          return resolve(null);
+        }
+        const filePath = filePaths[0];
+        fs.readFile(filePath, 'utf-8', (err, data) => {
+          if (err) {
+            return reject(err);
+          }
+
+          try {
+            const json = JSON.parse(data);
+            resolve(json);
+          } catch (err) {
+            reject(err);
+          }
+        });
+      }
+    );
+  });
+}
+
 export function openImage() {
   return new window.Promise(resolve => {
     if (!fs || !dialog) {
@@ -65,7 +99,7 @@ export function showSaveDialog() {
           console.log("You didn't save the file");
           return resolve(null);
         }
-        
+
         resolve(fileName);
       }
     );
