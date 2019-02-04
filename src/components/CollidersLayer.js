@@ -16,6 +16,7 @@ class CollidersLayer extends React.Component {
     selectedFrameId: PropTypes.string,
     setSelectedColliderId: PropTypes.func,
     setColliderRect: PropTypes.func,
+    objectsHideList: PropTypes.object.isRequired,
 
     collidersVisible: PropTypes.bool,
   };
@@ -41,6 +42,11 @@ class CollidersLayer extends React.Component {
     const { selectedFrameId, frames } = this.props;
     return frames.find(frame => frame.id === selectedFrameId);
   }
+
+  isColliderVisible = id => {
+    const { objectsHideList } = this.props;
+    return !objectsHideList[id];
+  };
 
   handleColliderClick = colliderId => {
     this.props.setSelectedColliderId(colliderId);
@@ -90,41 +96,44 @@ class CollidersLayer extends React.Component {
     return (
       <Group ref={node => (this.collidersGroup = node)}>
         {collidersVisible &&
-          this.colliders.map(collider => (
-            <Group key={collider.id}>
-              <Line
-                x={this.calculateColliderX(collider)}
-                y={this.calculateColliderY(collider)}
-                points={[
-                  OBJ_HALF_STROKE_WIDTH,
-                  OBJ_HALF_STROKE_WIDTH,
-                  collider.rect.width - OBJ_HALF_STROKE_WIDTH,
-                  OBJ_HALF_STROKE_WIDTH,
-                  collider.rect.width - OBJ_HALF_STROKE_WIDTH,
-                  collider.rect.height - OBJ_HALF_STROKE_WIDTH,
-                  OBJ_HALF_STROKE_WIDTH,
-                  collider.rect.height - OBJ_HALF_STROKE_WIDTH,
-                ]}
-                stroke={colors.colliderRectStroke}
-                strokeWidth={OBJ_STROKE_WIDTH}
-                closed
-              />
-              <Rect
-                x={this.calculateColliderX(collider)}
-                y={this.calculateColliderY(collider)}
-                width={collider.rect.width}
-                height={collider.rect.height}
-                fill={colors.colliderRect}
-                draggable={true}
-                dragDistance={0}
-                onClick={() => this.handleColliderClick(collider.id)}
-                onMouseDown={args =>
-                  this.handleColliderMouseDown(collider, args)
-                }
-                onDragMove={args => this.handleColliderDrag(collider, args)}
-              />
-            </Group>
-          ))}
+          this.colliders.map(
+            collider =>
+              this.isColliderVisible(collider.id) && (
+                <Group key={collider.id}>
+                  <Line
+                    x={this.calculateColliderX(collider)}
+                    y={this.calculateColliderY(collider)}
+                    points={[
+                      OBJ_HALF_STROKE_WIDTH,
+                      OBJ_HALF_STROKE_WIDTH,
+                      collider.rect.width - OBJ_HALF_STROKE_WIDTH,
+                      OBJ_HALF_STROKE_WIDTH,
+                      collider.rect.width - OBJ_HALF_STROKE_WIDTH,
+                      collider.rect.height - OBJ_HALF_STROKE_WIDTH,
+                      OBJ_HALF_STROKE_WIDTH,
+                      collider.rect.height - OBJ_HALF_STROKE_WIDTH,
+                    ]}
+                    stroke={colors.colliderRectStroke}
+                    strokeWidth={OBJ_STROKE_WIDTH}
+                    closed
+                  />
+                  <Rect
+                    x={this.calculateColliderX(collider)}
+                    y={this.calculateColliderY(collider)}
+                    width={collider.rect.width}
+                    height={collider.rect.height}
+                    fill={colors.colliderRect}
+                    draggable={true}
+                    dragDistance={0}
+                    onClick={() => this.handleColliderClick(collider.id)}
+                    onMouseDown={args =>
+                      this.handleColliderMouseDown(collider, args)
+                    }
+                    onDragMove={args => this.handleColliderDrag(collider, args)}
+                  />
+                </Group>
+              )
+          )}
       </Group>
     );
   }
@@ -136,6 +145,7 @@ function mapStateToProps(state) {
     colliders: state['objects'].colliders,
     selectedFrameId: state['selection'].selectedFrameId,
     collidersVisible: state['ui'].collidersVisible,
+    objectsHideList: state['ui'].objectsHideList,
   };
 }
 

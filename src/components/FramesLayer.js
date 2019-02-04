@@ -15,6 +15,7 @@ class FramesLayer extends React.Component {
     selectedAnimationId: PropTypes.string,
     setSelectedFrameId: PropTypes.func,
     setFrameSourceRect: PropTypes.func,
+    objectsHideList: PropTypes.object.isRequired,
 
     framesVisible: PropTypes.bool,
   };
@@ -31,6 +32,11 @@ class FramesLayer extends React.Component {
 
     return currentFrames || [];
   }
+
+  isFrameVisible = frameId => {
+    const { framesVisible, objectsHideList } = this.props;
+    return framesVisible && !objectsHideList[frameId];
+  };
 
   handleFrameClick = frameId => {
     this.props.setSelectedFrameId(frameId);
@@ -55,39 +61,42 @@ class FramesLayer extends React.Component {
     return (
       <Group ref={node => (this.framesGroup = node)}>
         {framesVisible &&
-          this.frames.map(frame => (
-            <Group key={frame.id}>
-              <Line
-                x={frame.sourceRect.x}
-                y={frame.sourceRect.y}
-                points={[
-                  OBJ_HALF_STROKE_WIDTH,
-                  OBJ_HALF_STROKE_WIDTH,
-                  frame.sourceRect.width - OBJ_HALF_STROKE_WIDTH,
-                  OBJ_HALF_STROKE_WIDTH,
-                  frame.sourceRect.width - OBJ_HALF_STROKE_WIDTH,
-                  frame.sourceRect.height - OBJ_HALF_STROKE_WIDTH,
-                  OBJ_HALF_STROKE_WIDTH,
-                  frame.sourceRect.height - OBJ_HALF_STROKE_WIDTH,
-                ]}
-                stroke={colors.frameRectStroke}
-                strokeWidth={OBJ_STROKE_WIDTH}
-                closed
-              />
-              <Rect
-                x={frame.sourceRect.x}
-                y={frame.sourceRect.y}
-                width={frame.sourceRect.width}
-                height={frame.sourceRect.height}
-                fill={colors.frameRect}
-                draggable={true}
-                onClick={() => this.handleFrameClick(frame.id)}
-                onDragStart={args => this.handleFrameDrag(frame.id, args)}
-                onDragMove={args => this.handleFrameDrag(frame.id, args)}
-                onDragEnd={args => this.handleFrameDrag(frame.id, args)}
-              />
-            </Group>
-          ))}
+          this.frames.map(
+            frame =>
+              this.isFrameVisible(frame.id) && (
+                <Group key={frame.id}>
+                  <Line
+                    x={frame.sourceRect.x}
+                    y={frame.sourceRect.y}
+                    points={[
+                      OBJ_HALF_STROKE_WIDTH,
+                      OBJ_HALF_STROKE_WIDTH,
+                      frame.sourceRect.width - OBJ_HALF_STROKE_WIDTH,
+                      OBJ_HALF_STROKE_WIDTH,
+                      frame.sourceRect.width - OBJ_HALF_STROKE_WIDTH,
+                      frame.sourceRect.height - OBJ_HALF_STROKE_WIDTH,
+                      OBJ_HALF_STROKE_WIDTH,
+                      frame.sourceRect.height - OBJ_HALF_STROKE_WIDTH,
+                    ]}
+                    stroke={colors.frameRectStroke}
+                    strokeWidth={OBJ_STROKE_WIDTH}
+                    closed
+                  />
+                  <Rect
+                    x={frame.sourceRect.x}
+                    y={frame.sourceRect.y}
+                    width={frame.sourceRect.width}
+                    height={frame.sourceRect.height}
+                    fill={colors.frameRect}
+                    draggable={true}
+                    onClick={() => this.handleFrameClick(frame.id)}
+                    onDragStart={args => this.handleFrameDrag(frame.id, args)}
+                    onDragMove={args => this.handleFrameDrag(frame.id, args)}
+                    onDragEnd={args => this.handleFrameDrag(frame.id, args)}
+                  />
+                </Group>
+              )
+          )}
       </Group>
     );
   }
@@ -99,6 +108,7 @@ function mapStateToProps(state) {
     frames: state['objects'].frames,
     selectedAnimationId: state['selection'].selectedAnimationId,
     framesVisible: state['ui'].framesVisible,
+    objectsHideList: state['ui'].objectsHideList,
   };
 }
 

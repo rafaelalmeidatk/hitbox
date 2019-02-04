@@ -14,7 +14,7 @@
 - ~~Stroke on boxes rects~~
 - Rename collider types
 - Change collider types color
-- Hide other frames
+- ~~Hide other frames~~
 - ~~Load files~~
 - ~~Hotkeys~~
 - Settings window

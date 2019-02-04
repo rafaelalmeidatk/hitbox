@@ -4,6 +4,7 @@ import { createReducer } from 'redux-starter-kit';
 const INITIAL_STATE = {
   framesVisible: true,
   collidersVisible: true,
+  objectsHideList: {}, // { id: isHidden }
 };
 
 // Actions
@@ -12,6 +13,8 @@ const HIDE_FRAMES = 'animation-editor/ui/HIDE_FRAMES';
 
 const SHOW_COLLIDERS = 'animation-editor/ui/SHOW_COLLIDERS';
 const HIDE_COLLIDERS = 'animation-editor/ui/HIDE_COLLIDERS';
+
+const TOGGLE_OBJECT_VISIBILITY = 'animation-editor/ui/TOGGLE_OBJECT_VISIBILITY';
 
 // Reducer
 export default createReducer(INITIAL_STATE, {
@@ -30,6 +33,11 @@ export default createReducer(INITIAL_STATE, {
   [HIDE_COLLIDERS]: state => {
     state.collidersVisible = false;
   },
+
+  [TOGGLE_OBJECT_VISIBILITY]: (state, action) => {
+    const { id } = action;
+    state.objectsHideList[id] = !state.objectsHideList[id];
+  },
 });
 
 // Action creators
@@ -47,4 +55,8 @@ export function showColliders() {
 
 export function hideColliders() {
   return { type: HIDE_COLLIDERS };
+}
+
+export function toggleObjectVisibility(id) {
+  return { type: TOGGLE_OBJECT_VISIBILITY, id };
 }
