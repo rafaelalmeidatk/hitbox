@@ -2,7 +2,7 @@
 // and updates it if necessary (from lower versions)
 export function parseSaveFile(json) {
   if (!json.hitboxVersion) {
-    throw new Error('Invalid file');
+    throw 'INCOMPATIBLE_FILE';
   }
 
   return json;

@@ -1,3 +1,7 @@
+import { Intent } from '@blueprintjs/core';
+import { IconNames } from '@blueprintjs/icons'
+import { showSuccessMessage, showErrorMessage } from './toaster';
+
 let fs = null;
 let dialog = null;
 let path = null;
@@ -52,7 +56,7 @@ export function openFile() {
 }
 
 export function openImage() {
-  return new window.Promise(resolve => {
+  return new window.Promise((resolve, reject) => {
     if (!fs || !dialog) {
       console.error("Ops, you can't open a file inside the browser");
       return resolve(null);
@@ -64,13 +68,16 @@ export function openImage() {
       },
       filePaths => {
         if (!filePaths || !filePaths[0]) {
-          console.log('No file selected');
+          // No file selected
           return resolve(null);
         }
+        
         const filePath = filePaths[0];
         const pathInfo = path.parse(filePath);
-
         fs.readFile(filePath, 'base64', (err, data) => {
+          if (err) {
+            return reject(err);
+          }
           resolve({ data, filePath, pathInfo });
         });
       }
@@ -79,10 +86,13 @@ export function openImage() {
 }
 
 export function loadSpritesheetImage(filePath, spritesheetRelativePath) {
-  return new window.Promise(resolve => {
+  return new window.Promise((resolve, reject) => {
     const filePathDir = path.parse(filePath).dir;
     const spritesheetPath = path.resolve(filePathDir, spritesheetRelativePath);
     fs.readFile(spritesheetPath, 'base64', (err, data) => {
+      if (err) {
+        return reject(err);
+      }
       resolve(data);
     });
   });
@@ -125,11 +135,11 @@ export function saveFile(filePath, data) {
 
     fs.writeFile(filePath, data, err => {
       if (err) {
-        alert('An error ocurred creating the file ' + err.message);
+        showErrorMessage('An error ocurred saving the file: ' + err.message);
         return reject(err.message);
       }
 
-      alert('The file has been succesfully saved');
+      showSuccessMessage('The file has been succesfully saved');
       resolve(true);
     });
   });

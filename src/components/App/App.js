@@ -15,6 +15,7 @@ import { resetObjects, loadObjects } from '../../ducks/objects';
 import { NAVBAR_HEIGHT } from '../../helpers/constants';
 import { openImage, loadSpritesheetImage, openFile } from '../../helpers/io';
 import { parseSaveFile, createObjectsList } from '../../helpers/saveFile';
+import { showErrorMessage } from '../../helpers/toaster';
 
 class App extends Component {
   static propTypes = {
@@ -27,16 +28,22 @@ class App extends Component {
   handleNewFile = () => {
     const { resetObjects, createNewSchema } = this.props;
 
-    openImage().then(imageData => {
-      if (!imageData) return;
-      const { data, filePath, pathInfo } = imageData;
+    openImage()
+      .then(imageData => {
+        if (!imageData) return;
+        const { data, filePath, pathInfo } = imageData;
 
-      const spriteFileName = pathInfo.base;
-      resetObjects();
-      createNewSchema(filePath, spriteFileName);
+        const spriteFileName = pathInfo.base;
+        resetObjects();
+        createNewSchema(filePath, spriteFileName);
 
-      this.editor.loadBase64Image(data);
-    });
+        this.editor.loadBase64Image(data);
+      })
+      .catch(err => {
+        showErrorMessage(
+          'Unable to open the image. Error details: ' + err.toString()
+        );
+      });
   };
 
   handleOpenFile = () => {
@@ -57,13 +64,33 @@ class App extends Component {
         this.loadObjectsList(objectsList);
 
         // 3. Load the spritesheet image
-        const spritesheet = await loadSpritesheetImage(filePath, json.spritesheetPath);
-        if (!spritesheet) throw new Error('Invalid image');
+        const spritesheet = await loadSpritesheetImage(
+          filePath,
+          json.spritesheetPath
+        );
+        if (!spritesheet) throw 'INVALID_IMAGE';
         this.editor.loadBase64Image(spritesheet);
       })
       .catch(err => {
-        console.log('err', err);
-        alert('Invalid file');
+        if (err && err.code === 'ENOENT') {
+          return showErrorMessage(
+            'Unable to find the spritesheet on path: ' + err.path
+          );
+        }
+
+        if (err === 'INVALID_IMAGE') {
+          return showErrorMessage('Unable to read the spritesheet image');
+        }
+
+        if (err === 'INCOMPATIBLE_FILE') {
+          return showErrorMessage(
+            "This file is incompatible and can't be read"
+          );
+        }
+
+        showErrorMessage(
+          'Unable to open the file. Error details: ' + err.toString()
+        );
       });
   };
 
