@@ -1,14 +1,14 @@
-import { Intent } from '@blueprintjs/core';
-import { IconNames } from '@blueprintjs/icons'
 import { showSuccessMessage, showErrorMessage } from './toaster';
 
 let fs = null;
+let remote = null;
 let dialog = null;
 let path = null;
 
 if (window.require) {
   fs = window.require('fs');
-  dialog = window.require('electron').remote.dialog;
+  remote = window.require('electron').remote;
+  dialog = remote.dialog;
   path = window.require('path');
 }
 
@@ -29,6 +29,7 @@ export function openFile() {
     }
 
     dialog.showOpenDialog(
+      remote.getCurrentWindow(),
       {
         filters: [{ name: 'Hitbox file (*.json)', extensions: ['json'] }],
       },
@@ -63,6 +64,7 @@ export function openImage() {
     }
 
     dialog.showOpenDialog(
+      remote.getCurrentWindow(),
       {
         filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }],
       },
@@ -71,7 +73,7 @@ export function openImage() {
           // No file selected
           return resolve(null);
         }
-        
+
         const filePath = filePaths[0];
         const pathInfo = path.parse(filePath);
         fs.readFile(filePath, 'base64', (err, data) => {
@@ -106,6 +108,7 @@ export function showSaveDialog() {
     }
 
     dialog.showSaveDialog(
+      remote.getCurrentWindow(),
       {
         filters: [
           {
