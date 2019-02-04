@@ -45,9 +45,9 @@ export default class GridLayer extends React.Component {
         new Konva.Line({
           points: [
             0,
-            Math.round(i * squareDimensions),
+            Math.round(i * squareDimensions) + 0.5,
             width,
-            Math.round(i * squareDimensions),
+            Math.round(i * squareDimensions) + 0.5,
           ],
           stroke: '#dadada',
           strokeWidth: 1,
