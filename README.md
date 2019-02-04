@@ -16,8 +16,11 @@
 - Change collider types color
 - Hide other frames
 - ~~Load files~~
-- Hotkeys
+- ~~Hotkeys~~
 - Settings window
+- Change background color
+- Change grid size
+- Snap position to grid
 - Undo
 
 ## Known bugs
