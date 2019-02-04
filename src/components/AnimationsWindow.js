@@ -14,10 +14,17 @@ class AnimationsWindow extends React.Component {
     setSelectedAnimationId: PropTypes.func,
     newAnimation: PropTypes.func,
     deleteAnimation: PropTypes.func,
+    spritesheetPath: PropTypes.string,
   };
 
   get animations() {
     return this.props.animations || [];
+  }
+
+  get canCreateNewAnimation() {
+    // It is only possible to add animations if the
+    // spritesheet is loaded
+    return !!this.props.spritesheetPath;
   }
 
   handleOnItemClick = id => {
@@ -40,7 +47,11 @@ class AnimationsWindow extends React.Component {
     const { selectedAnimationId, newAnimation } = this.props;
 
     return (
-      <Window title="Animations" titleActionButton={newAnimation}>
+      <Window
+        title="Animations"
+        titleActionButton={newAnimation}
+        titleActionButtonEnabled={this.canCreateNewAnimation}
+      >
         <WindowItemsList
           items={this.animations}
           selectedId={selectedAnimationId}
@@ -56,6 +67,7 @@ function mapStateToProps(state) {
   return {
     animations: state['objects'].animations,
     selectedAnimationId: state['selection'].selectedAnimationId,
+    spritesheetPath: state['schema'].spritesheetPath,
   };
 }
 
