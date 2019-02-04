@@ -9,6 +9,9 @@ import {
   Popover,
   Button,
   Menu,
+  Hotkey,
+  Hotkeys,
+  HotkeysTarget,
 } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { connect } from 'react-redux';
@@ -19,7 +22,11 @@ const FileButton = ({ onNewFile, onOpenFile, onSave, onSaveAs }) => (
   <Popover
     content={
       <Menu>
-        <Menu.Item text="New..." label="Ctrl + N" onClick={onNewFile} />
+        <Menu.Item
+          text="Open new spritesheet..."
+          label="Ctrl + N"
+          onClick={onNewFile}
+        />
         <Menu.Item text="Open..." label="Ctrl + O" onClick={onOpenFile} />
         <Menu.Divider />
         <Menu.Item text="Save" label="Ctrl + S" onClick={onSave} />
@@ -45,27 +52,68 @@ FileButton.propTypes = {
   onSaveAs: PropTypes.func.isRequired,
 };
 
-const AppNavbar = ({ onNewFile, onOpenFile, saveFile }) => (
-  <Navbar style={{ height: NAVBAR_HEIGHT }}>
-    <NavbarGroup style={{ height: NAVBAR_HEIGHT }}>
-      <NavbarHeading>Hitbox</NavbarHeading>
-      <NavbarDivider />
-      <FileButton
-        onNewFile={onNewFile}
-        onOpenFile={onOpenFile}
-        onSave={() => saveFile({ isSaveAs: false })}
-        onSaveAs={() => saveFile({ isSaveAs: true })}
-      />
-      <Button icon={IconNames.COG} text="Settings" minimal />
-    </NavbarGroup>
-  </Navbar>
-);
+class AppNavbar extends React.Component {
+  renderHotkeys() {
+    const { onNewFile, onOpenFile, saveFile } = this.props;
+
+    return (
+      <Hotkeys>
+        <Hotkey
+          global={true}
+          combo="ctrl + n"
+          label="Open new spritesheet..."
+          onKeyDown={onNewFile}
+        />
+        <Hotkey
+          global={true}
+          combo="ctrl + o"
+          label="Open file..."
+          onKeyDown={onOpenFile}
+        />
+        <Hotkey
+          global={true}
+          combo="ctrl + s"
+          label="Save "
+          onKeyDown={() => saveFile({ isSaveAs: false })}
+        />
+        <Hotkey
+          global={true}
+          combo="ctrl + shift + s"
+          label="Save As..."
+          onKeyDown={() => saveFile({ isSaveAs: true })}
+        />
+      </Hotkeys>
+    );
+  }
+
+  render() {
+    const { onNewFile, onOpenFile, saveFile } = this.props;
+
+    return (
+      <Navbar style={{ height: NAVBAR_HEIGHT }}>
+        <NavbarGroup style={{ height: NAVBAR_HEIGHT }}>
+          <NavbarHeading>Hitbox</NavbarHeading>
+          <NavbarDivider />
+          <FileButton
+            onNewFile={onNewFile}
+            onOpenFile={onOpenFile}
+            onSave={() => saveFile({ isSaveAs: false })}
+            onSaveAs={() => saveFile({ isSaveAs: true })}
+          />
+          <Button icon={IconNames.COG} text="Settings" minimal />
+        </NavbarGroup>
+      </Navbar>
+    );
+  }
+}
 
 AppNavbar.propTypes = {
   onOpenFile: PropTypes.func.isRequired,
   onNewFile: PropTypes.func.isRequired,
   saveFile: PropTypes.func.isRequired,
 };
+
+const AppNavbarWithHotkeys = HotkeysTarget(AppNavbar);
 
 const mapDispatchToProps = {
   saveFile,
@@ -74,4 +122,4 @@ const mapDispatchToProps = {
 export default connect(
   null,
   mapDispatchToProps
-)(AppNavbar);
+)(AppNavbarWithHotkeys);
