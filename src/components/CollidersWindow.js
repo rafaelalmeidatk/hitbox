@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Hotkey, Hotkeys, HotkeysTarget } from '@blueprintjs/core';
 import { setSelectedColliderId, setSelectedItemId } from '../ducks/selection';
 import { newCollider, deleteCollider } from '../ducks/objects';
 import { showColliders, hideColliders } from '../ducks/ui';
@@ -44,18 +45,36 @@ class CollidersWindow extends React.Component {
     setSelectedColliderId(id);
   };
 
-  handleOnItemDeleteClick = (id) => {
-    const { selectedColliderId, deleteCollider, setSelectedColliderId } = this.props;
+  handleOnItemDeleteClick = id => {
+    const {
+      selectedColliderId,
+      deleteCollider,
+      setSelectedColliderId,
+    } = this.props;
     deleteCollider(id);
 
-    if (id === selectedColliderId)
-      setSelectedColliderId(undefined);
+    if (id === selectedColliderId) setSelectedColliderId(undefined);
   };
 
   createNewCollider = () => {
     const { selectedFrameId, newCollider } = this.props;
     newCollider(selectedFrameId);
   };
+
+  renderHotkeys() {
+    return (
+      <Hotkeys>
+        <Hotkey
+          global={true}
+          combo="ctrl + shift + c"
+          label="Create new collider"
+          onKeyDown={() =>
+            this.canCreateNewCollider && this.createNewCollider()
+          }
+        />
+      </Hotkeys>
+    );
+  }
 
   render() {
     const {
@@ -86,6 +105,8 @@ class CollidersWindow extends React.Component {
   }
 }
 
+const CollidersWindowWithHotkeys = HotkeysTarget(CollidersWindow);
+
 function mapStateToProps(state) {
   return {
     frames: state['objects'].frames,
@@ -108,4 +129,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CollidersWindow);
+)(CollidersWindowWithHotkeys);

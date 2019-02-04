@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Hotkey, Hotkeys, HotkeysTarget } from '@blueprintjs/core';
 import { setSelectedAnimationId, setSelectedItemId } from '../ducks/selection';
 import { newAnimation, deleteAnimation } from '../ducks/objects';
 
@@ -43,6 +44,21 @@ class AnimationsWindow extends React.Component {
     if (id === selectedAnimationId) setSelectedAnimationId(undefined);
   };
 
+  renderHotkeys() {
+    const { newAnimation } = this.props;
+
+    return (
+      <Hotkeys>
+        <Hotkey
+          global={true}
+          combo="ctrl + shift + a"
+          label="Create new animation"
+          onKeyDown={() => this.canCreateNewAnimation && newAnimation()}
+        />
+      </Hotkeys>
+    );
+  }
+
   render() {
     const { selectedAnimationId, newAnimation } = this.props;
 
@@ -63,6 +79,8 @@ class AnimationsWindow extends React.Component {
   }
 }
 
+const AnimationsWindowWithHotkeys = HotkeysTarget(AnimationsWindow);
+
 function mapStateToProps(state) {
   return {
     animations: state['objects'].animations,
@@ -81,4 +99,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AnimationsWindow);
+)(AnimationsWindowWithHotkeys);

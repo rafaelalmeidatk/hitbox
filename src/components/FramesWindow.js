@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Hotkey, Hotkeys, HotkeysTarget } from '@blueprintjs/core';
 import { setSelectedFrameId, setSelectedItemId } from '../ducks/selection';
 import { newFrame, deleteFrame } from '../ducks/objects';
 import { showFrames, hideFrames } from '../ducks/ui';
@@ -49,14 +50,26 @@ class FramesWindow extends React.Component {
     const { selectedFrameId, deleteFrame, setSelectedFrameId } = this.props;
     deleteFrame(id);
 
-    if (id === selectedFrameId)
-      setSelectedFrameId(undefined);
+    if (id === selectedFrameId) setSelectedFrameId(undefined);
   };
 
   createNewFrame = () => {
     const { selectedAnimationId, newFrame } = this.props;
     newFrame(selectedAnimationId);
   };
+
+  renderHotkeys() {
+    return (
+      <Hotkeys>
+        <Hotkey
+          global={true}
+          combo="ctrl + shift + f"
+          label="Create new frame"
+          onKeyDown={() => this.canCreateNewFrame && this.createNewFrame()}
+        />
+      </Hotkeys>
+    );
+  }
 
   render() {
     const {
@@ -87,6 +100,8 @@ class FramesWindow extends React.Component {
   }
 }
 
+const FramesWindowWithHotkeys = HotkeysTarget(FramesWindow);
+
 function mapStateToProps(state) {
   return {
     animations: state['objects'].animations,
@@ -109,4 +124,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FramesWindow);
+)(FramesWindowWithHotkeys);
