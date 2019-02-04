@@ -13,7 +13,7 @@ import './styles.css';
 import { createNewSchema, loadSchema } from '../../ducks/schema';
 import { resetObjects, loadObjects } from '../../ducks/objects';
 import { NAVBAR_HEIGHT } from '../../helpers/constants';
-import { openImage, openFile } from '../../helpers/io';
+import { openImage, loadSpritesheetImage, openFile } from '../../helpers/io';
 import { parseSaveFile, createObjectsList } from '../../helpers/saveFile';
 
 class App extends Component {
@@ -43,15 +43,23 @@ class App extends Component {
     const { loadSchema } = this.props;
 
     openFile()
-      .then(data => {
+      .then(async data => {
         if (!data) return;
 
         const { filePath, json } = data;
         const content = parseSaveFile(json);
+
+        // 1. Load the file schema
         loadSchema(filePath, json.spritesheetPath, json.spritesheetName);
 
+        // 2. Load the objects list
         const objectsList = createObjectsList(content);
         this.loadObjectsList(objectsList);
+
+        // 3. Load the spritesheet image
+        const spritesheet = await loadSpritesheetImage(filePath, json.spritesheetPath);
+        if (!spritesheet) throw new Error('Invalid image');
+        this.editor.loadBase64Image(spritesheet);
       })
       .catch(err => {
         console.log('err', err);

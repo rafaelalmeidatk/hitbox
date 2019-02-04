@@ -78,6 +78,16 @@ export function openImage() {
   });
 }
 
+export function loadSpritesheetImage(filePath, spritesheetRelativePath) {
+  return new window.Promise(resolve => {
+    const filePathDir = path.parse(filePath).dir;
+    const spritesheetPath = path.resolve(filePathDir, spritesheetRelativePath);
+    fs.readFile(spritesheetPath, 'base64', (err, data) => {
+      resolve(data);
+    });
+  });
+}
+
 export function showSaveDialog() {
   return new window.Promise(resolve => {
     if (!fs || !dialog) {
