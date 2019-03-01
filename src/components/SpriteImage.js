@@ -9,27 +9,27 @@ export default class SpriteImage extends React.Component {
 
   state = {
     image: null,
-  }
+  };
 
   componentDidMount() {
     //this.loadImage('./player.png');
   }
 
-  loadBase64Image = (data) => {
+  loadBase64Image = data => {
     this.loadImage('data:image/png;base64,' + data);
-  }
+  };
 
-  loadImage = (url) => {
+  loadImage = url => {
     const image = new window.Image();
     image.src = url;
     image.onload = () => {
-      this.setState({image});
+      this.setState({ image });
       this.props.onImageLoaded({
         width: image.width,
         height: image.height,
       });
     };
-  }
+  };
 
   render() {
     return <Image image={this.state.image} />;

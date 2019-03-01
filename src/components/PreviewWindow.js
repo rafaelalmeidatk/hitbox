@@ -14,6 +14,10 @@ class PreviewWindow extends React.Component {
     this.previewSprite.pause();
   };
 
+  loadBase64Image = data => {
+    this.previewSprite.loadBase64Image(data);
+  };
+
   render() {
     return (
       <Window title="Preview">

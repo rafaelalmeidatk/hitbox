@@ -38,6 +38,7 @@ class App extends Component {
         createNewSchema(filePath, spriteFileName);
 
         this.editor.loadBase64Image(data);
+        this.previewWindow.loadBase64Image(data);
       })
       .catch(err => {
         showErrorMessage(
@@ -70,6 +71,7 @@ class App extends Component {
         );
         if (!spritesheet) throw 'INVALID_IMAGE';
         this.editor.loadBase64Image(spritesheet);
+        this.previewWindow.loadBase64Image(spritesheet);
       })
       .catch(err => {
         if (err && err.code === 'ENOENT') {
@@ -114,7 +116,7 @@ class App extends Component {
         <div className="left-windows" style={{ height: windowAreaHeight }}>
           <AnimationsWindow />
           <FramesWindow />
-          <PreviewWindow />
+          <PreviewWindow ref={node => (this.previewWindow = node)} />
         </div>
         <div className="right-windows" style={{ height: windowAreaHeight }}>
           <CollidersWindow />

@@ -56,6 +56,10 @@ class PreviewSprite extends React.Component {
     this.sprite.stop();
   };
 
+  loadBase64Image = data => {
+    this.loadImage('data:image/png;base64,' + data);
+  };
+
   loadImage = url => {
     const image = new window.Image();
     image.src = url;
