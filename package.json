@@ -29,6 +29,7 @@
   "devDependencies": {
     "babel-eslint": "^8.2.6",
     "concurrently": "^3.5.1",
+    "cross-env": "^5.2.0",
     "electron": "^1.8.3",
     "electron-builder": "^20.5.1",
     "enzyme": "^3.3.0",
@@ -46,6 +47,6 @@
     "electron": "electron .",
     "preelectron-pack": "yarn build",
     "electron-pack": "electron-builder",
-    "dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\""
+    "dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\""
   }
 }
