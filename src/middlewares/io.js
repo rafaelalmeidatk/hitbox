@@ -1,9 +1,5 @@
 import { APP_VERSION } from '../helpers/constants';
-import {
-  showSaveDialog,
-  relativePathToFile,
-  saveFile as ioSaveFile,
-} from '../helpers/io';
+import { saveFile as ioSaveFile } from '../helpers/io';
 import { formatObjectToSave } from '../helpers/saveFile';
 
 // Actions
@@ -39,7 +35,7 @@ const createJsonContent = (schema, objects, savePath) => {
   const { spritesheetPath, spritesheetFileName } = schema;
   const spritesheetRelativePath =
     schema.spritesheetRelativePath ||
-    relativePathToFile(savePath, spritesheetPath);
+    window.relativePathToFile(savePath, spritesheetPath);
 
   return {
     // It is better to save the relative path so the user can move
@@ -62,7 +58,9 @@ export default store => next => async action => {
 
   // Get save path
   const savePath =
-    isSaveAs || !schema.filePath ? await showSaveDialog() : schema.filePath;
+    isSaveAs || !schema.filePath
+      ? await window.showSaveDialog()
+      : schema.filePath;
   if (!savePath) return;
 
   // Generate content

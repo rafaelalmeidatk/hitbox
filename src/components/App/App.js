@@ -13,7 +13,6 @@ import './styles.css';
 import { createNewSchema, loadSchema } from '../../ducks/schema';
 import { resetObjects, loadObjects } from '../../ducks/objects';
 import { NAVBAR_HEIGHT } from '../../helpers/constants';
-import { openImage, loadSpritesheetImage, openFile } from '../../helpers/io';
 import { parseSaveFile, createObjectsList } from '../../helpers/saveFile';
 import { showErrorMessage } from '../../helpers/toaster';
 
@@ -28,7 +27,8 @@ class App extends Component {
   handleNewFile = () => {
     const { resetObjects, createNewSchema } = this.props;
 
-    openImage()
+    window
+      .openImage()
       .then(imageData => {
         if (!imageData) return;
         const { data, filePath, pathInfo } = imageData;
@@ -50,7 +50,8 @@ class App extends Component {
   handleOpenFile = () => {
     const { loadSchema } = this.props;
 
-    openFile()
+    window
+      .openFile()
       .then(async data => {
         if (!data) return;
 
@@ -65,7 +66,7 @@ class App extends Component {
         this.loadObjectsList(objectsList);
 
         // 3. Load the spritesheet image
-        const spritesheet = await loadSpritesheetImage(
+        const spritesheet = await window.loadSpritesheetImage(
           filePath,
           json.spritesheetPath
         );

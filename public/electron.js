@@ -14,6 +14,12 @@ function createWindow() {
     width: 800,
     height: 600,
     autoHideMenuBar: true,
+    webPreferences: {
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      contextIsolation: false,
+      preload: path.join(__dirname, 'preload.js'),
+    },
   });
 
   // Load the index.html of the app.
