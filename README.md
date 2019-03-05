@@ -1,4 +1,8 @@
-# Animation Editor
+# Hitbox
+
+Program for creating animations based on a spritesheet, you can edit the frames and colliders and see the result in real time. The result is exported to a JSON file that can be read by game engines.
+
+> This README is still a WIP
 
 # TODO
 
