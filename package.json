@@ -1,6 +1,8 @@
 {
   "name": "hitbox",
   "version": "0.0.1",
+  "author": "Rafael Almeida",
+  "license": "MIT",
   "private": true,
   "main": "public/electron.js",
   "scripts": {
