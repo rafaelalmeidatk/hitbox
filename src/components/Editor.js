@@ -123,41 +123,46 @@ export default class Editor extends React.Component {
 
     return (
       <ReactReduxContext.Consumer>
-        {({ store }) => (
-          <Stage
-            ref={node => (this.stage = node)}
-            width={canvasSize.width}
-            height={canvasSize.height}
-            draggable={true}
-          >
-            <Provider store={store}>
-              <GridLayer
-                x={layersPosition.x}
-                y={layersPosition.y}
-                width={spriteSize.width}
-                height={spriteSize.height}
-                squareDimensions={32}
-              />
+        {({ store }) => {
+          // We need to redraw the primitives due the rerender
+          this.stage && this.stage.getStage().batchDraw()
 
-              <Layer
-                ref={node => (this.mainLayer = node)}
-                x={layersPosition.x}
-                y={layersPosition.y}
-                onWheel={this.onWheel}
-              >
-                <SpriteImage
-                  ref={this.sprite}
-                  onImageLoaded={this.handleImageLoaded}
+          return (
+            <Stage
+              ref={node => (this.stage = node)}
+              width={canvasSize.width}
+              height={canvasSize.height}
+              draggable={true}
+            >
+              <Provider store={store}>
+                <GridLayer
+                  x={layersPosition.x}
+                  y={layersPosition.y}
+                  width={spriteSize.width}
+                  height={spriteSize.height}
+                  squareDimensions={32}
                 />
 
-                <FramesLayer />
-                <CollidersLayer />
+                <Layer
+                  ref={node => (this.mainLayer = node)}
+                  x={layersPosition.x}
+                  y={layersPosition.y}
+                  onWheel={this.onWheel}
+                >
+                  <SpriteImage
+                    ref={this.sprite}
+                    onImageLoaded={this.handleImageLoaded}
+                  />
 
-                <Group ref={node => (this.boxesGroup = node)} />
-              </Layer>
-            </Provider>
-          </Stage>
-        )}
+                  <FramesLayer />
+                  <CollidersLayer />
+
+                  <Group ref={node => (this.boxesGroup = node)} />
+                </Layer>
+              </Provider>
+            </Stage>
+          );
+        }}
       </ReactReduxContext.Consumer>
     );
   }

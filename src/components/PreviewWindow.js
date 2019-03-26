@@ -9,11 +9,11 @@ class PreviewWindow extends React.Component {
   previewSprite = React.createRef();
 
   handlePlayButton = () => {
-    this.previewSprite.play();
+    this.previewSprite.current && this.previewSprite.current.play();
   };
 
   handlePauseButton = () => {
-    this.previewSprite.pause();
+    this.previewSprite.current && this.previewSprite.current.pause();
   };
 
   loadBase64Image = data => {
