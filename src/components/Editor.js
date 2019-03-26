@@ -1,5 +1,6 @@
 import React from 'react';
 import { Group, Layer, Stage } from 'react-konva';
+import { ReactReduxContext, Provider } from 'react-redux';
 import GridLayer from './GridLayer';
 import SpriteImage from './SpriteImage';
 import FramesLayer from './FramesLayer';
@@ -21,6 +22,8 @@ export default class Editor extends React.Component {
     spriteSize: { width: 0, height: 0 },
     layersPosition: { x: 0, y: 0 },
   };
+
+  sprite = React.createRef();
 
   componentDidMount() {
     this.removeAntiAliasing();
@@ -45,20 +48,27 @@ export default class Editor extends React.Component {
     context.webkitImageSmoothingEnabled = false;
     context.mozImageSmoothingEnabled = false;
     context.imageSmoothingEnabled = false;
-  }
+  };
 
   loadBase64Image = data => {
-    this.sprite.loadBase64Image(data);
+    this.sprite.current && this.sprite.current.loadBase64Image(data);
   };
 
   handleImageLoaded = imageData => {
     const layer = this.stage.getStage();
     const x = Math.floor((layer.width() - imageData.width) / 2);
     const y = Math.floor((layer.height() - imageData.height) / 2);
-    this.setState({
-      spriteSize: { width: imageData.width, height: imageData.height },
-      layersPosition: { x, y },
-    });
+    this.setState(
+      {
+        spriteSize: { width: imageData.width, height: imageData.height },
+        layersPosition: { x, y },
+      },
+      () => {
+        // Reset everything after loading a new image
+        layer.position({ x: 0, y: 0 });
+        layer.scale({ x: 1, y: 1 });
+      }
+    );
   };
 
   handleWheel = e => {
@@ -83,12 +93,18 @@ export default class Editor extends React.Component {
     const newScale = isIncrease
       ? currentScale * ZOOM_MULTIPLIER
       : currentScale / ZOOM_MULTIPLIER;
+
     stage.scale({ x: newScale, y: newScale });
 
     const newPos = {
-      x: -(mousePointTo.x - stage.getPointerPosition().x / newScale) * newScale,
-      y: -(mousePointTo.y - stage.getPointerPosition().y / newScale) * newScale,
+      x: Math.floor(
+        -(mousePointTo.x - stage.getPointerPosition().x / newScale) * newScale
+      ),
+      y: Math.floor(
+        -(mousePointTo.y - stage.getPointerPosition().y / newScale) * newScale
+      ),
     };
+
     stage.position(newPos);
     stage.batchDraw();
   };
@@ -106,37 +122,43 @@ export default class Editor extends React.Component {
     const { canvasSize, spriteSize, layersPosition } = this.state;
 
     return (
-      <Stage
-        ref={node => (this.stage = node)}
-        width={canvasSize.width}
-        height={canvasSize.height}
-        draggable={true}
-      >
-        <GridLayer
-          x={layersPosition.x}
-          y={layersPosition.y}
-          width={spriteSize.width}
-          height={spriteSize.height}
-          squareDimensions={32}
-        />
+      <ReactReduxContext.Consumer>
+        {({ store }) => (
+          <Stage
+            ref={node => (this.stage = node)}
+            width={canvasSize.width}
+            height={canvasSize.height}
+            draggable={true}
+          >
+            <Provider store={store}>
+              <GridLayer
+                x={layersPosition.x}
+                y={layersPosition.y}
+                width={spriteSize.width}
+                height={spriteSize.height}
+                squareDimensions={32}
+              />
 
-        <Layer
-          ref={node => (this.mainLayer = node)}
-          x={layersPosition.x}
-          y={layersPosition.y}
-          onWheel={this.onWheel}
-        >
-          <SpriteImage
-            ref={node => (this.sprite = node)}
-            onImageLoaded={this.handleImageLoaded}
-          />
+              <Layer
+                ref={node => (this.mainLayer = node)}
+                x={layersPosition.x}
+                y={layersPosition.y}
+                onWheel={this.onWheel}
+              >
+                <SpriteImage
+                  ref={this.sprite}
+                  onImageLoaded={this.handleImageLoaded}
+                />
 
-          <FramesLayer />
-          <CollidersLayer />
+                <FramesLayer />
+                <CollidersLayer />
 
-          <Group ref={node => (this.boxesGroup = node)} />
-        </Layer>
-      </Stage>
+                <Group ref={node => (this.boxesGroup = node)} />
+              </Layer>
+            </Provider>
+          </Stage>
+        )}
+      </ReactReduxContext.Consumer>
     );
   }
 }

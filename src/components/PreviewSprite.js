@@ -21,7 +21,7 @@ class PreviewSprite extends React.Component {
 
   get animation() {
     const { animations, selectedAnimationId } = this.props;
-    if (!animations || !selectedAnimationId) null;
+    if (!animations || !selectedAnimationId) return null;
     return animations.find(anim => anim.id === selectedAnimationId);
   }
 
@@ -127,5 +127,5 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(PreviewSprite);

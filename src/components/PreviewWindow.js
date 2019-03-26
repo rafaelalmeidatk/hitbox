@@ -6,6 +6,8 @@ import Window from './Window';
 import PreviewSprite from './PreviewSprite';
 
 class PreviewWindow extends React.Component {
+  previewSprite = React.createRef();
+
   handlePlayButton = () => {
     this.previewSprite.play();
   };
@@ -15,7 +17,8 @@ class PreviewWindow extends React.Component {
   };
 
   loadBase64Image = data => {
-    this.previewSprite.loadBase64Image(data);
+    this.previewSprite.current &&
+      this.previewSprite.current.loadBase64Image(data);
   };
 
   render() {
@@ -29,9 +32,8 @@ class PreviewWindow extends React.Component {
             small
           />
         </div>
-        <PreviewSprite
-          ref={node => (this.previewSprite = node.getWrappedInstance())}
-        />
+
+        <PreviewSprite ref={this.previewSprite} />
       </Window>
     );
   }

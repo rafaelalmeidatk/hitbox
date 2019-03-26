@@ -70,7 +70,7 @@ class App extends Component {
           filePath,
           json.spritesheetPath
         );
-        if (!spritesheet) throw 'INVALID_IMAGE';
+        if (!spritesheet) throw new Error('INVALID_IMAGE');
         this.editor.loadBase64Image(spritesheet);
         this.previewWindow.loadBase64Image(spritesheet);
       })
@@ -104,8 +104,6 @@ class App extends Component {
   };
 
   render() {
-    // Do not render the editor inside tests
-    const isTest = process.env.NODE_ENV === 'test';
     const windowAreaHeight = `calc(100vh - ${NAVBAR_HEIGHT}px)`;
 
     return (
@@ -124,7 +122,7 @@ class App extends Component {
           <InspectorWindow />
         </div>
 
-        {!isTest && <Editor ref={node => (this.editor = node)} />}
+        <Editor ref={node => (this.editor = node)} />
       </div>
     );
   }
