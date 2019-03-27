@@ -89,13 +89,25 @@ class PreviewSprite extends React.Component {
     };
   };
 
+  getContainingRect = frames => {
+    return frames.reduce(
+      (biggerFrame, { sourceRect }) => ({
+        width: Math.max(sourceRect.width, biggerFrame.width),
+        height: Math.max(sourceRect.height, biggerFrame.height),
+      }),
+      { width: 0, height: 0 }
+    );
+  };
+
   render() {
-    const animations = this.convertFramesToSpriteAnimations(this.frames);
+    const frames = this.frames;
+    const animations = this.convertFramesToSpriteAnimations(frames);
     const animation = this.animation;
     const frameRate = 1000 / ((animation && animation.delay) || 1000);
+    const containingRect = this.getContainingRect(frames);
 
     return (
-      <Stage width={64} height={64}>
+      <Stage width={containingRect.width} height={containingRect.height}>
         <Layer>
           <Sprite
             image={this.state.image}
