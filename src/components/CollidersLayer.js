@@ -113,7 +113,7 @@ class CollidersLayer extends React.Component {
                       OBJ_HALF_STROKE_WIDTH,
                       collider.rect.height - OBJ_HALF_STROKE_WIDTH,
                     ]}
-                    stroke={colors.colliderRectStroke}
+                    stroke={colors.colliderRectStrokes[collider.type]}
                     strokeWidth={OBJ_STROKE_WIDTH}
                     closed
                   />
@@ -122,7 +122,7 @@ class CollidersLayer extends React.Component {
                     y={this.calculateColliderY(collider)}
                     width={collider.rect.width}
                     height={collider.rect.height}
-                    fill={colors.colliderRect}
+                    fill={colors.colliderRects[collider.type]}
                     draggable={true}
                     dragDistance={0}
                     onClick={() => this.handleColliderClick(collider.id)}
