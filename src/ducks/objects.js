@@ -26,6 +26,7 @@ const SET_COLLIDER_ORIGIN = 'animation-editor/objects/SET_COLLIDER_ORIGIN';
 
 const NEW_FRAME = 'animation-editor/objects/NEW_FRAME';
 const DELETE_FRAME = 'animation-editor/objects/DELETE_FRAME';
+const SET_FRAME_NAME = 'animation-editor/objects/SET_FRAME_NAME';
 const SET_FRAME_SOURCERECT = 'animation-editor/objects/SET_FRAME_SOURCERECT';
 const SET_FRAME_OFFSET = 'animation-editor/objects/SET_FRAME_OFFSET';
 
@@ -83,6 +84,11 @@ export default createReducer(INITIAL_STATE, {
 
     const index = findIndexById(state.frames, action.id);
     state.frames.splice(index, 1);
+  },
+
+  [SET_FRAME_NAME]: (state, action) => {
+    const index = findIndexById(state.frames, action.id);
+    state.frames[index].name = action.name;
   },
 
   [SET_FRAME_SOURCERECT]: (state, action) => {
@@ -194,6 +200,10 @@ export function newFrame(animationId) {
 
 export function deleteFrame(id) {
   return { type: DELETE_FRAME, id };
+}
+
+export function setFrameName(id, name) {
+  return { type: SET_FRAME_NAME, id, name };
 }
 
 export function setFrameSourceRect(id, sourceRect) {
