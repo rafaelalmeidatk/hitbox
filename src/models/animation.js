@@ -14,6 +14,8 @@ export function fieldUpdater(props, field, value) {
       return setAnimationDelay(id, value);
     case 'repeat':
       return setAnimationRepeat(id, value);
+    default:
+      return null;
   }
 }
 

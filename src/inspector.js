@@ -16,21 +16,21 @@ export const COLLIDER_TYPE = 'inspector/COLLIDER';
 // Functions
 export function getInspectableObjectById(animations, id) {
   let inspectableObject = null;
-  animations.find((obj) => {
+  animations.forEach(obj => {
     if (obj.get('_id') === id) {
       inspectableObject = obj;
       return true;
     }
     var frames = obj.get('frames');
     if (!frames) return false;
-    frames.find((obj) => {
+    frames.forEach(obj => {
       if (obj.get('_id') === id) {
         inspectableObject = obj;
         return true;
       }
       var colliders = obj.get('colliders');
       if (!colliders) return false;
-      colliders.find((obj) => {
+      colliders.forEach(obj => {
         if (obj.get('_id') === id) {
           inspectableObject = obj;
           return true;
@@ -66,6 +66,9 @@ export function extractFieldsByType(inspectableObject) {
     case COLLIDER_TYPE:
       fields.push('name', 'type', 'rect');
       break;
+
+    default:
+      break;
   }
   return {
     type,
@@ -74,7 +77,5 @@ export function extractFieldsByType(inspectableObject) {
 }
 
 export function findObjectById(objects, id) {
-  return objects.find(object => (
-    object && object.id === id
-  ));
+  return objects.find(object => object && object.id === id);
 }

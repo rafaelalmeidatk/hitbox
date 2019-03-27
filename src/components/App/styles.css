@@ -74,16 +74,19 @@ h1 {
 /*
  * Window Item List
  */
-.window-items-list {
-}
 
-.property input[type='text'],
-.property input[type='number'] {
-  width: 100%;
+.bp3-form-group {
+  margin-bottom: 0;
 }
 
 .property-entry {
-  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.property-entry input[type='text'],
+.property-entry input[type='number'],
+.property-entry .bp3-select {
+  width: 100%;
 }
 
 .properties-list > .property-entry .label {
@@ -109,6 +112,7 @@ h1 {
 .innerObject li {
   display: flex;
   align-items: center;
+  margin: 4px 0;
 }
 
 .innerObject li .label {
@@ -116,8 +120,13 @@ h1 {
   text-transform: capitalize;
 }
 
-.innerObject .bp3-form-group {
-  margin-bottom: 0;
+/*
+ * Fix for the select drop arrow
+ */
+
+.bp3-select::after {
+  margin-right: 2px;
+  content: '\25BE';
 }
 
 /*

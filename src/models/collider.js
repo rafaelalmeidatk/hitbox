@@ -7,17 +7,15 @@ import {
 } from '../ducks/objects';
 
 export function fieldUpdater(props, field, value) {
-  const {
-    id,
-    property,
-    data: { innerField },
-  } = props;
+  const { id, property, data } = props;
+
   switch (field) {
     case 'name':
       return setColliderName(id, value);
     case 'type':
       return setColliderType(id, value);
     case 'rect': {
+      const { innerField } = data;
       const rect = {
         ...property,
         [innerField]: value,
@@ -25,12 +23,15 @@ export function fieldUpdater(props, field, value) {
       return setColliderRect(id, rect);
     }
     case 'origin': {
+      const { innerField } = data;
       const origin = {
         ...property,
         [innerField]: value,
       };
       return setColliderOrigin(id, origin);
     }
+    default:
+      return null;
   }
 }
 
@@ -45,6 +46,7 @@ export default () => ({
       {
         fieldKey: 'type',
         displayName: 'Type',
+        selection: ['HITBOX', 'HURTBOX', 'PHYSICS', 'NONE'],
       },
       {
         fieldKey: 'rect',

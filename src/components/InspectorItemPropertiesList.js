@@ -33,6 +33,7 @@ class InspectorItemPropertiesList extends Component {
 
   render() {
     const { item } = this.props;
+    
     return (
       <ul className="properties-list">
         {this.inspectorFields.map(field => (
@@ -40,6 +41,7 @@ class InspectorItemPropertiesList extends Component {
             <div className="label">{field.displayName}</div>
             <InspectorItemPropertyInput
               property={item[field.fieldKey]}
+              field={field}
               onChange={(value, data) =>
                 this.handleChange(value, field.fieldKey, data)
               }

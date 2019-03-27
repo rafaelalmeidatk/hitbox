@@ -50,6 +50,19 @@ export default class InspectorItemPropertyInput extends React.Component {
     );
   };
 
+  selectInput = (value, options) => {
+    const { onChange } = this.props;
+    return (
+      <FormGroup className="bp3-select">
+        <select value={value} onChange={e => onChange(e.target.value)}>
+          {options.map(option => (
+            <option key={option}>{option}</option>
+          ))}
+        </select>
+      </FormGroup>
+    );
+  };
+
   objectInput = object => {
     const keys = Object.keys(object);
 
@@ -67,8 +80,12 @@ export default class InspectorItemPropertyInput extends React.Component {
     );
   };
 
-  inputForProperty = property => {
+  inputForProperty = (property, field) => {
     const type = typeof property;
+    if (type === 'string' && field.selection) {
+      return this.selectInput(property, field.selection);
+    }
+
     switch (type) {
       case 'string':
         return this.textInput(property);
@@ -99,7 +116,7 @@ export default class InspectorItemPropertyInput extends React.Component {
   };
 
   render() {
-    const { property } = this.props;
-    return this.inputForProperty(property);
+    const { property, field } = this.props;
+    return this.inputForProperty(property, field);
   }
 }

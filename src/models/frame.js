@@ -22,6 +22,8 @@ export function fieldUpdater(props, field, value) {
       };
       return setFrameOffset(id, offset);
     }
+    default:
+      return null;
   }
 }
 
