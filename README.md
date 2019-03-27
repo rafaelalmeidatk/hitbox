@@ -1,8 +1,18 @@
 # Hitbox
 
-Program for creating animations based on a spritesheet, you can edit the frames and colliders and see the result in real time. The result is exported to a JSON file that can be read by game engines.
+Program for creating animations based on a spritesheet, you can edit the frames and colliders and see the result in real time. The data is exported to a JSON file that can be read by game engines.
 
-> This README is still a WIP
+![Hitbox Screenshot](https://i.imgur.com/gpUobPF.png)
+
+# Scripts
+
+## Install
+
+    yarn
+
+## Running
+
+    yarn dev
 
 # TODO
 
@@ -16,8 +26,8 @@ Program for creating animations based on a spritesheet, you can edit the frames 
 - Bigger sprite preview
 - Resize rectangle with the mouse
 - ~~Stroke on boxes rects~~
-- Rename collider types
-- Change collider types color
+- Rename collider types (local)
+- Change collider types color (local)
 - ~~Hide other frames~~
 - ~~Load files~~
 - ~~Hotkeys~~
